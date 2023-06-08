@@ -180,7 +180,7 @@ function ProductDetailView(props) {
         if (result) {
           setModalState(false);
           toast.success("Request Appointment send succesfully");
-          window.location.reload()
+          window.location.reload();
         } else {
           toast.error(result.message);
           // console.log("Error", result);
@@ -197,16 +197,16 @@ function ProductDetailView(props) {
       toast.error("You can't select more than 5 availabilities");
     } else {
       const dm = moment(value).format("MMM D");
-      setApiDateFormat(moment(value).format("DD-MM-YYYY"));
+      setApiDateFormat(moment(value).format("MM-DD-YYYY"));
       setShowTP(true);
       setSdate(dm);
     }
   }
   const confirmSlots = () => {
-    if (slots.length >= 5  ) {
+    if (slots.length >= 5) {
       toast.error("you can't select more than 5 availabilites ");
-        setSdate("");
-        setSTime("");
+      setSdate("");
+      setSTime("");
     } else {
       const mergedSlots = [
         ...slots,
@@ -613,10 +613,11 @@ function ProductDetailView(props) {
                             productData.product?.date_of_creation?.replace(
                               /\//g,
                               " "
-                            )
+                            ),
+                            "DD MM YYYY"
                           )
-                            .format("DD MM ,YYYY")
-                            .toLowerCase() == "invalid date"
+                            .format("DD MM YYYY")
+                            .toLowerCase() === "invalid date"
                             ? productData.product?.date_of_creation.replace(
                                 /\//g,
                                 "-"
@@ -625,12 +626,9 @@ function ProductDetailView(props) {
                                 productData.product?.date_of_creation?.replace(
                                   /\//g,
                                   " "
-                                )
+                                ),
+                                "DD MM YYYY"
                               ).format("DD-MM-YYYY")}
-                          {/* {productData.product?.date_of_creation.replace(
-                            /\//g,
-                            "- "
-                          )} */}
                         </h5>
                       </li>
                     ) : null}
