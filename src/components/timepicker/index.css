@@ -1,0 +1,17 @@
+.t-wrapper {
+    height: 272px;
+    overflow-y: auto;
+    min-width: 100px;
+    text-align: center;
+}
+
+.t-wrapper .t-item {
+    border: solid 1px #ccc;
+    margin:5px;
+    cursor: pointer;
+}
+
+.t-wrapper .t-item.active {
+    border: solid 1px #19A0DD;
+    background-color: #ccc;
+}

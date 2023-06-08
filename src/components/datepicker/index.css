@@ -1,0 +1,10 @@
+.react-calendar {
+    width:auto;
+    border:none;
+}
+
+.react-calendar__navigation button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
