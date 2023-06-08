@@ -35,11 +35,11 @@ function Edit_productS(props) {
   const [Addstyel2, setAddstyel2] = useState(false);
   const [answerArray, setanswerArray] = useState([]);
 
-  
-  useEffect(()=>{
-    console.log(submitStatus ,"<<<<<<<<<");
 
-  },[submitStatus])
+  useEffect(() => {
+    console.log(submitStatus, "<<<<<<<<<");
+
+  }, [submitStatus])
 
   const [selectOptions, setSelectOptions] = useState([]);
 
@@ -223,9 +223,9 @@ function Edit_productS(props) {
             prevOptions.map((option) =>
               option.id === id
                 ? {
-                    ...option,
-                    checkbox: [...option.checkbox, e.target.value],
-                  }
+                  ...option,
+                  checkbox: [...option.checkbox, e.target.value],
+                }
                 : option
             )
           );
@@ -235,11 +235,11 @@ function Edit_productS(props) {
           prevOptions.map((option) =>
             option.id === id
               ? {
-                  ...option,
-                  checkbox: option.checkbox.filter(
-                    (value) => value !== e.target.value
-                  ),
-                }
+                ...option,
+                checkbox: option.checkbox.filter(
+                  (value) => value !== e.target.value
+                ),
+              }
               : option
           )
         );
@@ -281,7 +281,7 @@ function Edit_productS(props) {
             contact.ps_name = result.data?.product_short_name;
             contact.category = result.data?.category;
             contact.s_category = result.data?.sub_cat;
-            contact.thumb_index = result?.data?.thumb_index;
+            contact.thumb_index = result?.data?.thumb_index != null && result?.data?.thumb_index != "null" ? parseInt(result?.data?.thumb_index) : 1;
 
             if (
               /^[\],:{}\s]*$/.test(
@@ -310,7 +310,7 @@ function Edit_productS(props) {
             contact.Creation = result.data?.date_of_creation;
             contact.product_file2 = result.data?.media_files;
             contact.questions = result.data?.questions;
-            contact.thumb_index = result?.data?.thumb_index;
+            contact.thumb_index = result?.data?.thumb_index != null && result?.data?.thumb_index != "null" ? parseInt(result?.data?.thumb_index) : 1;
             contact.yt_link =
               result.data?.youtube_link != "undefined"
                 ? result.data?.youtube_link
@@ -416,7 +416,7 @@ function Edit_productS(props) {
     if (contact.Policy != null) {
       formdata.append("price_policy", contact?.Policy);
     }
-    console.log(contact.yt_link,contact.Guarantee,contact.Policy , "<<<<<<<<");
+    console.log(contact.yt_link, contact.Guarantee, contact.Policy, "<<<<<<<<");
     formdata.append("min_quantity", contact.Quantity);
     if (contact.Guarantee != null) {
       formdata.append("guarantee", contact?.Guarantee);
@@ -737,9 +737,9 @@ function Edit_productS(props) {
                       style={
                         selectOptions.length == 0
                           ? {
-                              borderBottom: "1px solid red",
-                              borderRadius: "43px",
-                            }
+                            borderBottom: "1px solid red",
+                            borderRadius: "43px",
+                          }
                           : {}
                       }
                     >
@@ -765,7 +765,7 @@ function Edit_productS(props) {
                         onChange={(Option) => {
                           setSelectOptions(Option);
                         }}
-                        // onEditOption={handleEditOption}
+                      // onEditOption={handleEditOption}
                       />
                     </div>
 
@@ -815,11 +815,11 @@ function Edit_productS(props) {
                       placeholder="Price Policy"
                       value={contact?.Policy == null ? "" : contact?.Policy}
                       onChange={(e) => logins_field2(e)}
-                      // style={
-                      //   errorfield?.Policy == ""
-                      //     ? {}
-                      //     : { borderBottom: "1px solid red" }
-                      // }
+                    // style={
+                    //   errorfield?.Policy == ""
+                    //     ? {}
+                    //     : { borderBottom: "1px solid red" }
+                    // }
                     ></textarea>
                     <p className="limit">{contact?.Policy?.length}/100</p>
                     <div className="form-group full">
@@ -895,7 +895,7 @@ function Edit_productS(props) {
                         </p>
                         <div className="radio_btn">
                           {item?.type == "Subjective" ||
-                          item?.type.toLowerCase() === "textarea" ? (
+                            item?.type.toLowerCase() === "textarea" ? (
                             <textarea
                               className="form-control"
                               name="Policy"
@@ -989,20 +989,20 @@ function Edit_productS(props) {
                                   return (
                                     <div
                                       className="align-items-center"
-                                      // style={
-                                      //   optionsedit?.length < 1 &&
-                                      //   Addstyel == true
-                                      //     ? { borderBottom: "1px solid red" }
-                                      //     : {}
-                                      // }
+                                    // style={
+                                    //   optionsedit?.length < 1 &&
+                                    //   Addstyel == true
+                                    //     ? { borderBottom: "1px solid red" }
+                                    //     : {}
+                                    // }
                                     >
                                       {item?.type.toLowerCase() ==
-                                      "objective" ? (
+                                        "objective" ? (
                                         <>
                                           <input
                                             type={
                                               item?.type.toLowerCase() !==
-                                              "objective"
+                                                "objective"
                                                 ? "Checkbox"
                                                 : "radio"
                                             }
@@ -1032,7 +1032,7 @@ function Edit_productS(props) {
                                           // id={}
                                           type={
                                             item?.type.toLowerCase() !==
-                                            "objective"
+                                              "objective"
                                               ? "Checkbox"
                                               : "radio"
                                           }
@@ -1072,13 +1072,13 @@ function Edit_productS(props) {
                                           optionsedit?.filter((item3) => {
                                             return item3?.id == item.id;
                                           })[0]?.checkbox?.length == 0 &&
-                                          optionsedit?.filter((item2) => {
-                                            return item2?.id == item.id;
-                                          })[0]?.id == item.id &&
-                                          item?.type.toLowerCase() == "checkbox"
+                                            optionsedit?.filter((item2) => {
+                                              return item2?.id == item.id;
+                                            })[0]?.id == item.id &&
+                                            item?.type.toLowerCase() == "checkbox"
                                             ? {
-                                                borderBottom: "1px solid red",
-                                              }
+                                              borderBottom: "1px solid red",
+                                            }
                                             : {}
                                         }
                                       >
