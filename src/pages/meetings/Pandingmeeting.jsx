@@ -411,7 +411,7 @@ function Pandingmeeting() {
                       </a>
                     </li>
                     <li>
-                      <a href="/pending-meeting/supplier">
+                      <a href="/pending-meeting">
                         <span> Pending Meetings </span>
                       </a>
                     </li>
@@ -634,7 +634,7 @@ function Pandingmeeting() {
                   )} */}
 
                   <div className="button-wrapper m-lft">
-                    {productData?.meeting_status?.status >= 3 ? (
+                    {/* {productData?.meeting_status?.status >= 4 ? (
                       ""
                     ) : (
                       <a
@@ -669,24 +669,21 @@ function Pandingmeeting() {
                       }}
                     >
                       <span>
-                        <img
-                          src={
-                            productData?.meeting_status?.status == undefined
-                              ? meetingicon
-                              : productData?.meeting_status?.status == 1
-                              ? thumbs_up
-                              : productData?.meeting_status?.status == 2
-                              ? pending_ap
-                              : productData?.meeting_status?.status == 3
-                              ? thumbsdown
-                              : productData?.meeting_status?.status == 4
-                              ? meetingdone
-                              : productData?.meeting_status?.status == 5
-                              ? meetingdone
-                              : ""
-                          }
-                          alt=""
-                        />
+                        <img src={thumbsdown} alt="" />
+                      </span>
+                      I Refuse A Meeting
+                    </a>
+                    {/* )} */}
+                    <a
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        if (productData?.meeting_status?.status === 1) {
+                          handleAcceptClick();
+                        }
+                      }}
+                    >
+                      <span>
+                        <img src={paymentimg} alt="" />
                       </span>
                       {(() => {
                         switch (productData?.meeting_status?.status) {
@@ -711,6 +708,49 @@ function Pandingmeeting() {
                         }
                       })()}
                     </a>
+                    {showModal && (
+                      <div className="modal">
+                        <div className="modal-content">
+                          <span className="close" onClick={handleCloseModal}>
+                            &times;
+                          </span>
+                          <div>
+                            <h3>Accept Meeting</h3>
+                            <ul>
+                              {state?.date?.map((time, index) => {
+                                const date = moment(
+                                  state?.time?.[index],
+                                  "DD-MM-YYYY"
+                                ).format("DD-MM-YYYY");
+
+                                return (
+                                  <li key={index}>
+                                    <input
+                                      type="radio"
+                                      id={`date${index}`}
+                                      name="selectedDate"
+                                      value={index} // Set the value to the index
+                                      onChange={handleDateChange} // Call the handleDateChange function
+                                    />
+                                    <label htmlFor={`date${index}`}>
+                                      {date} -{" "}
+                                      {moment(time, "HH:mm").format("h:mm A")}
+                                    </label>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+
+                            <a
+                              className="btn btn-secondary"
+                              onClick={clickedAccept}
+                            >
+                              Submit
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

@@ -323,11 +323,12 @@ function Supplierpandingmeeting(props) {
                 <th>Buyer Name</th>
                 <th>Country Codes</th>
                 <th>Meeting Date</th>
+                <th>Buyer Time</th>
+
                 <th>
                   Meeting Time (
                   {meetingDetails[0]?.supplierCountryCode?.countrycode}){" "}
                 </th>
-                <th>Buyer Time</th>
                 {/* <th>Convert Time</th> */}
                 <th>Buyer Profile</th>
                 {/* <th>Meeting Status</th> */}
@@ -345,6 +346,22 @@ function Supplierpandingmeeting(props) {
                     {meeting?.meetingDates?.map((date, index) => (
                       <div key={index}>{date}</div>
                     ))}
+                  </td>
+                  
+
+                  <td>
+                    {meeting?.meetingTime?.map((time, index) => {
+                      const formattedTime = moment(time, "h:mm A").format(
+                        "h:mm a"
+                      );
+                      return (
+                        <div key={index}>
+                          {moment(time, "h:mm A").isValid()
+                            ? formattedTime
+                            : time}
+                        </div>
+                      );
+                    })}
                   </td>
                   <td>
                     {(() => {
@@ -395,22 +412,6 @@ function Supplierpandingmeeting(props) {
                       });
                     })()}
                   </td>
-
-                  <td>
-                    {meeting?.meetingTime?.map((time, index) => {
-                      const formattedTime = moment(time, "h:mm A").format(
-                        "h:mm a"
-                      );
-                      return (
-                        <div key={index}>
-                          {moment(time, "h:mm A").isValid()
-                            ? formattedTime
-                            : time}
-                        </div>
-                      );
-                    })}
-                  </td>
-
                   <td class="roles">
                    
                     <a
