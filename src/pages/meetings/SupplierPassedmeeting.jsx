@@ -26,15 +26,32 @@ function Supplierpassedmeeting(props) {
         console.error(error);
       });
   }, []);
-  const data =
-    meetingData?.map((detail) => ({
+  const data = meetingData?.map((detail) => {
+    const supplierAvailable = detail?.supplier_available
+      ? JSON.parse(detail.supplier_available)
+      : [];
+    const supplierAvailableDates = supplierAvailable.map(
+      (availability) => availability.date
+    );
+    const supplierAvailableTimes = supplierAvailable.map(
+      (availability) => availability.time
+    );
+
+    return {
       id: detail?.id,
       supplier_id: detail?.supplier_id,
       status: detail?.status,
-      meetingDateTimeStrings: detail?.meetDateTime?.map(
-        (time) => time.meet_date + " " + time.meet_time
-      ),
-      supplier_remark: detail?.supplier_remark,
+      meetingDateTimeStrings: [
+        `${supplierAvailableDates[0]} ${supplierAvailableTimes[0]}`,
+      ],
+      supplieravailabledate:
+        supplierAvailableDates.length > 0
+          ? supplierAvailableDates
+          : ["Not Added"],
+      supplieravailabletime:
+        supplierAvailableTimes.length > 0
+          ? supplierAvailableTimes
+          : ["Not Added"],
       supplierCityName: detail?.supplierCityName?.city_name,
       buyerCityName: detail?.buyerCityName?.city_name,
       buyerCountryCode: detail?.buyerCountryCode?.countrycode,
@@ -42,7 +59,7 @@ function Supplierpassedmeeting(props) {
       buyer_id: detail?.buyer_id,
       buyername: detail?.buyerName?.buyername,
       countrycode:
-        detail?.supplierCountryCode?.countrycode !== null
+        detail?.supplierCountryCode?.countrycode != null
           ? detail?.supplierCountryCode?.countrycode
           : "Not Added",
       meetingDates: detail?.meetDateTime?.map((date) => date.meet_date) || [
@@ -51,7 +68,9 @@ function Supplierpassedmeeting(props) {
       meetingTime: detail?.meetDateTime?.map((time) => time.meet_time) || [
         "Not Added",
       ],
-    })) || [];
+    };
+  });
+
   const handleViewRemark = (id) => {
     navigate(`/add-remark/${id}`);
   };
@@ -103,8 +122,13 @@ function Supplierpassedmeeting(props) {
                 <th>Buyer Name</th>
                 <th>Country Codes</th>
                 <th>Meeting Date</th>
-                <th>Meeting Time (Paris)</th>
-                <th>Convert Time</th>
+                <th>Buyer Time</th>
+
+                <th>
+                  {" "}
+                  Meeting Time ({data !== undefined ? data[0]?.countrycode : ""}
+                  )
+                </th>
                 <th>Buyer Profile</th>
                 <th>Remarks</th>
                 <th>Meeting Status</th>
@@ -116,16 +140,24 @@ function Supplierpassedmeeting(props) {
                   <td>{meeting?.buyername}</td>
                   <td>{meeting?.countrycode}</td>
                   <td>
-                    {meeting?.meetingDates?.map((date, index) => (
+                    {meeting?.supplieravailabledate?.map((date, index) => (
                       <div key={index}>{date}</div>
                     ))}
                   </td>
 
                   <td>
-                    {" "}
-                    {meeting?.meetingTime?.map((time, index) => (
-                      <div key={index}>{time}</div>
-                    ))}
+                    {meeting?.supplieravailabletime?.map((time, index) => {
+                      const formattedTime = moment(time, "h:mm A").format(
+                        "h:mm a"
+                      );
+                      return (
+                        <div key={index}>
+                          {moment(time, "h:mm A").isValid()
+                            ? formattedTime
+                            : time}
+                        </div>
+                      );
+                    })}
                   </td>
                   <td>
                     {(() => {

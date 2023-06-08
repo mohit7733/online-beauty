@@ -4,6 +4,7 @@ import axios from "axios";
 import { country } from "../../pages/dashboard/country";
 import moment from "moment-timezone";
 import { api } from "../base_url";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 function Supplierconfirmmeeting(props) {
   const [accept, setaccept] = useState(false);
@@ -35,6 +36,7 @@ function Supplierconfirmmeeting(props) {
         },
       })
       .then((response) => {
+        toast.success("Meeting Done !");
         // Handle successful response here
         console.log(response.data);
         // Do something with the data
@@ -61,7 +63,9 @@ function Supplierconfirmmeeting(props) {
       id: detail?.id,
       supplier_id: detail?.supplier_id,
       status: detail?.status,
-      meetingDateTimeStrings: [`${supplierAvailableDates[0]} ${supplierAvailableTimes[0]}`],
+      meetingDateTimeStrings: [
+        `${supplierAvailableDates[0]} ${supplierAvailableTimes[0]}`,
+      ],
       supplieravailabledate:
         supplierAvailableDates.length > 0
           ? supplierAvailableDates
@@ -87,10 +91,9 @@ function Supplierconfirmmeeting(props) {
         "Not Added",
       ],
     };
-});
+  });
 
-
-  console.log(data, "this is data");
+  // console.log(data[0]?.countrycode, "this is data");
   return (
     <>
       <div className={(props.sidebar ? "active " : " ") + "router-body"}>
@@ -142,14 +145,16 @@ function Supplierconfirmmeeting(props) {
                 <th>Buyer Name</th>
                 <th>Country Codes</th>
                 <th>Meeting Date</th>
+                <th>Buyer Time</th>
+
                 <th>
-                  Meeting Time (paris)
+                  Meeting Time ({data !== undefined ? data[0]?.countrycode : ""})
                   {/* ({" "}
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>
-                <th>Buyer Time</th>
                 <th>Buyer Profile</th>
                 <th>Meeting Status</th>
+                {/* <th>Passed meeting</th> */}
                 {/* <th>ICS</th> */}
               </tr>
             </thead>
@@ -164,20 +169,6 @@ function Supplierconfirmmeeting(props) {
                     ))}
                   </td>
 
-                  <td>
-                    {meeting?.supplieravailabletime?.map((time, index) => {
-                      const formattedTime = moment(time, "h:mm A").format(
-                        "h:mm a"
-                      );
-                      return (
-                        <div key={index}>
-                          {moment(time, "h:mm A").isValid()
-                            ? formattedTime
-                            : time}
-                        </div>
-                      );
-                    })}
-                  </td>
                   <td>
                     {(() => {
                       const buyerCountry = country?.data?.find(
@@ -227,6 +218,21 @@ function Supplierconfirmmeeting(props) {
                       });
                     })()}
                   </td>
+                  
+                  <td>
+                    {meeting?.supplieravailabletime?.map((time, index) => {
+                      const formattedTime = moment(time, "h:mm A").format(
+                        "h:mm a"
+                      );
+                      return (
+                        <div key={index}>
+                          {moment(time, "h:mm A").isValid()
+                            ? formattedTime
+                            : time}
+                        </div>
+                      );
+                    })}
+                  </td>
                   <td className="roles">
                     <a
                       // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
@@ -238,9 +244,9 @@ function Supplierconfirmmeeting(props) {
                             state: {
                               id: meeting?.id,
                               buyer_id: meeting?.buyer_id,
-                              time : meeting?.meetingDates , 
-                              date : meeting?.meetingTime , 
-                              supplier_id : meeting?.supplier_id , 
+                              time: meeting?.meetingDates,
+                              date: meeting?.meetingTime,
+                              supplier_id: meeting?.supplier_id,
                             },
                           }
                         );
@@ -259,7 +265,7 @@ function Supplierconfirmmeeting(props) {
                         }
                       >
                         {meeting?.status === 4
-                          ? "Supplier confirm Meeting"
+                          ? "Meeting Done ?"
                           : meeting?.status === 5
                           ? "Completed"
                           : meeting?.status === 1
