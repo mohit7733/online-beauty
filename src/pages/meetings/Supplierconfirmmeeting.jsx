@@ -238,6 +238,9 @@ function Supplierconfirmmeeting(props) {
                             state: {
                               id: meeting?.id,
                               buyer_id: meeting?.buyer_id,
+                              time : meeting?.meetingDates , 
+                              date : meeting?.meetingTime , 
+                              supplier_id : meeting?.supplier_id , 
                             },
                           }
                         );
