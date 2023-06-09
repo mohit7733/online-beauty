@@ -159,7 +159,7 @@ function ProductDetailView(props) {
       formdata.append(`meetings[meeting_date][${index}]`, obj.apiDate);
       formdata.append(
         `meetings[meeting_time][${index}]`,
-        moment(obj.sTime, ["h:mm A"]).format("HH:mm")
+        moment(obj.sTime, ["HH:mm"]).format("h:mm A")
       );
     });
 
@@ -180,7 +180,7 @@ function ProductDetailView(props) {
         if (result) {
           setModalState(false);
           toast.success("Request Appointment send succesfully");
-          window.location.reload();
+          // window.location.reload();
         } else {
           toast.error(result.message);
           // console.log("Error", result);
@@ -197,7 +197,7 @@ function ProductDetailView(props) {
       toast.error("You can't select more than 5 availabilities");
     } else {
       const dm = moment(value).format("MMM D");
-      setApiDateFormat(moment(value).format("MM-DD-YYYY"));
+      setApiDateFormat(moment(value).format("DD-MM-YYYY"));
       setShowTP(true);
       setSdate(dm);
     }

@@ -4,7 +4,7 @@ import { api } from "../base_url";
 import { country } from "../dashboard/country";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { timeZoneCity } from "../dashboard/timezone";
 function Company_information(props) {
   const [editcompany, seteditcompany] = useState(false);
   const [cInfo, setCInfo] = useState([]);
@@ -21,17 +21,30 @@ function Company_information(props) {
   const [searchcode2, setsearchcode2] = useState("");
   const [countrycodeshow, setcountrycodeshow] = useState(false);
   const [countrycodeshow2, setcountrycodeshow2] = useState(false);
+  const [timeZone, setTimeZone] = useState([]);
+  const [selectedTimeZone, setSeclectedTimeZone] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const utcDetails = timeZoneCity.map((city) => city.utc).flat();
+    setTimeZone(utcDetails);
+  }, []);
+
+  console.log(timeZone, "timezone");
   function onChangeValues(e) {
+    
     if (e.target.files) {
       setCInfo({ ...cInfo, [e.target.name]: e.target.files[0] });
     } else {
       setCInfo({ ...cInfo, [e.target.name]: e.target.value });
     }
   }
+  function onch(e) {
+    const selectedValue = e.target.value;
+    setSeclectedTimeZone(selectedValue);
+  }
 
   function getCompanyInfo() {
-    console.log("getCompanyInfo called");
     var myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
@@ -58,7 +71,6 @@ function Company_information(props) {
           // setCInfo(result.data);
           // setcounrtcode1(result.data?.contact1_code);
           // setcounrtcode2(result.data?.contact2_code);
-          console.log(result.data[0], "<<<<<<<,");
           if (result.data?.length != 0) {
             setCInfo(result.data[0]);
             setSaveAdd(result.data[0].copy_billing_address);
@@ -91,9 +103,9 @@ function Company_information(props) {
     setcounrtcode(filtercode[0]?.code);
   }, [cInfo.country]);
 
-  useEffect(() => {
-    console.log(cInfo.copy_billing_address, SaveAdd, "<<<<<<<,");
-  }, [SaveAdd]);
+  // useEffect(() => {
+  //   conole.log(cInfo.copy_billing_address, SaveAdd, "<<<<<<<,");
+  // }, [SaveAdd]);s
 
   function editCompanyInfo(event) {
     var formvalues = new FormData();
@@ -104,7 +116,7 @@ function Company_information(props) {
     formvalues.append("contact1_code", contact_code1);
     formvalues.append("contact2_code", contact_code2);
     formvalues.append("copy_billing_address", SaveAdd);
-
+    formvalues.append("timezone", selectedTimeZone);
     // if()
 
     formvalues.append(
@@ -506,6 +518,35 @@ function Company_information(props) {
                         })}
                       </select>
                     </div>
+
+                    <div
+                      className="form-group"
+                      style={
+                        cInfo?.timezone !== ""
+                          ? {}
+                          : { borderBottom: "1px solid red" }
+                      }
+                    >
+                      <select
+                        className={
+                          editcompany ? "form-control" : "form-control disabled"
+                        }
+                        name="country"
+                        value={cInfo?.timezone}
+                        disabled={!editcompany}
+                        onChange={onch}
+                      >
+                        <option value="" disabled selected>
+                          Select timezone
+                        </option>
+                        {timeZone.map((zone, index) => (
+                          <option key={index} value={zone}>
+                            {zone}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
                     <div class="form-group">
                       <input
                         type="text"
@@ -524,9 +565,7 @@ function Company_information(props) {
                     <div class="form-group">
                       {console.log(SaveAdd != "0" ? "true" : "false")}
                       <input
-                        checked={
-                          SaveAdd != 0 ? true : false
-                        }
+                        checked={SaveAdd != 0 ? true : false}
                         disabled={!editcompany}
                         type="checkbox"
                         onChange={(e) => {

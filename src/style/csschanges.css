@@ -457,9 +457,30 @@ table td {
   background: #19A0DD !important;
 }
 
-.modal-content {
-  width: 65vw !important;
-  text-align: center;
+.modal .modal-content {
+  background-color: #f7f7f6 !important;
+  color: #000 !important;
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+}
+.modal .modal-content ul {
+  margin-left: 15px;
+  padding: 5px 0;
+}
+.modal .modal-content span.close {
+  position: absolute;
+  font-size: 30px;
+  top: 0;
+  cursor: pointer;
+  padding: 0px;
+}
+.modal .modal-content .btn-secondary {
+    margin-top: 5px;
+    margin-left: 40px;
+    height: 40px;
+    line-height: 36px;
+    min-width: 100px;
 }
 
 .toast_custom {
