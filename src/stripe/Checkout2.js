@@ -154,7 +154,7 @@ export const CheckoutForm2 = (props) => {
                         (data) => data.country == detail_data.address.country
                       )[0].percentage) /
                       100
-                  : amount
+                  : amount * 100
                 : // europe country with vat  number holder
                 vatError === false &&
                   showVat === true &&
@@ -167,8 +167,8 @@ export const CheckoutForm2 = (props) => {
                       texdata.filter(
                         (data) => data.country == detail_data.address.country
                       )[0].percentage) /
-                      100
-                  : amount
+                      100 * 100
+                  : amount *100
                 : // europe country with no valid vat holder
 
                   (texdata.filter(
@@ -181,7 +181,7 @@ export const CheckoutForm2 = (props) => {
                         )[0].percentage) /
                         100
                     : amount) +
-                  (amount * 20) / 100,
+                  (amount * 20) ,
             id: id,
             currency: "EUR",
             description: "All Payments Done by " + detail_data.name,

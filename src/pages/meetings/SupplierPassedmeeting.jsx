@@ -53,6 +53,7 @@ function Supplierpassedmeeting(props) {
           ? supplierAvailableTimes
           : ["Not Added"],
       supplierCityName: detail?.supplierCityName?.city_name,
+      remarks : detail?.supplier_remark,
       buyerCityName: detail?.buyerCityName?.city_name,
       buyerCountryCode: detail?.buyerCountryCode?.countrycode,
       supplierCountryCode: detail?.supplierCountryCode?.countrycode,
@@ -111,7 +112,7 @@ function Supplierpassedmeeting(props) {
             <div class="custom-select">
               <select>
                 <option>Sorted by</option>
-              </select>
+              </select>   
             </div>
           </div>
         </div>
@@ -228,7 +229,7 @@ function Supplierpassedmeeting(props) {
                     </a>
                   </td>
                   <td>
-                    {meeting?.supplier_remark ? (
+                    {meeting?.supplier_remark !== null ? (
                       <a
                         onClick={() =>
                           navigate(`/view-remark/${meeting?.id}/${meeting?.id}`)
