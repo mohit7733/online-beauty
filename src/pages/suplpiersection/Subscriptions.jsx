@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 export default function Subscriptions(props) {
   const [subscriptions, setSubscriptions] = useState([]);
   const navigate = useNavigate();
-
+ 
 
   const getSubscriptions = () => {
     var myHeaders = new Headers();
@@ -19,20 +19,20 @@ export default function Subscriptions(props) {
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data[0].type, "tan");
-
+  
         const meetingSubscriptions = result.data.filter(
           (subscription) => subscription.type === "Product"
         );
-
+  
         setSubscriptions(meetingSubscriptions);
       })
       .catch((error) => console.log("error", error));
   };
-
+  
   useEffect(() => {
     getSubscriptions();
   }, []);
-
+  
 
 
   const checkSubscription = () => {
@@ -95,15 +95,6 @@ export default function Subscriptions(props) {
         </ul>
       </div>
       <h2>Payment</h2>
-      <p style={{ lineHeight: "normal" }}>
-        We warmly thank you for your trust.
-        <span style={{ display: "block" }}>To go ahead and discover more about our coming steps write us at {"   "}
-          <a style={{ paddingLeft: "4px", color: "#19a0dd" }} href="mailto:contact@beauty-meetings">
-            {"   "} contact@beauty-meetings.
-          </a></span>
-      </p>
-      <br />
-      <br />
       <div className="payment_wrapper row justify-content-center">
         {subscriptions?.map((item) => {
           console.log(item);
@@ -115,28 +106,27 @@ export default function Subscriptions(props) {
                   <p>
                     <span>{item?.subtitle}</span>
                   </p>
-                  <h3>{" €" + item?.price}</h3>
+                  <h3>{" €"+item?.price}</h3>
                   <p>{item?.title}</p>
                   <button
                     className="btn11 btn btn-secondary"
-                    style={{ background: "#9f9f9f", color: "white", lineHeight: "40px", minWidth: "200px" }}
-                  // onClick={() => {
-                  //   if (
-                  //     localStorage.getItem("manage_type").toLowerCase() ==
-                  //     "superadmin"
-                  //   ) {
-                  //     navigate("/payment", {
-                  //       state: {
-                  //         amount: parseInt(item?.price),
-                  //         plan: item?.days,
-                  //         subscription_plan_id : item?.id
+                    onClick={() => {
+                      if (
+                        localStorage.getItem("manage_type").toLowerCase() ==
+                        "superadmin"
+                      ) {
+                        navigate("/payment", {
+                          state: {
+                            amount: parseInt(item?.price),
+                            plan: item?.days,
+                            subscription_plan_id : item?.id
 
-                  //       },
-                  //     });
-                  //   } else {
-                  //     toast.error("Only superadmin can do the payments !");
-                  //   }
-                  // }}
+                          },
+                        });
+                      } else {
+                        toast.error("Only superadmin can do the payments !");
+                      }
+                    }}
                   >
                     Continue
                   </button>
@@ -145,31 +135,30 @@ export default function Subscriptions(props) {
                 <div className="column col_right">
                   <div className="button">Yearly</div>
                   <p>{item?.subtitle}</p>
-                  <h3>{" €" + item?.price}</h3>
+                  <h3>{" €"+item?.price}</h3>
                   <p>
                     <span>{item?.title}</span>
                   </p>
                   <button
                     className="btn11 btn btn-primary"
-                    style={{ background: "#9f9f9f", color: "white", lineHeight: "40px", minWidth: "200px" }}
-                  // onClick={() => {
-                  //   console.log(item?.id , "subscription plan id ")
-                  //   if (
-                  //     localStorage.getItem("manage_type").toLowerCase() ===
-                  //     "superadmin"
-                  //   ) {
-                  //     navigate("/payment", {
-                  //       state: {
-                  //         amount: parseInt(item?.price),
-                  //         plan: item?.days,
-                  //         subscription_plan_id : item?.id
+                    onClick={() => {
+                      console.log(item?.id , "subscription plan id ")
+                      if (
+                        localStorage.getItem("manage_type").toLowerCase() ===
+                        "superadmin"
+                      ) {
+                        navigate("/payment", {
+                          state: {
+                            amount: parseInt(item?.price),
+                            plan: item?.days,
+                            subscription_plan_id : item?.id
 
-                  //       },
-                  //     });
-                  //   } else {
-                  //     toast.error("Only superadmin can do the payments !");
-                  //   }
-                  // }}
+                          },
+                        });
+                      } else {
+                        toast.error("Only superadmin can do the payments !");
+                      }
+                    }}
                   >
                     Continue
                   </button>
@@ -178,29 +167,28 @@ export default function Subscriptions(props) {
                 <div className="column col_right">
                   <div className="button">{item?.title}</div>
                   <p>{item?.subtitle}</p>
-                  <h3>{" €" + item?.price}</h3>
+                  <h3>{" €"+item?.price}</h3>
                   <p>
                     <span>{item?.title}</span>
                   </p>
                   <button
                     className="btn11 btn btn-primary"
-                    style={{ background: "#9f9f9f", color: "white", lineHeight: "40px", minWidth: "200px" }}
-                  // onClick={() => {
-                  //   if (
-                  //     localStorage.getItem("manage_type").toLowerCase() ===
-                  //     "superadmin"
-                  //   ) {
-                  //     navigate("/payment", {
-                  //       state: {
-                  //         amount: parseInt(item?.price),
-                  //         plan: item?.days,
-                  //         subscription_plan_id : item?.id
-                  //       },
-                  //     });
-                  //   } else {
-                  //     toast.error("Only superadmin can do the payments !");
-                  //   }
-                  // }}
+                    onClick={() => {
+                      if (
+                        localStorage.getItem("manage_type").toLowerCase() ===
+                        "superadmin"
+                      ) {
+                        navigate("/payment", {
+                          state: {
+                            amount: parseInt(item?.price),
+                            plan: item?.days,
+                            subscription_plan_id : item?.id
+                          },
+                        });
+                      } else {
+                        toast.error("Only superadmin can do the payments !");
+                      }
+                    }}
                   >
                     Continue
                   </button>
