@@ -3,7 +3,7 @@ import Left_menu from "../productpages/left_menu";
 import { api } from "../base_url";
 // import Left_menu2 from "./Left_menu2";
 import { country } from "../dashboard/country";
-import {timeZoneCity} from '../dashboard/timezone'
+import { timeZoneCity } from "../dashboard/timezone";
 import InputUpload from "../../components/input-with-button/input-with-button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -22,10 +22,9 @@ function Company_informationNew(props) {
   const { state } = useLocation();
   const [searchcode, setsearchcode] = useState("");
   const [searchcode2, setsearchcode2] = useState("");
-  const [timeZone , setTimeZone] = useState([])
-  const [selectedTimeZone , setSeclectedTimeZone] = useState()
+  const [timeZone, setTimeZone] = useState([]);
+  const [selectedTimeZone, setSeclectedTimeZone] = useState();
 
-  
   // console.log(state, "<<<<<< state");
   const [cInfo, setCInfo] = useState({
     country_code: "",
@@ -87,30 +86,31 @@ function Company_informationNew(props) {
     state: "",
     post_code: "",
     country: "",
-    timeZone : "" , 
+    timeZone: "",
     website: "",
     contact1_image: "",
     brand_logo: "",
   });
-
 
   useEffect(() => {
     const utcDetails = timeZoneCity.map((city) => city.utc).flat();
     setTimeZone(utcDetails);
   }, []);
 
-    console.log(timeZone , "timeZone")
+  console.log(timeZone, "timeZone");
 
   function onChangeValues(e) {
-    const selectedValue = e.target.value;
-    setSeclectedTimeZone(selectedValue);
+ 
     if (e.target.files) {
       setCInfo({ ...cInfo, [e.target.name]: e.target.files[0] });
     } else {
       setCInfo({ ...cInfo, [e.target.name]: e.target.value });
     }
   }
-
+  function onch(e) {
+    const selectedValue = e.target.value;
+    setSeclectedTimeZone(selectedValue);
+  }
   // useEffect(()=>{
   //   console.log(SaveAdd ,contact_code2);
   // },[SaveAdd])
@@ -138,7 +138,7 @@ function Company_informationNew(props) {
     formvalues.append("country_code", counrtcode);
     formvalues.append("contact1_code", contact_code1);
     formvalues.append("contact2_code", contact_code2);
-    formvalues.append('timezone' , selectedTimeZone)
+    formvalues.append("timezone", selectedTimeZone);
     var myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
@@ -652,42 +652,33 @@ function Company_informationNew(props) {
                       </select>
                     </div>
 
-
-
-
-
-
-
-
-
                     <div
-  className="form-group"
-  style={cInfo?.timezone !== "" ? {} : { borderBottom: "1px solid red" }}
->
-  <select
-    className={editcompany ? "form-control" : "form-control disabled"}
-    name="country"
-    value={cInfo?.timezone}
-    disabled={!editcompany}
-    onChange={onChangeValues}
-  >
-    <option value="" disabled selected>
-      Select timezone
-    </option>
-    {timeZone.map((zone, index) => (
-      <option key={index} value={zone}>
-        {zone}
-      </option>
-    ))}
-  </select>
-</div>
-
-
-
-
-
-
-
+                      className="form-group"
+                      style={
+                        cInfo?.timezone !== ""
+                          ? {}
+                          : { borderBottom: "1px solid red" }
+                      }
+                    >
+                      <select
+                        className={
+                          editcompany ? "form-control" : "form-control disabled"
+                        }
+                        name="country"
+                        value={cInfo?.timezone}
+                        disabled={!editcompany}
+                        onChange={onch}
+                      >
+                        <option value="" disabled selected>
+                          Select timezone
+                        </option>
+                        {timeZone.map((zone, index) => (
+                          <option key={index} value={zone}>
+                            {zone}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
                     <div className="form-group">
                       <input
@@ -714,9 +705,8 @@ function Company_informationNew(props) {
                           // console.log(e.target.checked);
                           if (e.target.checked) {
                             setSaveAdd(1);
-                          }else{
+                          } else {
                             setSaveAdd(0);
-
                           }
                         }}
                       />

@@ -4,7 +4,7 @@ import { api } from "../base_url";
 import { country } from "../dashboard/country";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import {timeZoneCity} from '../dashboard/timezone'
+import { timeZoneCity } from "../dashboard/timezone";
 function Company_information(props) {
   const [editcompany, seteditcompany] = useState(false);
   const [cInfo, setCInfo] = useState([]);
@@ -21,8 +21,8 @@ function Company_information(props) {
   const [searchcode2, setsearchcode2] = useState("");
   const [countrycodeshow, setcountrycodeshow] = useState(false);
   const [countrycodeshow2, setcountrycodeshow2] = useState(false);
-  const [timeZone , setTimeZone] = useState([])
-  const [selectedTimeZone , setSeclectedTimeZone] = useState()
+  const [timeZone, setTimeZone] = useState([]);
+  const [selectedTimeZone, setSeclectedTimeZone] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,16 +30,18 @@ function Company_information(props) {
     setTimeZone(utcDetails);
   }, []);
 
-
-  console.log(timeZone , "timezone")
+  console.log(timeZone, "timezone");
   function onChangeValues(e) {
-    const selectedValue = e.target.value;
-    setSeclectedTimeZone(selectedValue);
+    
     if (e.target.files) {
       setCInfo({ ...cInfo, [e.target.name]: e.target.files[0] });
     } else {
       setCInfo({ ...cInfo, [e.target.name]: e.target.value });
     }
+  }
+  function onch(e) {
+    const selectedValue = e.target.value;
+    setSeclectedTimeZone(selectedValue);
   }
 
   function getCompanyInfo() {
@@ -114,7 +116,7 @@ function Company_information(props) {
     formvalues.append("contact1_code", contact_code1);
     formvalues.append("contact2_code", contact_code2);
     formvalues.append("copy_billing_address", SaveAdd);
-    formvalues.append("timezone" , selectedTimeZone )
+    formvalues.append("timezone", selectedTimeZone);
     // if()
 
     formvalues.append(
@@ -517,35 +519,33 @@ function Company_information(props) {
                       </select>
                     </div>
 
-
-
-
-
-
                     <div
-  className="form-group"
-  style={cInfo?.timezone !== "" ? {} : { borderBottom: "1px solid red" }}
->
-  <select
-    className={editcompany ? "form-control" : "form-control disabled"}
-    name="country"
-    value={cInfo?.timezone}
-    disabled={!editcompany}
-    onChange={onChangeValues}
-  >
-    <option value="" disabled selected>
-      Select timezone
-    </option>
-    {timeZone.map((zone, index) => (
-      <option key={index} value={zone}>
-        {zone}
-      </option>
-    ))}
-  </select>
-</div>
-
-
-
+                      className="form-group"
+                      style={
+                        cInfo?.timezone !== ""
+                          ? {}
+                          : { borderBottom: "1px solid red" }
+                      }
+                    >
+                      <select
+                        className={
+                          editcompany ? "form-control" : "form-control disabled"
+                        }
+                        name="country"
+                        value={cInfo?.timezone}
+                        disabled={!editcompany}
+                        onChange={onch}
+                      >
+                        <option value="" disabled selected>
+                          Select timezone
+                        </option>
+                        {timeZone.map((zone, index) => (
+                          <option key={index} value={zone}>
+                            {zone}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
                     <div class="form-group">
                       <input
@@ -565,9 +565,7 @@ function Company_information(props) {
                     <div class="form-group">
                       {console.log(SaveAdd != "0" ? "true" : "false")}
                       <input
-                        checked={
-                          SaveAdd != 0 ? true : false
-                        }
+                        checked={SaveAdd != 0 ? true : false}
                         disabled={!editcompany}
                         type="checkbox"
                         onChange={(e) => {
@@ -1120,7 +1118,8 @@ function Company_information(props) {
                           cInfo?.contact1_phone != "" &&
                           cInfo?.contact1_job != "" &&
                           cInfo?.contact1_name != "" &&
-                          cInfo?.city != ""                         ) {
+                          cInfo?.city != ""
+                        ) {
                           editCompanyInfo();
                         } else {
                           window.scrollTo(0, 0);
