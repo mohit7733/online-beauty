@@ -347,7 +347,6 @@ function Supplierpandingmeeting(props) {
                       <div key={index}>{date}</div>
                     ))}
                   </td>
-                  
 
                   <td>
                     {meeting?.meetingTime?.map((time, index) => {
@@ -413,7 +412,6 @@ function Supplierpandingmeeting(props) {
                     })()}
                   </td>
                   <td class="roles">
-                   
                     <a
                       // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
                       class="btn btn-success"
@@ -424,9 +422,9 @@ function Supplierpandingmeeting(props) {
                             state: {
                               id: meeting?.id,
                               buyer_id: meeting?.buyer_id,
-                              time : meeting?.meetingDates , 
-                              date : meeting?.meetingTime , 
-                              supplier_id : meeting?.supplier_id , 
+                              time: meeting?.meetingDates,
+                              date: meeting?.meetingTime,
+                              supplier_id: meeting?.supplier_id,
                             },
                           }
                         );
@@ -596,7 +594,7 @@ function Supplierpandingmeeting(props) {
                   <td>
                     <a
                       onClick={() => {
-                        if (meeting?.type !== 1) {
+                        if (meeting?.type !== 1 && meeting?.status !== 3) {
                           setModalState(true);
                           setSupplierTime([
                             {
@@ -606,9 +604,16 @@ function Supplierpandingmeeting(props) {
                           ]);
                         }
                       }}
-                      className={`btn ${meeting?.type === 1 ? "disabled" : ""}`}
+                      className={`btn ${
+                        meeting?.type === 1 || meeting?.status === 3
+                          ? "disabled"
+                          : ""
+                      }`}
                       style={{
-                        cursor: meeting?.type === 1 ? "not-allowed" : "pointer",
+                        cursor:
+                          meeting?.type === 1 || meeting?.status === 3
+                            ? "not-allowed"
+                            : "pointer",
                       }}
                     >
                       <img
@@ -617,7 +622,9 @@ function Supplierpandingmeeting(props) {
                         alt=""
                         style={{
                           filter:
-                            meeting?.type === 1 ? "grayscale(100%)" : "none",
+                            meeting?.type === 1 || meeting?.status === 3
+                              ? "grayscale(100%)"
+                              : "none",
                         }}
                       />
                     </a>

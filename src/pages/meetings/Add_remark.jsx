@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import EditRemark from "./EditRemark";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { api } from "../base_url";
-
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 function Add_remark(props) {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     id,
     title: "",
@@ -29,7 +30,7 @@ function Add_remark(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = api+ "/api/v1/supplier-add-remark";
+    const apiUrl = api + "/api/v1/supplier-add-remark";
 
     const requestData = new FormData();
     requestData.append("id", formData.id);
@@ -44,9 +45,14 @@ function Add_remark(props) {
         },
       })
       .then((response) => {
+        toast.success("Remark Added Successfully");
         console.log(response.data);
+        setTimeout(() => {
+          navigate("/passed-meeting/supplier");
+        }, 3000);
       })
       .catch((error) => {
+        toast.error("Something Went Wrong !");
         console.error(error);
       });
   };

@@ -18,8 +18,6 @@ export default function Subscriptions(props) {
     fetch(api + "/api/subscription", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result.data[0].type, "tan");
-  
         const meetingSubscriptions = result.data.filter(
           (subscription) => subscription.type === "Product"
         );

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
+import { api } from "../../pages/base_url";
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 function EditRemark(props) {
+  const naviagate = useNavigate()
   const { usertype } = useParams();
   const path = window.location.pathname;
   const remarkid = path.substring(path.lastIndexOf("/") + 1);
-  
+
   const [formdata, setFormData] = useState({
     title: "",
     description: "",
@@ -15,7 +18,7 @@ function EditRemark(props) {
 
   useEffect(() => {
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = `https://adminbm.health-and-beauty.fr/api/v1/supplier-view-remark?id=${remarkid}`;
+    const apiUrl = `${api}/api/v1/supplier-view-remark?id=${remarkid}`;
 
     axios
       .get(apiUrl, {
@@ -49,7 +52,7 @@ function EditRemark(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = "https://adminbm.health-and-beauty.fr/api/v1/supplier-add-remark";
+    const apiUrl = `${api}/api/v1/supplier-add-remark`;
 
     const requestData = new FormData();
     requestData.append("id", formdata.id);
@@ -64,9 +67,14 @@ function EditRemark(props) {
         },
       })
       .then((response) => {
+        toast.success("Remark Edited Successfully");
         console.log(response.data);
+        setTimeout(() => {
+          naviagate("/passed-meeting/supplier");
+        }, 3000);
       })
       .catch((error) => {
+        toast.error('something went wrong !')
         console.error(error);
       });
   };

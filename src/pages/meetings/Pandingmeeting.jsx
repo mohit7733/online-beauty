@@ -14,6 +14,7 @@ import Timepicker from "../../components/timepicker";
 import moment from "moment";
 import { toast, ToastContainer } from "react-toastify";
 import Left_menu from "../productpages/left_menu";
+import paymentimg from '../../assets/images/Payment.svg'
 import axios from "axios";
 import AcceptMeeting from "./AcceptMeeting";
 function Pandingmeeting() {
