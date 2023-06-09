@@ -178,10 +178,9 @@ export const CheckoutForm2 = (props) => {
                       (amount *
                         texdata.filter(
                           (data) => data.country == detail_data.address.country
-                        )[0].percentage) /
-                        100
-                    : amount) +
-                  (amount * 20) ,
+                        )[0].percentage) 
+                    : amount) *100 +
+                  (amount * 20)  ,
             id: id,
             currency: "EUR",
             description: "All Payments Done by " + detail_data.name,

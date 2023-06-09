@@ -297,7 +297,9 @@ function Edit_productS(props) {
               var sub_categoryoptions = JSON.parse(result.data?.sub_cat);
               if (oncepush == false) {
                 sub_categoryoptions?.map((item) => {
-                  selectOptions.push({ value: item, label: item });
+                  if (sub_categoryoptions.length > selectOptions.length) {
+                    selectOptions.push({ value: item, label: item });
+                  }
                 });
               }
             }
@@ -755,15 +757,17 @@ function Edit_productS(props) {
                         isObject={false}
                         options={subcategoriesoptions}
                         isMulti
-                        defaultValue={selectOptions}
-                        // value={multis_category}
+                        // defaultValue={selectOptions}
+                        value={selectOptions}
                         name="colors"
                         className="Company_sector2 basic-multi-select"
                         classNamePrefix="select"
                         placeholder="Sub-Category *"
                         // isOptionDisabled={() => selectOptions?.length >= 3}
                         onChange={(Option) => {
-                          setSelectOptions(Option);
+                          if (selectOptions?.length <= 2) {
+                            setSelectOptions(Option);
+                          }
                         }}
                       // onEditOption={handleEditOption}
                       />
