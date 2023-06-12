@@ -60,12 +60,12 @@ function ProductDetailView(props) {
         // console.log(result.data.media_files ,result.data?.product?.thumb_index , thumb , "<<<<<<<result.data");
         setthumb(
           result.data?.media_files[
-          Number(
-            result.data?.product?.thumb_index == undefined ||
-              result.data?.product?.thumb_index == "null"
-              ? "0"
-              : result.data?.product?.thumb_index
-          )
+            Number(
+              result.data?.product?.thumb_index == undefined ||
+                result.data?.product?.thumb_index == "null"
+                ? "0"
+                : result.data?.product?.thumb_index
+            )
           ]
         );
         setProductData(result.data);
@@ -159,7 +159,7 @@ function ProductDetailView(props) {
       formdata.append(`meetings[meeting_date][${index}]`, obj.apiDate);
       formdata.append(
         `meetings[meeting_time][${index}]`,
-        moment(obj.sTime, ["HH:mm"]).format("h:mm A")
+        moment(obj.sTime, ["HH:mm A"]).format("h:mm A ")
       );
     });
 
@@ -178,7 +178,7 @@ function ProductDetailView(props) {
       .then((response) => response.json())
       .then((result) => {
         if (result) {
-          setModalState(false);
+          // setModalState(false);
           toast.success("Request Appointment send succesfully");
           // window.location.reload();
         } else {
@@ -398,7 +398,12 @@ function ProductDetailView(props) {
                                 </figure>
                               </div>
                             );
-                          } else if (item.media_type === "doc" && item?.file_path.substr(item?.file_path.lastIndexOf('\\') + 1).split('.')[3] != "pdf") {
+                          } else if (
+                            item.media_type === "doc" &&
+                            item?.file_path
+                              .substr(item?.file_path.lastIndexOf("\\") + 1)
+                              .split(".")[3] != "pdf"
+                          ) {
                             return (
                               <div>
                                 <figure>
@@ -413,15 +418,26 @@ function ProductDetailView(props) {
                                 </figure>
                               </div>
                             );
-                          } else if (item?.file_path.substr(item?.file_path.lastIndexOf('\\') + 1).split('.')[3] == "pdf") {
+                          } else if (
+                            item?.file_path
+                              .substr(item?.file_path.lastIndexOf("\\") + 1)
+                              .split(".")[3] == "pdf"
+                          ) {
                             return (
                               <div>
                                 <figure>
-                                  <embed src={item?.file_path + "#toolbar=1&scrollbar=0"} height="500px" width="100%" frameborder="0"
-                                    scrolling="auto" />
+                                  <embed
+                                    src={
+                                      item?.file_path + "#toolbar=1&scrollbar=0"
+                                    }
+                                    height="500px"
+                                    width="100%"
+                                    frameborder="0"
+                                    scrolling="auto"
+                                  />
                                 </figure>
                               </div>
-                            )
+                            );
                           }
                         })}
                         {link != "" ? (
@@ -493,7 +509,7 @@ function ProductDetailView(props) {
                       })}
 
                       {productData.product?.youtube_link == "null" ||
-                        productData.product?.youtube_link == "undefined" ? (
+                      productData.product?.youtube_link == "undefined" ? (
                         ""
                       ) : (
                         <div>
@@ -628,23 +644,23 @@ function ProductDetailView(props) {
                             .format("DD MM YYYY")
                             .toLowerCase() === "invalid date"
                             ? productData.product?.date_of_creation.replace(
-                              /\//g,
-                              "-"
-                            )
-                            : moment(
-                              productData.product?.date_of_creation?.replace(
                                 /\//g,
-                                " "
-                              ),
-                              "DD MM YYYY"
-                            ).format("DD-MM-YYYY")}
+                                "-"
+                              )
+                            : moment(
+                                productData.product?.date_of_creation?.replace(
+                                  /\//g,
+                                  " "
+                                ),
+                                "DD MM YYYY"
+                              ).format("DD-MM-YYYY")}
                         </h5>
                       </li>
                     ) : null}
                   </ul>
 
                   {productData?.product?.supplier_id ==
-                    localStorage.getItem("user_id") ? (
+                  localStorage.getItem("user_id") ? (
                     ""
                   ) : (
                     <div className="button-wrapper m-t">
@@ -668,7 +684,7 @@ function ProductDetailView(props) {
                           : "Add your favourites"}
                       </a>
                       {localStorage.getItem("user_type") &&
-                        localStorage.getItem("user_type").toLowerCase() ===
+                      localStorage.getItem("user_type").toLowerCase() ===
                         "supplier" ? null : (
                         <>
                           <button
@@ -700,8 +716,8 @@ function ProductDetailView(props) {
                                   return "Request a meeting?";
                                 // case 0:
                                 //   return "Request in procces";
-                                case 3 : 
-                                return "meeting declined"
+                                case 3:
+                                  return "meeting declined";
                                 case 0:
                                   return "Pending Approval";
                                 case 2:
@@ -732,8 +748,8 @@ function ProductDetailView(props) {
                     productData?.productownerstatus == true
                       ? { display: "contents" }
                       : productData?.requeststatus == 1
-                        ? { display: "contents" }
-                        : {}
+                      ? { display: "contents" }
+                      : {}
                   }
                 >
                   <div className="profile-list profile-brand">
@@ -771,13 +787,13 @@ function ProductDetailView(props) {
                                     __html:
                                       item?.type.toLowerCase() == "checkbox"
                                         ? item?.answer.replace(
-                                          /[\\\n["{}:\]']+/g,
-                                          " "
-                                        )
+                                            /[\\\n["{}:\]']+/g,
+                                            " "
+                                          )
                                         : item?.answer.replace(
-                                          /[\\\n[{}:\]]+/g,
-                                          "<br>"
-                                        ),
+                                            /[\\\n[{}:\]]+/g,
+                                            "<br>"
+                                          ),
                                   }}
                                 />
                               </li>
@@ -792,8 +808,8 @@ function ProductDetailView(props) {
 
               {/* {console.log(productData?.requeststatus)} */}
               {productData?.requeststatus === null ||
-                (productData?.requeststatus != 1 &&
-                  productData?.productownerstatus != true) ? (
+              (productData?.requeststatus != 1 &&
+                productData?.productownerstatus != true) ? (
                 <div className="request-box-wrapper">
                   <div className="request-box">
                     <h3>Do you want more information?</h3>

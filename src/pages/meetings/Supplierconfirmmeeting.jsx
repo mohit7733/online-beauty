@@ -74,9 +74,14 @@ function Supplierconfirmmeeting(props) {
         supplierAvailableTimes.length > 0
           ? supplierAvailableTimes
           : ["Not Added"],
+      supplier_Time_Zone: detail?.supplier_timezone,
+      buyer_Time_Zone: detail?.buyer_timezone,
       supplierCityName: detail?.supplierCityName?.city_name,
       buyerCityName: detail?.buyerCityName?.city_name,
-      buyerCountryCode: detail?.buyerCountryCode?.countrycode,
+      buyerCountryCode:
+        detail?.buyerCountryCode?.countrycode !== "undefined"
+          ? detail.buyerCountryCode.countrycode
+          : "",
       supplierCountryCode: detail?.supplierCountryCode?.countrycode,
       buyer_id: detail?.buyer_id,
       buyername: detail?.buyerName?.buyername,
@@ -148,7 +153,8 @@ function Supplierconfirmmeeting(props) {
                 <th>Buyer Time</th>
 
                 <th>
-                  Meeting Time ({data !== undefined ? data[0]?.countrycode : ""})
+                  Meeting Time ({data !== undefined ? data[0]?.countrycode : ""}
+                  )
                   {/* ({" "}
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>
@@ -162,7 +168,7 @@ function Supplierconfirmmeeting(props) {
               {data?.map((meeting, index) => (
                 <tr>
                   <td>{meeting?.buyername}</td>
-                  <td>{meeting?.supplierCountryCode}</td>
+                  <td>{meeting?.buyerCountryCode}</td>
                   <td>
                     {meeting?.supplieravailabledate?.map((date, index) => (
                       <div key={index}>{date}</div>
@@ -171,22 +177,16 @@ function Supplierconfirmmeeting(props) {
 
                   <td>
                     {(() => {
-                      const buyerCountry = country?.data?.find(
-                        (c) => c?.code === meeting?.buyerCountryCode
-                      );
+                      // const buyerCountry = country?.data?.find(
+                      //   (c) => c?.code === meeting?.buyerCountryCode
+                      // );
 
-                      const supplierCountry = country?.data?.find(
-                        (c) => c.code === meeting?.supplierCountryCode
-                      );
+                      // const supplierCountry = country?.data?.find(
+                      //   (c) => c.code === meeting?.supplierCountryCode
+                      // );
 
-                      const buyerTimeZone = buyerCountry
-                        ? buyerCountry?.continent + "/" + meeting?.buyerCityName
-                        : null;
-                      const supplierTimeZone = supplierCountry
-                        ? supplierCountry?.continent +
-                          "/" +
-                          meeting?.supplierCityName
-                        : null;
+                      const buyerTimeZone = meeting?.buyer_Time_Zone;
+                      const supplierTimeZone = meeting?.supplier_Time_Zone;
                       // console.log(supplierTimeZonexx`)
 
                       const meetingDateTimeStrings =
@@ -218,7 +218,7 @@ function Supplierconfirmmeeting(props) {
                       });
                     })()}
                   </td>
-                  
+
                   <td>
                     {meeting?.supplieravailabletime?.map((time, index) => {
                       const formattedTime = moment(time, "h:mm A").format(
