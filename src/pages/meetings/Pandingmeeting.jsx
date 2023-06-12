@@ -288,7 +288,7 @@ function Pandingmeeting() {
         // handle error
       });
   };
-  console.log(state , "productdata is here")
+  console.log(state, "productdata is here");
   // handlechange
   const handleDateChange = (event) => {
     const { value } = event.target;
@@ -679,7 +679,7 @@ function Pandingmeeting() {
                         if (productData?.meeting_status?.status === 1) {
                           handleAcceptClick();
                         } else if (productData?.meeting_status?.status === 2) {
-                          navigate("/payment",state);
+                          navigate("/payment", state);
                         }
                       }}
                     >
