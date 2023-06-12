@@ -39,10 +39,12 @@ function Company_information(props) {
       setCInfo({ ...cInfo, [e.target.name]: e.target.value });
     }
   }
-  function onch(e) {
+  function onchfunction(e) {
     const selectedValue = e.target.value;
+    console.log(selectedValue, "onchange selection value");
     setSeclectedTimeZone(selectedValue);
   }
+  
 
   function getCompanyInfo() {
     var myHeaders = new Headers();
@@ -527,24 +529,24 @@ function Company_information(props) {
                           : { borderBottom: "1px solid red" }
                       }
                     >
-                      <select
-                        className={
-                          editcompany ? "form-control" : "form-control disabled"
-                        }
-                        name="country"
-                        value={cInfo?.timezone}
-                        disabled={!editcompany}
-                        onChange={onch}
-                      >
-                        <option value="" disabled selected>
-                          Select timezone
-                        </option>
-                        {timeZone.map((zone, index) => (
-                          <option key={index} value={zone}>
-                            {zone}
-                          </option>
-                        ))}
-                      </select>
+                     <select
+  className={editcompany ? "form-control" : "form-control disabled"}
+  name="country"
+  value={selectedTimeZone}
+  disabled={!editcompany}
+  onChange={onchfunction}
+>
+  <option value="" disabled>
+    Select timezone
+  </option>
+  {timeZone.map((zone, index) => (
+    <option key={index} value={zone}>
+      {zone}
+    </option>
+  ))}
+</select>
+
+
                     </div>
 
                     <div class="form-group">
