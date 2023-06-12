@@ -219,9 +219,14 @@ function Supplierpandingmeeting(props) {
       (time) => time.meet_date + " " + time.meet_time
     ),
     type: detail?.type,
+    supplier_Time_Zone: detail?.supplier_timezone,
+    buyer_Time_Zone: detail?.buyer_timezone,
     supplierCityName: detail?.supplierCityName?.city_name,
     buyerCityName: detail?.buyerCityName?.city_name,
-    buyerCountryCode: detail?.buyerCountryCode?.countrycode,
+    buyerCountryCode:
+      detail?.buyerCountryCode?.countrycode !== "undefined"
+        ? detail.buyerCountryCode.countrycode
+        : "",
     supplierCountryCode: detail?.supplierCountryCode?.countrycode,
     buyer_id: detail.buyer_id,
     buyerSlot: detail?.buyerSlot?.map((slot) => ({
@@ -341,7 +346,7 @@ function Supplierpandingmeeting(props) {
               {data.map((meeting, index) => (
                 <tr key={index}>
                   <td>{meeting?.buyername}</td>
-                  <td>{meeting?.countrycode}</td>
+                  <td>{meeting?.buyerCountryCode}</td>
                   <td>
                     {meeting?.meetingDates?.map((date, index) => (
                       <div key={index}>{date}</div>
@@ -364,22 +369,16 @@ function Supplierpandingmeeting(props) {
                   </td>
                   <td>
                     {(() => {
-                      const buyerCountry = country?.data?.find(
-                        (c) => c?.code === meeting?.buyerCountryCode
-                      );
+                      // const buyerCountry = country?.data?.find(
+                      //   (c) => c?.code === meeting?.buyerCountryCode
+                      // );
 
-                      const supplierCountry = country?.data?.find(
-                        (c) => c.code === meeting?.supplierCountryCode
-                      );
+                      // const supplierCountry = country?.data?.find(
+                      //   (c) => c.code === meeting?.supplierCountryCode
+                      // );
 
-                      const buyerTimeZone = buyerCountry
-                        ? buyerCountry?.continent + "/" + meeting?.buyerCityName
-                        : null;
-                      const supplierTimeZone = supplierCountry
-                        ? supplierCountry?.continent +
-                          "/" +
-                          meeting?.supplierCityName
-                        : null;
+                      const buyerTimeZone = meeting?.buyer_Time_Zone;
+                      const supplierTimeZone = meeting?.supplier_Time_Zone;
                       // console.log(supplierTimeZonexx`)
 
                       const meetingDateTimeStrings =
@@ -425,6 +424,10 @@ function Supplierpandingmeeting(props) {
                               time: meeting?.meetingDates,
                               date: meeting?.meetingTime,
                               supplier_id: meeting?.supplier_id,
+                              meeting_id: meeting?.id,
+                              amount: subscriptions[0]?.price,
+                              plan: subscriptions[0]?.days,
+                              subscription_plan_id: subscriptions[0]?.id
                             },
                           }
                         );

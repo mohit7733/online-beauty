@@ -49,9 +49,6 @@ export const CheckoutForm2 = (props) => {
     phone: paymentCardData?.charges?.data[0]?.billing_details?.name,
   });
 
-
-
-
   let axiosConfig = {
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
@@ -115,6 +112,62 @@ export const CheckoutForm2 = (props) => {
       });
   }, [vat]);
 
+  // calculate ammount
+
+  const calculateAmount = () => {
+    let amount = props.amount;
+
+    // Calculate the amount based on your conditions
+    if (!coutnry_list.includes(detail_data.address.country)) {
+      amount = texdata.filter(
+        (data) => data.country === detail_data.address.country
+      )[0]?.percentage
+        ? amount +
+          (amount *
+            texdata.filter(
+              (data) => data.country === detail_data.address.country
+            )[0].percentage) /
+            100
+        : amount * 100;
+    } else if (
+      vatError === false &&
+      showVat === true &&
+      coutnry_list.includes(detail_data.address.country)
+    ) {
+      amount = texdata.filter(
+        (data) => data.country === detail_data.address.country
+      )[0]?.percentage
+        ? amount +
+          ((amount *
+            texdata.filter(
+              (data) => data.country === detail_data.address.country
+            )[0].percentage) /
+            100) *
+            100
+        : amount * 100;
+    } else {
+      amount =
+        (texdata.filter(
+          (data) => data.country === detail_data.address.country
+        )[0]
+          ? amount +
+            amount *
+              texdata.filter(
+                (data) => data.country === detail_data.address.country
+              )[0].percentage
+          : amount) *
+          100 +
+        amount * 20;
+    }
+    final_amount_show = amount / 100;
+    return amount;
+  };
+
+  let final_amount_show = 0;
+  console.log(calculateAmount(), "calculate_ammount");
+  useEffect(() => {
+    calculateAmount();
+  }, []);
   const handleSubmit = async (event) => {
     if (vatError === true && showVat === true) {
       event.preventDefault();
@@ -141,46 +194,7 @@ export const CheckoutForm2 = (props) => {
         const response = await axios.post(
           `${stripe_charge}`,
           {
-            amount:
-              // non europe country with vat or non vat number holder
-
-              !coutnry_list.includes(detail_data.address.country)
-                ? texdata.filter(
-                    (data) => data.country == detail_data.address.country
-                  )[0]
-                  ? amount +
-                    (amount *
-                      texdata.filter(
-                        (data) => data.country == detail_data.address.country
-                      )[0].percentage) /
-                      100
-                  : amount * 100
-                : // europe country with vat  number holder
-                vatError === false &&
-                  showVat === true &&
-                  coutnry_list.includes(detail_data.address.country)
-                ? texdata.filter(
-                    (data) => data.country == detail_data.address.country
-                  )[0]
-                  ? amount +
-                    (amount *
-                      texdata.filter(
-                        (data) => data.country == detail_data.address.country
-                      )[0].percentage) /
-                      100 * 100
-                  : amount *100
-                : // europe country with no valid vat holder
-
-                  (texdata.filter(
-                    (data) => data.country == detail_data.address.country
-                  )[0]
-                    ? amount +
-                      (amount *
-                        texdata.filter(
-                          (data) => data.country == detail_data.address.country
-                        )[0].percentage) 
-                    : amount) *100 +
-                  (amount * 20)  ,
+            amount: calculateAmount(),
             id: id,
             currency: "EUR",
             description: "All Payments Done by " + detail_data.name,
@@ -194,7 +208,7 @@ export const CheckoutForm2 = (props) => {
           // console.log(response.data.payment.charges.data[0].billing_details);
           window.scrollTo(0, 0);
           if (state?.meeting_id == undefined) {
-            navigate("/dashboard");
+            // navigate("/dashboard");
           } else {
             navigate("/confirmed-meeting/supplier");
           }
@@ -257,6 +271,7 @@ export const CheckoutForm2 = (props) => {
       .catch((error) => console.log("error", error));
   };
   // axios.post('https://adminbm.health-and-beauty.fr/api/v1/supplier-meeting-payment')
+  // let final_amount_show = 0;
 
   const checkSubscription = () => {
     return new Promise((resolve, reject) => {
@@ -308,7 +323,6 @@ export const CheckoutForm2 = (props) => {
       .then((response) => {
         const { data } = response.data;
         const paymentJsonData = JSON.parse(data.payment_json_data);
-        console.log(paymentJsonData, "paymentjson data");
         setPaymentCardData(paymentJsonData);
         setTimeout(() => {
           detail_data.name =
@@ -335,7 +349,7 @@ export const CheckoutForm2 = (props) => {
       });
   }, []);
 
-  console.log(detail_data, "detaildata");
+  console.log(Response, "detaildata information");
   return (
     <>
       <ToastContainer
@@ -672,7 +686,7 @@ export const CheckoutForm2 = (props) => {
               <div className="form-group">
                 <input
                   type="text"
-                  value={" €" + props.amount}
+                  value={"Final Amount :  €" + final_amount_show}
                   className="form-control"
                   required
                   disabled={true}

@@ -32,15 +32,15 @@ function Company_information(props) {
 
   console.log(timeZone, "timezone");
   function onChangeValues(e) {
-    
     if (e.target.files) {
       setCInfo({ ...cInfo, [e.target.name]: e.target.files[0] });
     } else {
       setCInfo({ ...cInfo, [e.target.name]: e.target.value });
     }
   }
-  function onch(e) {
+  function onchfunction(e) {
     const selectedValue = e.target.value;
+    console.log(selectedValue, "onchange selection value");
     setSeclectedTimeZone(selectedValue);
   }
 
@@ -532,11 +532,11 @@ function Company_information(props) {
                           editcompany ? "form-control" : "form-control disabled"
                         }
                         name="country"
-                        value={cInfo?.timezone}
+                        value={selectedTimeZone}
                         disabled={!editcompany}
-                        onChange={onch}
+                        onChange={onchfunction}
                       >
-                        <option value="" disabled selected>
+                        <option value="" disabled>
                           Select timezone
                         </option>
                         {timeZone.map((zone, index) => (

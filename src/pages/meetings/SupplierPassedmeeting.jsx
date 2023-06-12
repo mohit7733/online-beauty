@@ -32,7 +32,7 @@ function Supplierpassedmeeting(props) {
       : [];
     const supplierAvailableDates = supplierAvailable.map(
       (availability) => availability.date
-    );
+  );
     const supplierAvailableTimes = supplierAvailable.map(
       (availability) => availability.time
     );
@@ -52,10 +52,15 @@ function Supplierpassedmeeting(props) {
         supplierAvailableTimes.length > 0
           ? supplierAvailableTimes
           : ["Not Added"],
+      supplier_Time_Zone: detail?.supplier_timezone,
+      buyer_Time_Zone: detail?.buyer_timezone,
       supplierCityName: detail?.supplierCityName?.city_name,
       remarks: detail?.supplier_remark,
       buyerCityName: detail?.buyerCityName?.city_name,
-      buyerCountryCode: detail?.buyerCountryCode?.countrycode,
+      buyerCountryCode:
+        detail?.buyerCountryCode?.countrycode !== "undefined"
+          ? detail.buyerCountryCode.countrycode
+          : "",
       supplierCountryCode: detail?.supplierCountryCode?.countrycode,
       buyer_id: detail?.buyer_id,
       buyername: detail?.buyerName?.buyername,
@@ -139,7 +144,7 @@ function Supplierpassedmeeting(props) {
               {data?.map((meeting, index) => (
                 <tr>
                   <td>{meeting?.buyername}</td>
-                  <td>{meeting?.countrycode}</td>
+                  <td>{meeting?.buyerCountryCode}</td>
                   <td>
                     {meeting?.supplieravailabledate?.map((date, index) => (
                       <div key={index}>{date}</div>
@@ -162,22 +167,8 @@ function Supplierpassedmeeting(props) {
                   </td>
                   <td>
                     {(() => {
-                      const buyerCountry = country?.data?.find(
-                        (c) => c?.code === meeting?.buyerCountryCode
-                      );
-
-                      const supplierCountry = country?.data?.find(
-                        (c) => c.code === meeting?.supplierCountryCode
-                      );
-
-                      const buyerTimeZone = buyerCountry
-                        ? buyerCountry?.continent + "/" + meeting?.buyerCityName
-                        : null;
-                      const supplierTimeZone = supplierCountry
-                        ? supplierCountry?.continent +
-                          "/" +
-                          meeting?.supplierCityName
-                        : null;
+                      const buyerTimeZone = meeting?.supplier_Time_Zone;
+                      const supplierTimeZone = meeting?.buyer_Time_Zone;
                       // console.log(supplierTimeZonexx`)
 
                       const meetingDateTimeStrings =

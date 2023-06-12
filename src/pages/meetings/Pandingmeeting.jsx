@@ -14,7 +14,7 @@ import Timepicker from "../../components/timepicker";
 import moment from "moment";
 import { toast, ToastContainer } from "react-toastify";
 import Left_menu from "../productpages/left_menu";
-import paymentimg from '../../assets/images/Payment.svg'
+import paymentimg from "../../assets/images/Payment.svg";
 import axios from "axios";
 import AcceptMeeting from "./AcceptMeeting";
 function Pandingmeeting() {
@@ -113,7 +113,6 @@ function Pandingmeeting() {
       });
   };
 
- 
   const handleRefuseMeeting = () => {
     axios
       .get(`${api}/api/v1/supplier-meeting-refused?meeting_id=${state.id}`, {
@@ -123,7 +122,7 @@ function Pandingmeeting() {
       })
       .then((response) => {
         toast.error("Meeting Refused");
-        getProductDetails()
+        getProductDetails();
         console.log(response.data);
       })
       .catch((error) => {
@@ -151,7 +150,6 @@ function Pandingmeeting() {
     arrows: true,
   };
 
-  
   function requestMeeting(pid, sid) {
     var formdata = new FormData();
     formdata.append("product_id", pid);
@@ -274,10 +272,10 @@ function Pandingmeeting() {
         toast.success("Availability added successfully");
         navigate("/payment", {
           state: {
-            meeting_id: state.id,
-            amount: subscriptions[0]?.price,
-            plan: subscriptions[0]?.days,
-            subscription_plan_id: subscriptions[0]?.id,
+            meeting_id: state?.meeting_id,
+            amount: state?.amount,
+            plan: state?.plan,
+            subscription_plan_id: state?.subscription_plan_id,
           },
         });
         setShowModal(false);
@@ -290,7 +288,7 @@ function Pandingmeeting() {
         // handle error
       });
   };
-
+  console.log(state, "productdata is here");
   // handlechange
   const handleDateChange = (event) => {
     const { value } = event.target;
@@ -412,7 +410,7 @@ function Pandingmeeting() {
                       </a>
                     </li>
                     <li>
-                      <a href="/pending-meeting">
+                      <a href="/pending-meeting/supplier">
                         <span> Pending Meetings </span>
                       </a>
                     </li>
@@ -680,6 +678,8 @@ function Pandingmeeting() {
                       onClick={() => {
                         if (productData?.meeting_status?.status === 1) {
                           handleAcceptClick();
+                        } else if (productData?.meeting_status?.status === 2) {
+                          navigate("/payment", state);
                         }
                       }}
                     >
@@ -709,7 +709,7 @@ function Pandingmeeting() {
                         }
                       })()}
                     </a>
-                    {showModal && (
+                    {/* {showModal && (
                       <div className="modal">
                         <div className="modal-content">
                           <span className="close" onClick={handleCloseModal}>
@@ -751,7 +751,7 @@ function Pandingmeeting() {
                           </div>
                         </div>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>
