@@ -32,7 +32,7 @@ function Supplierpassedmeeting(props) {
       : [];
     const supplierAvailableDates = supplierAvailable.map(
       (availability) => availability.date
-    );
+  );
     const supplierAvailableTimes = supplierAvailable.map(
       (availability) => availability.time
     );

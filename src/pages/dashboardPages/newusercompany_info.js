@@ -100,7 +100,6 @@ function Company_informationNew(props) {
   console.log(timeZone, "timeZone");
 
   function onChangeValues(e) {
- 
     if (e.target.files) {
       setCInfo({ ...cInfo, [e.target.name]: e.target.files[0] });
     } else {
@@ -651,15 +650,21 @@ function Company_informationNew(props) {
                         })}
                       </select>
                     </div>
-
                     <div
-                      className="form-group"
+                      className="form-group pr"
                       style={
                         cInfo?.timezone !== ""
                           ? {}
                           : { borderBottom: "1px solid red" }
                       }
                     >
+                       <p>
+                          timeZone <span style={{ color: "red" }}>*</span>
+                        </p>
+                      <div className="left">
+                       
+                      </div>
+
                       <select
                         className={
                           editcompany ? "form-control" : "form-control disabled"
@@ -698,6 +703,7 @@ function Company_informationNew(props) {
                         disabled={true}
                       />
                     </div>
+
                     <div className="form-group">
                       <input
                         type="checkbox"
@@ -714,6 +720,7 @@ function Company_informationNew(props) {
                     </div>
                   </div>
                 </div>
+
                 <div className="form-row align-items-start">
                   <div className="left">
                     <label>
