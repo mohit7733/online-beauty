@@ -14,7 +14,7 @@ import Timepicker from "../../components/timepicker";
 import moment from "moment";
 import { toast, ToastContainer } from "react-toastify";
 import Left_menu from "../productpages/left_menu";
-import paymentimg from '../../assets/images/Payment.svg'
+import paymentimg from "../../assets/images/Payment.svg";
 import axios from "axios";
 import AcceptMeeting from "./AcceptMeeting";
 function Pandingmeeting() {
@@ -113,7 +113,6 @@ function Pandingmeeting() {
       });
   };
 
- 
   const handleRefuseMeeting = () => {
     axios
       .get(`${api}/api/v1/supplier-meeting-refused?meeting_id=${state.id}`, {
@@ -123,7 +122,7 @@ function Pandingmeeting() {
       })
       .then((response) => {
         toast.error("Meeting Refused");
-        getProductDetails()
+        getProductDetails();
         console.log(response.data);
       })
       .catch((error) => {
@@ -151,7 +150,6 @@ function Pandingmeeting() {
     arrows: true,
   };
 
-  
   function requestMeeting(pid, sid) {
     var formdata = new FormData();
     formdata.append("product_id", pid);
@@ -412,7 +410,7 @@ function Pandingmeeting() {
                       </a>
                     </li>
                     <li>
-                      <a href="/pending-meeting">
+                      <a href="/pending-meeting/supplier">
                         <span> Pending Meetings </span>
                       </a>
                     </li>
@@ -680,6 +678,14 @@ function Pandingmeeting() {
                       onClick={() => {
                         if (productData?.meeting_status?.status === 1) {
                           handleAcceptClick();
+                        } else if (productData?.meeting_status?.status === 2) {
+                          navigate("/payment", {
+                            // id: meeting?.id,
+                            // buyer_id: meeting?.buyer_id,
+                            // time: meeting?.meetingDates,
+                            // date: meeting?.meetingTime,
+                            // supplier_id: meeting?.supplier_id,
+                          });
                         }
                       }}
                     >
@@ -709,7 +715,7 @@ function Pandingmeeting() {
                         }
                       })()}
                     </a>
-                    {showModal && (
+                    {/* {showModal && (
                       <div className="modal">
                         <div className="modal-content">
                           <span className="close" onClick={handleCloseModal}>
@@ -751,7 +757,7 @@ function Pandingmeeting() {
                           </div>
                         </div>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>

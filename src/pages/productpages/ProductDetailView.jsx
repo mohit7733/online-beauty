@@ -711,14 +711,16 @@ function ProductDetailView(props) {
                               "<<<,,,,"
                             )}
                             {(() => {
-                              switch (productData?.meeting_status?.status) {
+                              switch (productData?.checkrequest) {
+                                case null:
+                                  return "Request a meeting?";
                                 case undefined:
                                   return "Request a meeting?";
                                 // case 0:
                                 //   return "Request in procces";
                                 case 3:
-                                  return "meeting declined";
-                                case 0:
+                                  return "Meeting declined !";
+                                case 1:
                                   return "Pending Approval";
                                 case 2:
                                   return "Meeting Done";
