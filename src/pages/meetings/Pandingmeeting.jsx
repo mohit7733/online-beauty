@@ -272,10 +272,10 @@ function Pandingmeeting() {
         toast.success("Availability added successfully");
         navigate("/payment", {
           state: {
-            meeting_id: state.id,
-            amount: subscriptions[0]?.price,
-            plan: subscriptions[0]?.days,
-            subscription_plan_id: subscriptions[0]?.id,
+            meeting_id: state?.meeting_id,
+            amount: state?.amount,
+            plan: state?.plan,
+            subscription_plan_id: state?.subscription_plan_id,
           },
         });
         setShowModal(false);
@@ -288,7 +288,7 @@ function Pandingmeeting() {
         // handle error
       });
   };
-
+  console.log(state , "productdata is here")
   // handlechange
   const handleDateChange = (event) => {
     const { value } = event.target;
@@ -679,13 +679,7 @@ function Pandingmeeting() {
                         if (productData?.meeting_status?.status === 1) {
                           handleAcceptClick();
                         } else if (productData?.meeting_status?.status === 2) {
-                          navigate("/payment", {
-                            // id: meeting?.id,
-                            // buyer_id: meeting?.buyer_id,
-                            // time: meeting?.meetingDates,
-                            // date: meeting?.meetingTime,
-                            // supplier_id: meeting?.supplier_id,
-                          });
+                          navigate("/payment",state);
                         }
                       }}
                     >

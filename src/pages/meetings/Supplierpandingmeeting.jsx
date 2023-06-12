@@ -424,6 +424,10 @@ function Supplierpandingmeeting(props) {
                               time: meeting?.meetingDates,
                               date: meeting?.meetingTime,
                               supplier_id: meeting?.supplier_id,
+                              meeting_id: meeting?.id,
+                              amount: subscriptions[0]?.price,
+                              plan: subscriptions[0]?.days,
+                              subscription_plan_id: subscriptions[0]?.id
                             },
                           }
                         );
