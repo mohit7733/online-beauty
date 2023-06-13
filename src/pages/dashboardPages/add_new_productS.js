@@ -35,7 +35,7 @@ function Add_product(props) {
     c_name: "",
     Description: "",
     product_file: [],
-    thumb_index: "",
+    thumb_index: 0,
     Policy: "",
     Quantity: "",
     Guarantee: "",

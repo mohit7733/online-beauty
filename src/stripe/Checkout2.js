@@ -123,11 +123,11 @@ export const CheckoutForm2 = (props) => {
         (data) => data.country === detail_data.address.country
       )[0]?.percentage
         ? amount +
-          (amount *
-            texdata.filter(
-              (data) => data.country === detail_data.address.country
-            )[0].percentage) /
-            100
+        (amount *
+          texdata.filter(
+            (data) => data.country === detail_data.address.country
+          )[0].percentage) /
+        100
         : amount * 100;
     } else if (
       vatError === false &&
@@ -138,12 +138,12 @@ export const CheckoutForm2 = (props) => {
         (data) => data.country === detail_data.address.country
       )[0]?.percentage
         ? amount +
-          ((amount *
-            texdata.filter(
-              (data) => data.country === detail_data.address.country
-            )[0].percentage) /
-            100) *
-            100
+        ((amount *
+          texdata.filter(
+            (data) => data.country === detail_data.address.country
+          )[0].percentage) /
+          100) *
+        100
         : amount * 100;
     } else {
       amount =
@@ -151,12 +151,12 @@ export const CheckoutForm2 = (props) => {
           (data) => data.country === detail_data.address.country
         )[0]
           ? amount +
-            amount *
-              texdata.filter(
-                (data) => data.country === detail_data.address.country
-              )[0].percentage
+          amount *
+          texdata.filter(
+            (data) => data.country === detail_data.address.country
+          )[0].percentage
           : amount) *
-          100 +
+        100 +
         amount * 20;
     }
     final_amount_show = amount / 100;
@@ -251,10 +251,9 @@ export const CheckoutForm2 = (props) => {
     });
 
     fetch(
-      `${api}/api/v1/${
-        state?.meeting_id == undefined
-          ? "addpaymentsdetail"
-          : "supplier-meeting-payment"
+      `${api}/api/v1/${state?.meeting_id == undefined
+        ? "addpaymentsdetail"
+        : "supplier-meeting-payment"
       } `,
       {
         method: "POST",
@@ -291,7 +290,8 @@ export const CheckoutForm2 = (props) => {
         .catch((error) => console.log("error", error));
     });
   };
-  console.log(detail_data, state?.meeting_id, "detail data");
+
+
   useEffect(() => {
     fetch(`${stripe_tax_rate}`, {
       method: "GET",
@@ -311,7 +311,8 @@ export const CheckoutForm2 = (props) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [detail_data]);
+
   useEffect(() => {
     axios
       .get(api + "/api/payment-details", {
@@ -342,7 +343,7 @@ export const CheckoutForm2 = (props) => {
         }, 50);
         setTimeout(() => {
           setdetail_data({ ...detail_data, name: e.target.value });
-        }, 100);
+        }, 150);
       })
       .catch((error) => {
         console.error(error);
@@ -677,7 +678,7 @@ export const CheckoutForm2 = (props) => {
                   ""
                 )}
                 {(vatError === true && vat !== "") ||
-                (countryCode !== detail_data.address.country && vat !== "") ? (
+                  (countryCode !== detail_data.address.country && vat !== "") ? (
                   <h6 style={{ color: "red" }}>Vat Number is Not Valid</h6>
                 ) : (
                   ""
@@ -742,8 +743,8 @@ export const CheckoutForm2 = (props) => {
                   (data) => data.country == detail_data.address.country
                 )[0]
                   ? texdata.filter(
-                      (data) => data.country == detail_data.address.country
-                    )[0].percentage
+                    (data) => data.country == detail_data.address.country
+                  )[0].percentage
                   : 0}
                 % (inclusive) :
               </strong>{" "}
@@ -751,11 +752,11 @@ export const CheckoutForm2 = (props) => {
                 (data) => data.country == detail_data.address.country
               )[0]
                 ? "€" +
-                  (amount *
-                    texdata.filter(
-                      (data) => data.country == detail_data.address.country
-                    )[0].percentage) /
-                    100
+                (amount *
+                  texdata.filter(
+                    (data) => data.country == detail_data.address.country
+                  )[0].percentage) /
+                100
                 : "€" + 0}
             </label>
           </div>
@@ -766,12 +767,12 @@ export const CheckoutForm2 = (props) => {
                 (data) => data.country == detail_data.address.country
               )[0]
                 ? "€" +
-                  (amount +
-                    (amount *
-                      texdata.filter(
-                        (data) => data.country == detail_data.address.country
-                      )[0].percentage) /
-                      100)
+                (amount +
+                  (amount *
+                    texdata.filter(
+                      (data) => data.country == detail_data.address.country
+                    )[0].percentage) /
+                  100)
                 : "€" + amount}
             </label>
           </div>
