@@ -42,13 +42,14 @@ function Productresearchsection(props) {
     c_name: "",
     Description: "",
     product_file: [],
-    thumb_index: "",
+    thumb_index: 0,
     Policy: "",
     Quantity: "",
     sector_name: [],
     Creation: "",
     product_file2: [],
     yt_link: "",
+    questions: [],
   });
   const [errorfield, seterrorfield] = useState({
     p_name: "",
@@ -267,7 +268,7 @@ function Productresearchsection(props) {
             contact.ps_name = res?.data?.data.company?.company_short_name;
             contact.country = res?.data?.data.company?.country;
             contact.Description = res?.data?.data.company?.company_dec;
-            contact.thumb_index = res?.data?.data.company?.thumb_index;
+            contact.thumb_index = res?.data?.thumb_index != null && res?.data?.thumb_index != "null" ? parseInt(res?.data?.thumb_index) : 0;
             // contact.sector_name = res?.data?.data.company?.sector;
 
             if (
@@ -780,10 +781,11 @@ function Productresearchsection(props) {
                 ></textarea>
                 <p class="limit">{contact.Description?.length + "/" + "250"}</p>
               </div>
+              {console.log(contact)}
               {question?.map((quest, index) => {
                 // console.log(quest);
                 return (
-                  <div className="radio_section">
+                  <div className="radio_section" key={index}>
                     <p>
                       Q {index + 1}.{" " + quest?.question}
                     </p>

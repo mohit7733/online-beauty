@@ -342,8 +342,11 @@ export const CheckoutForm2 = (props) => {
             paymentJsonData.charges?.data[0]?.billing_details?.address?.line1;
         }, 50);
         setTimeout(() => {
-          setdetail_data({ ...detail_data, name: e.target.value });
+          setdetail_data({ ...detail_data});
         }, 150);
+        setTimeout(() => {
+          setdetail_data({ ...detail_data});
+        }, 250);
       })
       .catch((error) => {
         console.error(error);
