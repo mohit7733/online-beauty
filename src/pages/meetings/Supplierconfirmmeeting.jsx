@@ -12,7 +12,7 @@ function Supplierconfirmmeeting(props) {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(api + "/api/v1/supplier-confrm-meeting", {
+      .get(api + "/api/v1/buyermeetingreqlist", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -39,6 +39,7 @@ function Supplierconfirmmeeting(props) {
         toast.success("Meeting Done !");
         // Handle successful response here
         console.log(response.data);
+        window.location.reload()
         // Do something with the data
       })
       .catch((error) => {
@@ -166,119 +167,121 @@ function Supplierconfirmmeeting(props) {
             </thead>
             <tbody>
               {data?.map((meeting, index) => (
-                <tr>
-                  <td>{meeting?.buyername}</td>
-                  <td>{meeting?.buyerCountryCode}</td>
-                  <td>
-                    {meeting?.supplieravailabledate?.map((date, index) => (
-                      <div key={index}>{date}</div>
-                    ))}
-                  </td>
+                meeting?.status === 4 ?
+                  <tr key={index}>
+                    <td>{meetingData[index]?.buyername}</td>
+                    <td>{meeting?.buyerCountryCode}</td>
+                    <td>
+                      {meeting?.supplieravailabledate?.map((date, index) => (
+                        <div key={index}>{date}</div>
+                      ))}
+                    </td>
 
-                  <td>
-                    {(() => {
-                      // const buyerCountry = country?.data?.find(
-                      //   (c) => c?.code === meeting?.buyerCountryCode
-                      // );
+                    <td>
+                      {(() => {
+                        // const buyerCountry = country?.data?.find(
+                        //   (c) => c?.code === meeting?.buyerCountryCode
+                        // );
 
-                      // const supplierCountry = country?.data?.find(
-                      //   (c) => c.code === meeting?.supplierCountryCode
-                      // );
+                        // const supplierCountry = country?.data?.find(
+                        //   (c) => c.code === meeting?.supplierCountryCode
+                        // );
 
-                      const buyerTimeZone = meeting?.buyer_Time_Zone;
-                      const supplierTimeZone = meeting?.supplier_Time_Zone;
-                      // console.log(supplierTimeZonexx`)
+                        const buyerTimeZone = meeting?.buyer_Time_Zone;
+                        const supplierTimeZone = meeting?.supplier_Time_Zone;
+                        // console.log(supplierTimeZonexx`)
 
-                      const meetingDateTimeStrings =
-                        meeting?.meetingDateTimeStrings || [];
+                        const meetingDateTimeStrings =
+                          meeting?.meetingDateTimeStrings || [];
 
-                      return meetingDateTimeStrings.map((time, index) => {
-                        const buyerMeetingTime = moment.tz(
-                          time,
-                          "DD-MM-YYYY HH:mm",
-                          buyerTimeZone
-                        );
-                        const timeDiffMinutes = moment
-                          .tz(buyerMeetingTime, buyerTimeZone)
-                          .diff(
-                            moment.tz(buyerMeetingTime, supplierTimeZone),
-                            "minutes"
+                        return meetingDateTimeStrings.map((time, index) => {
+                          const buyerMeetingTime = moment.tz(
+                            time,
+                            "DD-MM-YYYY HH:mm",
+                            buyerTimeZone
                           );
-                        const supplierMeetingTime = moment.tz(
-                          buyerMeetingTime
-                            .clone()
-                            .add(timeDiffMinutes, "minutes"),
-                          supplierTimeZone
-                        );
-                        const formattedSupplierMeetingTime =
-                          supplierMeetingTime.format("h:mm A");
-                        return (
-                          <div key={index}>{formattedSupplierMeetingTime}</div>
-                        );
-                      });
-                    })()}
-                  </td>
+                          const timeDiffMinutes = moment
+                            .tz(buyerMeetingTime, buyerTimeZone)
+                            .diff(
+                              moment.tz(buyerMeetingTime, supplierTimeZone),
+                              "minutes"
+                            );
+                          const supplierMeetingTime = moment.tz(
+                            buyerMeetingTime
+                              .clone()
+                              .add(timeDiffMinutes, "minutes"),
+                            supplierTimeZone
+                          );
+                          const formattedSupplierMeetingTime =
+                            supplierMeetingTime.format("h:mm A");
+                          return (
+                            <div key={index}>{formattedSupplierMeetingTime}</div>
+                          );
+                        });
+                      })()}
+                    </td>
 
-                  <td>
-                    {meeting?.supplieravailabletime?.map((time, index) => {
-                      const formattedTime = moment(time, "h:mm A").format(
-                        "h:mm a"
-                      );
-                      return (
-                        <div key={index}>
-                          {moment(time, "h:mm A").isValid()
-                            ? formattedTime
-                            : time}
-                        </div>
-                      );
-                    })}
-                  </td>
-                  <td className="roles">
-                    <a
-                      // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
-                      className="btn btn-success"
-                      onClick={() => {
-                        navigate(
-                          `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                          {
-                            state: {
-                              id: meeting?.id,
-                              buyer_id: meeting?.buyer_id,
-                              time: meeting?.meetingDates,
-                              date: meeting?.meetingTime,
-                              supplier_id: meeting?.supplier_id,
-                            },
-                          }
+                    <td>
+                      {meeting?.supplieravailabletime?.map((time, index) => {
+                        const formattedTime = moment(time, "h:mm A").format(
+                          "h:mm a"
                         );
-                      }}
-                    >
-                      View More
-                    </a>
-                  </td>
-                  <td>
-                    <div className="button_wrap row">
+                        return (
+                          <div key={index}>
+                            {moment(time, "h:mm A").isValid()
+                              ? formattedTime
+                              : time}
+                          </div>
+                        );
+                      })}
+                    </td>
+                    <td className="roles">
                       <a
-                        href="#"
-                        className="btn btn-secondary"
-                        onClick={(event) =>
-                          handleButtonClick(meeting?.id, event)
-                        }
+                        // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
+                        className="btn btn-success"
+                        onClick={() => {
+                          navigate(
+                            `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                            {
+                              state: {
+                                id: meeting?.id,
+                                buyer_id: meeting?.buyer_id,
+                                time: meeting?.meetingDates,
+                                date: meeting?.meetingTime,
+                                supplier_id: meeting?.supplier_id,
+                              },
+                            }
+                          );
+                        }}
                       >
-                        {meeting?.status === 4
-                          ? "Meeting Done ?"
-                          : meeting?.status === 5
-                          ? "Completed"
-                          : meeting?.status === 1
-                          ? "In Progress"
-                          : meeting?.status === 2
-                          ? "Supplier confirm Meeting. Payment Pending"
-                          : meeting?.status === 3
-                          ? "Refused"
-                          : ""}
+                        View More
                       </a>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                    <td>
+                      <div className="button_wrap row">
+                        <a
+                          href="#"
+                          className="btn btn-secondary"
+                          onClick={(event) =>
+                            handleButtonClick(meeting?.id, event)
+                          }
+                        >
+                          {meeting?.status === 4
+                            ? "Meeting Done ?"
+                            : meeting?.status === 5
+                              ? "Completed"
+                              : meeting?.status === 1
+                                ? "In Progress"
+                                : meeting?.status === 2
+                                  ? "Supplier confirm Meeting. Payment Pending"
+                                  : meeting?.status === 3
+                                    ? "Refused"
+                                    : ""}
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  : ""
               ))}
             </tbody>
           </table>
