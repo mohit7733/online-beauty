@@ -34,7 +34,13 @@ function Company_profile_Edit(props) {
 
   const sectors_array = [];
   selectOptions?.map((item) => {
-    sectors_array?.push(item?.value);
+    if (item?.id == sectors_array?.map((item) => item)) {
+
+    } else {
+      sectors_array?.push(item?.value);
+    }
+    // sectors_array?.push(item?.value);
+    console.log(sectors_array);
   });
 
   const [contact, setcontact] = useState({
@@ -203,9 +209,9 @@ function Company_profile_Edit(props) {
             prevOptions.map((option) =>
               option.id === id
                 ? {
-                    ...option,
-                    checkbox: [...option.checkbox, e.target.value],
-                  }
+                  ...option,
+                  checkbox: [...option.checkbox, e.target.value],
+                }
                 : option
             )
           );
@@ -215,11 +221,11 @@ function Company_profile_Edit(props) {
           prevOptions.map((option) =>
             option.id === id
               ? {
-                  ...option,
-                  checkbox: option.checkbox.filter(
-                    (value) => value !== e.target.value
-                  ),
-                }
+                ...option,
+                checkbox: option.checkbox.filter(
+                  (value) => value !== e.target.value
+                ),
+              }
               : option
           )
         );
@@ -232,7 +238,7 @@ function Company_profile_Edit(props) {
     console.log(optionsedit, answerArray, "debug1");
   }, [optionsedit]);
 
-  
+
 
   const get_companyinfo = async () => {
     await axios
@@ -248,7 +254,7 @@ function Company_profile_Edit(props) {
             contact.ps_name = res?.data?.data.company?.company_short_name;
             contact.country = res?.data?.data.company?.country;
             contact.Description = res?.data?.data.company?.company_dec;
-            contact.thumb_index = res?.data?.data.company?.thumb_index;
+            contact.thumb_index = res?.data?.data.company?.thumb_index != null && res?.data?.data.company?.thumb_index != "null" ? parseInt(res?.data?.data.company?.thumb_index) : 1;
             if (
               /^[\],:{}\s]*$/.test(
                 res?.data?.data.company?.sector
@@ -261,11 +267,13 @@ function Company_profile_Edit(props) {
               )
             ) {
               const arrayof = JSON.parse(res?.data?.data.company?.sector);
-              console.log(optionpush1 , "<<<<<<<");
+              console.log(optionpush1, "<<<<<<<");
 
-              if(optionpush1 == false){
+              if (optionpush1 == false) {
                 arrayof.map((item) => {
-                  selectOptions.push({ value: item, label: item });
+                  if (arrayof.length > selectOptions.length) {
+                    selectOptions.push({ value: item, label: item });
+                  }
                 });
               }
             }
@@ -339,10 +347,10 @@ function Company_profile_Edit(props) {
           return item?.id == question?.questionId;
         })[0]?.id == question?.questionId
           ? JSON.stringify(
-              optionsedit?.filter((item) => {
-                return item?.id == question?.questionId;
-              })[0]?.checkbox
-            )
+            optionsedit?.filter((item) => {
+              return item?.id == question?.questionId;
+            })[0]?.checkbox
+          )
           : question?.answer
       );
       formdata.append(
@@ -409,10 +417,21 @@ function Company_profile_Edit(props) {
       return item?.type == "image/png" || item?.type == "image/jpeg";
     })?.length;
 
+
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       if (imagelimt2 <= 5) {
-        contact.product_file.push(event.target.files[0]);
+        if (event.target.files[0].size < 838000) {
+          if (event.target.files[0].name.substr(event.target.files[0].name.lastIndexOf('\\') + 1).split('.')[1] != "jfif") {
+            contact.product_file.push(event.target.files[0]);
+          } else {
+            toast.error("This is not supported!");
+          }
+
+        } else {
+          toast.error("File size must not be more than 800 kB.");
+        }
+
         setTimeout(() => {
           setcontact({ ...contact });
         }, 400);
@@ -642,9 +661,9 @@ function Company_profile_Edit(props) {
                       style={
                         selectOptions.length == 0
                           ? {
-                              borderBottom: "1px solid red",
-                              borderRadius: "43px",
-                            }
+                            borderBottom: "1px solid red",
+                            borderRadius: "43px",
+                          }
                           : {}
                       }
                     >
@@ -659,7 +678,7 @@ function Company_profile_Edit(props) {
                         onChange={(e) => setSelectOptions(e)}
                         placeholder="Company Sector *"
                         styles={controlStyle}
-                        //  value={companySectoroptions}
+                      //  value={companySectoroptions}
                       />
                       {/* </div> */}
                     </div>
@@ -686,15 +705,15 @@ function Company_profile_Edit(props) {
                     return (
                       <div className="radio_section">
                         <p>
-                          Q {index + 1}.{" "+item?.question}
+                          Q {index + 1}.{" " + item?.question}
                         </p>
                         <div className="radio_btn">
                           {item?.type == "Subjective" ||
-                          item?.type.toLowerCase() === "textarea" ? (
+                            item?.type.toLowerCase() === "textarea" ? (
                             <textarea
                               className="form-control"
                               name="Policy"
-                              placeholder={ item?.mandatory != 0  ? "Your Answer *" : "Your Answer" }
+                              placeholder={item?.mandatory != 0 ? "Your Answer *" : "Your Answer"}
                               defaultValue={
                                 contact?.questions?.filter(
                                   (data) =>
@@ -724,8 +743,8 @@ function Company_profile_Edit(props) {
                                 answerArray?.filter(
                                   (data) => data?.questionId == item?.id
                                 )[0]?.answer === "" &&
-                                item?.mandatory != 0 &&
-                                Addstyel2 == true
+                                  item?.mandatory != 0 &&
+                                  Addstyel2 == true
                                   ? { borderBottom: "1px solid red" }
                                   : {}
                               }
@@ -735,15 +754,15 @@ function Company_profile_Edit(props) {
                           )}
                           {item?.type.toLowerCase() === "select" ? (
                             <>
-                          
+
                               <div
                                 className="custom-select"
                                 style={
                                   answerArray?.filter(
                                     (data) => data?.questionId == item?.id
                                   )[0]?.answer === "" &&
-                                  item?.mandatory != 0 &&
-                                  Addstyel2 == true
+                                    item?.mandatory != 0 &&
+                                    Addstyel2 == true
                                     ? { borderBottom: "1px solid red" }
                                     : {}
                                 }
@@ -804,12 +823,12 @@ function Company_profile_Edit(props) {
                                     <>
                                       <div className="align-items-center">
                                         {item?.type.toLowerCase() ==
-                                        "objective" ? (
+                                          "objective" ? (
                                           <>
                                             <input
                                               type={
                                                 item?.type.toLowerCase() !==
-                                                "objective"
+                                                  "objective"
                                                   ? "Checkbox"
                                                   : "radio"
                                               }
@@ -848,7 +867,7 @@ function Company_profile_Edit(props) {
                                           <input
                                             type={
                                               item?.type.toLowerCase() !==
-                                              "objective"
+                                                "objective"
                                                 ? "Checkbox"
                                                 : "radio"
                                             }
@@ -880,7 +899,7 @@ function Company_profile_Edit(props) {
                                                 item?.company_question_id,
                                                 item?.mandatory
                                               );
-                                             
+
                                               setcheckoption(true);
                                               setAddstyel(true);
                                             }}
@@ -891,24 +910,24 @@ function Company_profile_Edit(props) {
                                           key={option}
                                           style={
                                             optionsedit?.length < 1 &&
-                                            Addstyel == true &&
-                                            item?.type.toLowerCase() ==
+                                              Addstyel == true &&
+                                              item?.type.toLowerCase() ==
                                               "checkbox"
                                               ? {
-                                                  borderBottom: "1px solid red",
-                                                }
+                                                borderBottom: "1px solid red",
+                                              }
                                               : optionsedit?.filter((item3) => {
-                                                  return item3?.id == item.id;
-                                                })[0]?.checkbox?.length == 0 &&
+                                                return item3?.id == item.id;
+                                              })[0]?.checkbox?.length == 0 &&
                                                 optionsedit?.filter((item2) => {
                                                   return item2?.id == item.id;
                                                 })[0]?.id == item.id &&
                                                 item?.type.toLowerCase() ==
-                                                  "checkbox"
-                                              ? {
+                                                "checkbox"
+                                                ? {
                                                   borderBottom: "1px solid red",
                                                 }
-                                              : {}
+                                                : {}
                                           }
                                         >
                                           {option}

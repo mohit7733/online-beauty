@@ -73,8 +73,8 @@ import Invoicepage from "./pages/dashboardPages/invoicepage";
 // import Forgot_password from './pages/middel/forgot_password'
 function App() {
 
- 
-  
+
+
   return (
     <>
       <ToastContainer
@@ -99,8 +99,8 @@ function App() {
             path="/add-new-product"
             element={<Private_route element={<Add_product />} />}
           />
-          <Route path="/add-new-user" element={ <Private_route element={<Supplier_addUser />} />} />
-          <Route path="/add-new-user-edit/:id" element={ <Private_route element={<Supplier_addUser />} />} />
+          <Route path="/add-new-user" element={<Private_route element={<Supplier_addUser />} />} />
+          <Route path="/add-new-user-edit/:id" element={<Private_route element={<Supplier_addUser />} />} />
           <Route path="/contract" element={<Contract />} />
           {/* <Route path='/dashboard' element={<Productbuyer2 />} /> */}
           <Route
@@ -143,7 +143,7 @@ function App() {
             path="/product-after-meeting"
             element={<Productaftermeeting />}
           />
-          <Route path="/profile-view/:id" element={ <Private_route element={<Pandingmeeting  />} /> } />
+          <Route path="/profile-view/:id" element={<Private_route element={<Pandingmeeting />} />} />
           <Route
             path="/buyer-profile/pending-meeting/:id"
             element={<Pandingmeeting />}
@@ -195,10 +195,12 @@ function App() {
             element={<Alert_Buyer />}
           />
           <Route
+            exact
             path="/buyer-company-profile"
             element={<Private_route element={<Buyer_company_profile />} />}
           />
           <Route
+            exact
             path="/buyer-company-profile-edit"
             element={<Private_route element={<Company_profile_Edit />} />}
           />
@@ -225,7 +227,7 @@ function App() {
           />
           <Route
             path="/meeting-subscription"
-            element={<MeetingSubscriptionPage/>}
+            element={<MeetingSubscriptionPage />}
           />
           <Route
             path="/dashboard/user-manegment"
@@ -260,7 +262,7 @@ function App() {
             path="/billing"
             element={<Private_route element={<Billing />} />}
           />
-           <Route
+          <Route
             path="/billing/invoice/:id"
             element={<Private_route element={<Invoicepage />} />}
           />

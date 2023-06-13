@@ -493,10 +493,11 @@ function Supplierpandingmeeting(props) {
 
                           {showModal && (
                             <div className="modal">
-                              <div className="modal-content">
+                              <div className="modal-content" style={{ position: "fixed" }}>
                                 <span
                                   className="close"
                                   onClick={handleCloseModal}
+                                  style={{right:"13px"}}
                                 >
                                   &times;
                                 </span>
@@ -607,11 +608,10 @@ function Supplierpandingmeeting(props) {
                           ]);
                         }
                       }}
-                      className={`btn ${
-                        meeting?.type === 1 || meeting?.status === 3
+                      className={`btn ${meeting?.type === 1 || meeting?.status === 3
                           ? "disabled"
                           : ""
-                      }`}
+                        }`}
                       style={{
                         cursor:
                           meeting?.type === 1 || meeting?.status === 3
@@ -684,9 +684,8 @@ function Supplierpandingmeeting(props) {
                 <button
                   onClick={confirmSlots}
                   // disabled={slots.length >= 5}
-                  className={`btn_confirm btn btn-primary ${
-                    slots.length >= 5 ? "disabled" : ""
-                  }`}
+                  className={`btn_confirm btn btn-primary ${slots.length >= 5 ? "disabled" : ""
+                    }`}
                   style={{
                     filter: slots.length >= 5 ? "grayscale(100%)" : "none",
                   }}

@@ -53,9 +53,9 @@ function Pandingmeeting() {
     };
     fetch(
       api +
-        "/api/company-profile?id=" +
-        state.buyer_id +
-        `&meeting_id=${state.id}`,
+      "/api/company-profile?id=" +
+      state.buyer_id +
+      `&meeting_id=${state.id}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -74,11 +74,11 @@ function Pandingmeeting() {
           setTimeout(() => {
             setthumb(
               result.data?.media_files[
-                Number(
-                  result.data?.company?.thumb_index == "undefined"
-                    ? "0"
-                    : result.data?.company?.thumb_index
-                )
+              Number(
+                result.data?.company?.thumb_index == "undefined"
+                  ? "0"
+                  : result.data?.company?.thumb_index
+              )
               ]
             );
             result.data?.media_files.map((item, i) => {
@@ -332,8 +332,10 @@ function Pandingmeeting() {
       />
       {showModal && (
         <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={handleCloseModal}>
+          <div className="modal-content" style={{ position: "fixed" }}>
+            <span className="close" onClick={handleCloseModal}
+              style={{ right: "13px" }}
+            >
               &times;
             </span>
             <div>
@@ -378,7 +380,7 @@ function Pandingmeeting() {
             <div className="breadcrumbs" data-aos="fade-down">
               <div className="head">
                 {pathname ==
-                `/profile-view/${localStorage.getItem("user_id")}` ? (
+                  `/profile-view/${localStorage.getItem("user_id")}` ? (
                   <ul>
                     <li>
                       <a href="/dashboard">Dashboard </a>
@@ -768,8 +770,8 @@ function Pandingmeeting() {
                     productData?.productownerstatus == true
                       ? { display: "contents" }
                       : productData?.requeststatus == 1
-                      ? { display: "contents" }
-                      : { display: "contents" }
+                        ? { display: "contents" }
+                        : { display: "contents" }
                   }
                 >
                   <div className="profile-list profile-brand">
@@ -807,13 +809,13 @@ function Pandingmeeting() {
                                     __html:
                                       item?.type.toLowerCase() == "checkbox"
                                         ? item?.answer?.replace(
-                                            /[\\\n["{}:\]']+/g,
-                                            " "
-                                          )
+                                          /[\\\n["{}:\]']+/g,
+                                          " "
+                                        )
                                         : item?.answer?.replace(
-                                            /[\\\n[{}:\]]+/g,
-                                            "<br>"
-                                          ),
+                                          /[\\\n[{}:\]]+/g,
+                                          "<br>"
+                                        ),
                                   }}
                                 />
                               </li>

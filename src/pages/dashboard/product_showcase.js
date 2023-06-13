@@ -290,6 +290,7 @@ function Product_showcase(props) {
                       />
                       <img
                         src={deleteicon}
+                        style={{opacity:"0.6"}}
                         alt=""
                         // onClick={(e) => {
                         //   setdeleteid(data.id);
