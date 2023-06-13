@@ -459,22 +459,23 @@ function Supplierpandingmeeting(props) {
                           <a
                             className="btn btn-secondary"
                             onClick={() => {
-                              if (meeting?.status === 1) {
+                              if (meeting?.status === 1 || meeting?.status === 2) {
                                 handleAcceptClick(meeting?.id);
                                 setacceptTime(meeting?.meetingTime);
                                 setacceptDates(meeting?.meetingDates);
                                 setacceptId(meeting?.id);
-                              } else if (meeting?.status === 2) {
-                                // Direct navigation to '/payment's
-                                navigate("/payment", {
-                                  state: {
-                                    meeting_id: meeting?.id,
-                                    amount: subscriptions[0]?.price,
-                                    plan: subscriptions[0]?.days,
-                                    subscription_plan_id: subscriptions[0]?.id,
-                                  },
-                                });
-                              }
+                              } 
+                              // else if (meeting?.status === 2) {
+                              //   // Direct navigation to '/payment's
+                              //   navigate("/payment", {
+                              //     state: {
+                              //       meeting_id: meeting?.id,
+                              //       amount: subscriptions[0]?.price,
+                              //       plan: subscriptions[0]?.days,
+                              //       subscription_plan_id: subscriptions[0]?.id,
+                              //     },
+                              //   });
+                              // }
                             }}
                           >
                             {(() => {
