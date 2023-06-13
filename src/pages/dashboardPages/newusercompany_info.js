@@ -23,7 +23,7 @@ function Company_informationNew(props) {
   const [searchcode, setsearchcode] = useState("");
   const [searchcode2, setsearchcode2] = useState("");
   const [timeZone, setTimeZone] = useState([]);
-  const [selectedTimeZone, setSeclectedTimeZone] = useState();
+  const [selectedTimeZone, setSeclectedTimeZone] = useState("");
 
   // console.log(state, "<<<<<< state");
   const [cInfo, setCInfo] = useState({
@@ -53,7 +53,7 @@ function Company_informationNew(props) {
   const [successMsg, setSuccessMsg] = useState("");
   const [sidebar, setsidebar] = useState(false);
   const [styleapply, setstyle] = useState(false);
-  const [finalCheckTimeZone , setFinalCheckTimeZone] = useState(false)
+  const [finalCheckTimeZone , setFinalCheckTimeZone] = useState()
   const check_data = [
     { name: "company_name" },
     { name: "brand_name" },
@@ -98,7 +98,7 @@ function Company_informationNew(props) {
     setTimeZone(utcDetails);
   }, []);
 
-  console.log(timeZone, "timeZone");
+  // console.log(timeZone, "timeZone");
 
   function onChangeValues(e) {
     if (e.target.files) {
@@ -126,6 +126,7 @@ function Company_informationNew(props) {
 
   function addCompanyInfo(event) {
     var formvalues = new FormData();
+    console.log('clicked')
     //formvalues = {...formvalues , ...cInfo};
     for (let key in cInfo) {
       formvalues.append(key, cInfo[key]);
@@ -200,7 +201,7 @@ function Company_informationNew(props) {
         console.log("error", error);
       });
   }
-
+  console.log(finalCheckTimeZone , selectedTimeZone)
   useEffect(() => {
     if (props.pageType !== "new") {
       //   getCompanyInfo();
@@ -260,7 +261,14 @@ function Company_informationNew(props) {
     seterrorfield({ ...errorfield });
     // setcontact({ ...contact, [e.target.name]: e.target.value });
   };
-
+const checktimezonefunction = () =>{
+  console.log('clicked')
+  console.log(selectedTimeZone)
+  if(selectedTimeZone === "") {
+    console.log('worked')
+    setFinalCheckTimeZone(false)
+  }
+}
   const logins_field = (e) => {
     switch (e) {
       case "company_name":
@@ -379,6 +387,7 @@ function Company_informationNew(props) {
             <div className="form-section">
               <form
                 onSubmit={(e) => {
+                  console.log('clicked')
                   // e.preventDefault();
                   addCompanyInfo(e);
                 }}
@@ -522,7 +531,7 @@ function Company_informationNew(props) {
                         onChange={onch}
                         required
                         style={
-                          selectedTimeZone === undefined 
+                          selectedTimeZone === "" && finalCheckTimeZone === false
                             ? { borderBottom: "1px solid red" }
                             : {}
                         }
@@ -687,38 +696,7 @@ function Company_informationNew(props) {
                         })}
                       </select>
                     </div>
-                    <div
-                      className="form-group pr"
-                      style={
-                        cInfo?.timezone !== ""
-                          ? {}
-                          : { borderBottom: "1px solid red" }
-                      }
-                    >
-                      <p>
-                        timeZone <span style={{ color: "red" }}>*</span>
-                      </p>
-                      <div className="left"></div>
-
-                      <select
-                        className={
-                          editcompany ? "form-control" : "form-control disabled"
-                        }
-                        name="country"
-                        value={cInfo?.timezone}
-                        disabled={!editcompany}
-                        onChange={onch}
-                      >
-                        <option value="" disabled selected>
-                          Select timezone
-                        </option>
-                        {timeZone.map((zone, index) => (
-                          <option key={index} value={zone}>
-                            {zone}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                   
 
                     <div className="form-group">
                       <input
@@ -1274,6 +1252,7 @@ function Company_informationNew(props) {
                     <button
                       className="btn btn-secondary"
                       onClick={() => {
+                        checktimezonefunction()
                         if (
                           cInfo?.company_name != "" &&
                           cInfo?.brand_name != "" &&
