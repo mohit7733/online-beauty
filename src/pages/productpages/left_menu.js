@@ -408,7 +408,7 @@ export default function Left_menu(props) {
           </div>
         </div>
 
-        {props.requeststatus === 3 ? (
+        {props.requeststatus === 2 ? (
           <div className="product_supplier_inner product_card">
             <div
               className="sidebar_toggle"

@@ -429,7 +429,16 @@ function Productresearchsection(props) {
             return file?.type != "application/pdf";
           })?.length <= 5
         ) {
-          contact.product_file.push(event.target.files[0]);
+          if (event.target.files[0].size < 838000) {
+            if (event.target.files[0].name.substr(event.target.files[0].name.lastIndexOf('\\') + 1).split('.')[1] != "jfif") {
+              contact.product_file.push(event.target.files[0]);
+            } else {
+              toast.error("This is not supported!");
+            }
+
+          } else {
+            toast.error("File size must not be more than 800 kB.");
+          }
           setTimeout(() => {
             setcontact({ ...contact });
           }, 400);
