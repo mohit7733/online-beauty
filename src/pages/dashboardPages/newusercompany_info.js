@@ -53,6 +53,7 @@ function Company_informationNew(props) {
   const [successMsg, setSuccessMsg] = useState("");
   const [sidebar, setsidebar] = useState(false);
   const [styleapply, setstyle] = useState(false);
+  const [finalCheckTimeZone , setFinalCheckTimeZone] = useState(false)
   const check_data = [
     { name: "company_name" },
     { name: "brand_name" },
@@ -107,6 +108,7 @@ function Company_informationNew(props) {
     }
   }
   function onch(e) {
+    setFinalCheckTimeZone(true)
     const selectedValue = e.target.value;
     setSeclectedTimeZone(selectedValue);
   }
@@ -149,7 +151,7 @@ function Company_informationNew(props) {
       redirect: "follow",
       body: formvalues,
     };
-
+    
     fetch(api + "/api/company-information", requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -503,6 +505,41 @@ function Company_informationNew(props) {
                     </div>
                   </div>
                 </div>
+
+                <div className="form-row align-items-center">
+                  <div className="left">
+                    <label>TimeZone</label>
+                  </div>
+                  <div className="right">
+                    <div className="form-group">
+                      <select
+                        className={
+                          editcompany ? "form-control" : "form-control disabled"
+                        }
+                        name="country"
+                        value={cInfo?.timezone}
+                        disabled={!editcompany}
+                        onChange={onch}
+                        required
+                        style={
+                          selectedTimeZone === undefined 
+                            ? { borderBottom: "1px solid red" }
+                            : {}
+                        }
+                      >
+                        <option value="" disabled selected>
+                          Select timezone *
+                        </option>
+                        {timeZone.map((zone, index) => (
+                          <option key={index} value={zone}>
+                            {zone}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="form-row align-items-start">
                   <div className="left">
                     <label>
@@ -658,12 +695,10 @@ function Company_informationNew(props) {
                           : { borderBottom: "1px solid red" }
                       }
                     >
-                       <p>
-                          timeZone <span style={{ color: "red" }}>*</span>
-                        </p>
-                      <div className="left">
-                       
-                      </div>
+                      <p>
+                        timeZone <span style={{ color: "red" }}>*</span>
+                      </p>
+                      <div className="left"></div>
 
                       <select
                         className={
