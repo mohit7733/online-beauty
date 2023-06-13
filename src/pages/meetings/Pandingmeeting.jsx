@@ -38,6 +38,29 @@ function Pandingmeeting() {
   const [apiDateFormat, setApiDateFormat] = useState("");
   const [modalState, setModalState] = useState(false);
 
+
+
+  // set hide button 
+  const [hideButtons, setHideButtons] = useState(false);
+
+  useEffect(() => {
+    const pathname = window.location.pathname;
+    console.log(pathname);
+    
+    const pattern = /^\/profile-view\/\d+$/;
+    const isMatch = pattern.test(pathname);
+    
+    if (isMatch) {
+      setHideButtons(true);
+    } else {
+      setHideButtons(false);
+    }
+  }, []);
+  
+  
+  
+
+
   const { state } = useLocation();
   const getProductDetails = () => {
     setcheck(false);
@@ -557,7 +580,6 @@ function Pandingmeeting() {
                               setlink(productData.company?.youtube_link);
                             }}
                           >
-                            {/* <ReactPlayer url={productData?.product.youtube_link} width={"auto"} height={"300"} /> */}
                             {productData.company?.youtube_link == null ? (
                               ""
                             ) : (
@@ -591,51 +613,9 @@ function Pandingmeeting() {
                   <h5>Company Country: {productData?.company?.country}</h5>
                   <h2>Company Profile</h2>
                   <p>{productData?.company?.company_dec}</p>
-                  {/* {pathname ==
-                  `/profile-view/${localStorage.getItem("user_id")}` ? (
-                    ""
-                  ) : (
-                    <div className="button-wrapper m-lft">
-                      {productData?.meeting_status?.status >= 4 ? (
-                        ""
-                      ) : (
-                        <a href="#" className="btn btn-primary">
-                          <span>
-                            <img src="images/thumbs-down.svg" alt="" />
-                          </span>
-                          I Refuse A Meeting
-                        </a>
-                      )}
-                      <a href="#" className="btn btn-secondary">
-                        <span>
-                          <img src="images/Payment.svg" alt="" />
-                        </span>
-                        {(() => {
-                          switch (productData?.meeting_status?.status) {
-                            case undefined:
-                              return "Request a Meeting";
-                            case 0:
-                              return "Request a Meeting";
-                            case 1:
-                              return " Pending Payment";
-                            case 2:
-                              return "Pending Payment";
-                            case 4:
-                              return "Confirmed Meeting";
-                            case 5:
-                              return " Meeting Done";
-                            default:
-                              return "";
-                          }
-                        })()}
-                      </a>
-                    </div>
-                  )} */}
-
-                  <div className="button-wrapper m-lft">
-                    {/* {productData?.meeting_status?.status >= 4 ? (
-                      ""
-                    ) : (
+                    {hideButtons !== true ?  <div className="button-wrapper m-lft">
+                    {(productData?.meeting_status?.status === 1 ||
+                      productData?.meeting_status?.status === 2) && (
                       <a
                         href="#"
                         className="btn btn-primary"
@@ -650,36 +630,11 @@ function Pandingmeeting() {
                     <a
                       className="btn btn-secondary"
                       onClick={() => {
-                        if (productData?.meeting_status?.status == 1 ||productData?.meeting_status?.status == 2) {
-                          setShowModal(true);
-                          window.scrollTo(0, 0);
-                        }
-
-                        // if (productData?.meeting_status?.status == 2) {
-                        //   navigate("/payment", {
-                        //     state: {
-                        //       meeting_id: state.id,
-                        //       amount: subscriptions[0]?.price,
-                        //       plan: subscriptions[0]?.days,
-                        //       subscription_plan_id: subscriptions[0]?.id,
-                        //     },
-                        //   });
-                        // }
-                      }}
-                    >
-                      <span>
-                        <img src={thumbsdown} alt="" />
-                      </span>
-                      I Refuse A Meeting
-                    </a>
-                    {/* )} */}
-                    <a
-                      className="btn btn-secondary"
-                      onClick={() => {
-                        if (productData?.meeting_status?.status === 1) {
+                        if (
+                          productData?.meeting_status?.status === 1 ||
+                          productData?.meeting_status?.status === 2
+                        ) {
                           handleAcceptClick();
-                        } else if (productData?.meeting_status?.status === 2) {
-                          navigate("/payment", state);
                         }
                       }}
                     >
@@ -690,12 +645,8 @@ function Pandingmeeting() {
                         switch (productData?.meeting_status?.status) {
                           case undefined:
                             return "Request a Meeting";
-                          // case null:
-                          //   return "Request a Meeting";
-                          // case 0:
-                          //   return "Request a Meeting";
                           case 1:
-                            return " Accept Meeting";
+                            return "Accept Meeting";
                           case 2:
                             return "Pending Payment";
                           case 3:
@@ -703,56 +654,14 @@ function Pandingmeeting() {
                           case 4:
                             return "Confirmed Meeting";
                           case 5:
-                            return " Meeting Done";
+                            return "Meeting Done";
                           default:
                             return "";
                         }
                       })()}
                     </a>
-                    {/* {showModal && (
-                      <div className="modal">
-                        <div className="modal-content">
-                          <span className="close" onClick={handleCloseModal}>
-                            &times;
-                          </span>
-                          <div>
-                            <h3>Accept Meeting</h3>
-                            <ul>
-                              {state?.date?.map((time, index) => {
-                                const date = moment(
-                                  state?.time?.[index],
-                                  "DD-MM-YYYY"
-                                ).format("DD-MM-YYYY");
-
-                                return (
-                                  <li key={index}>
-                                    <input
-                                      type="radio"
-                                      id={`date${index}`}
-                                      name="selectedDate"
-                                      value={index} // Set the value to the index
-                                      onChange={handleDateChange} // Call the handleDateChange function
-                                    />
-                                    <label htmlFor={`date${index}`}>
-                                      {date} -{" "}
-                                      {moment(time, "HH:mm").format("h:mm A")}
-                                    </label>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-
-                            <a
-                              className="btn btn-secondary"
-                              onClick={clickedAccept}
-                            >
-                              Submit
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
-                  </div>
+                  </div> :  null}
+                 
                 </div>
               </div>
             </div>

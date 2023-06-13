@@ -72,6 +72,7 @@ function Company_information(props) {
           // setcounrtcode1(result.data?.contact1_code);
           // setcounrtcode2(result.data?.contact2_code);
           if (result.data?.length != 0) {
+            setSeclectedTimeZone(result?.data[0]?.timezone);
             setCInfo(result.data[0]);
             setSaveAdd(result.data[0].copy_billing_address);
             setcounrtcode1(result.data[0]?.contact1_code);
@@ -327,6 +328,8 @@ function Company_information(props) {
                     </div>
                   </div>
                 </div>
+
+                
                 <div class="form-row align-items-center">
                   <div class="left">
                     <label>Brand Logo</label>
@@ -377,6 +380,39 @@ function Company_information(props) {
                     </div>
                   </div>
                 </div>
+
+
+                <div className="form-row align-items-center">
+                  <div className="left">
+                    <label>TimeZone</label>
+                  </div>
+
+                  <div className="right">
+                    <div className="form-group">
+                      <select
+                        className={
+                          editcompany ? "form-control" : "form-control disabled"
+                        }
+                        name="country"
+                        value={selectedTimeZone}
+                        disabled={!editcompany}
+                        onChange={onchfunction}
+                      >
+                        <option value="" disabled>
+                          Select timezone
+                        </option>
+                        {timeZone.map((zone, index) => (
+                          <option key={index} value={zone}>
+                            {zone}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+
                 <div class="form-row align-items-start">
                   <div class="left">
                     <label>Head Office Address</label>
@@ -516,34 +552,6 @@ function Company_information(props) {
                             </option>
                           );
                         })}
-                      </select>
-                    </div>
-
-                    <div
-                      className="form-group"
-                      style={
-                        cInfo?.timezone !== ""
-                          ? {}
-                          : { borderBottom: "1px solid red" }
-                      }
-                    >
-                      <select
-                        className={
-                          editcompany ? "form-control" : "form-control disabled"
-                        }
-                        name="country"
-                        value={selectedTimeZone}
-                        disabled={!editcompany}
-                        onChange={onchfunction}
-                      >
-                        <option value="" disabled>
-                          Select timezone
-                        </option>
-                        {timeZone.map((zone, index) => (
-                          <option key={index} value={zone}>
-                            {zone}
-                          </option>
-                        ))}
                       </select>
                     </div>
 

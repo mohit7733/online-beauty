@@ -178,9 +178,9 @@ function ProductDetailView(props) {
       .then((response) => response.json())
       .then((result) => {
         if (result) {
-          // setModalState(false);
+          setModalState(false);
           toast.success("Request Appointment send succesfully");
-          // window.location.reload();
+          window.location.reload();
         } else {
           toast.error(result.message);
           // console.log("Error", result);
