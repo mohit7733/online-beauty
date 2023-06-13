@@ -266,6 +266,7 @@ const checktimezonefunction = () =>{
   console.log(selectedTimeZone)
   if(selectedTimeZone === "") {
     console.log('worked')
+    window.scrollTo(0, 0);
     setFinalCheckTimeZone(false)
   }
 }
@@ -1265,7 +1266,8 @@ const checktimezonefunction = () =>{
                           cInfo?.address1 != "" &&
                           cInfo?.country != "" &&
                           cInfo?.state != "" &&
-                          cInfo?.website != "" &&
+                          cInfo?.website != "" && 
+                          selectedTimeZone !== "" && 
                           cInfo?.contact1_image?.name != ""
                         ) {
                           addCompanyInfo();
