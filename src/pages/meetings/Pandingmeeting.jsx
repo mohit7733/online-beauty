@@ -38,9 +38,7 @@ function Pandingmeeting() {
   const [apiDateFormat, setApiDateFormat] = useState("");
   const [modalState, setModalState] = useState(false);
 
-
-
-  // set hide button 
+  // set hide button
   const [hideButtons, setHideButtons] = useState(false);
 
   useEffect(() => {
@@ -57,10 +55,6 @@ function Pandingmeeting() {
     }
   }, []);
 
-
-
-
-
   const { state } = useLocation();
   const getProductDetails = () => {
     setcheck(false);
@@ -76,9 +70,9 @@ function Pandingmeeting() {
     };
     fetch(
       api +
-      "/api/company-profile?id=" +
-      state.buyer_id +
-      `&meeting_id=${state.id}`,
+        "/api/company-profile?id=" +
+        state.buyer_id +
+        `&meeting_id=${state.id}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -97,11 +91,11 @@ function Pandingmeeting() {
           setTimeout(() => {
             setthumb(
               result.data?.media_files[
-              Number(
-                result.data?.company?.thumb_index == "undefined"
-                  ? "0"
-                  : result.data?.company?.thumb_index
-              )
+                Number(
+                  result.data?.company?.thumb_index == "undefined"
+                    ? "0"
+                    : result.data?.company?.thumb_index
+                )
               ]
             );
             result.data?.media_files.map((item, i) => {
@@ -356,7 +350,9 @@ function Pandingmeeting() {
       {showModal && (
         <div className="modal">
           <div className="modal-content" style={{ position: "fixed" }}>
-            <span className="close" onClick={handleCloseModal}
+            <span
+              className="close"
+              onClick={handleCloseModal}
               style={{ right: "13px" }}
             >
               &times;
@@ -403,7 +399,7 @@ function Pandingmeeting() {
             <div className="breadcrumbs" data-aos="fade-down">
               <div className="head">
                 {pathname ==
-                  `/profile-view/${localStorage.getItem("user_id")}` ? (
+                `/profile-view/${localStorage.getItem("user_id")}` ? (
                   <ul>
                     <li>
                       <a href="/dashboard">Dashboard </a>
@@ -615,9 +611,10 @@ function Pandingmeeting() {
                   <h5>Company Country: {productData?.company?.country}</h5>
                   <h2>Company Profile</h2>
                   <p>{productData?.company?.company_dec}</p>
-                  {hideButtons !== true ? <div className="button-wrapper m-lft">
-                    {(productData?.meeting_status?.status === 1 ||
-                      productData?.meeting_status?.status === 2) && (
+                  {hideButtons !== true ? (
+                    <div className="button-wrapper m-lft">
+                      {(productData?.meeting_status?.status === 1 ||
+                        productData?.meeting_status?.status === 2) && (
                         <a
                           href="#"
                           className="btn btn-primary"
@@ -629,68 +626,132 @@ function Pandingmeeting() {
                           I Refuse A Meeting
                         </a>
                       )}
-                    <a
-                      className="btn btn-secondary"
-                      onClick={() => {
-                        if (
-                          productData?.meeting_status?.status === 1 ||
-                          productData?.meeting_status?.status === 2
-                        ) {
-                          handleAcceptClick();
-                        }
-                      }}
-                    >
-                      {/* <span>
+                      <a
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          if (
+                            productData?.meeting_status?.status === 1 ||
+                            productData?.meeting_status?.status === 2
+                          ) {
+                            handleAcceptClick();
+                          }
+                        }}
+                      >
+                        {/* <span>
                         <img src={paymentimg} alt="" />
                       </span> */}
-                      {(() => {
-                        switch (productData?.meeting_status?.status) {
-                          case undefined:
-                            return "Request a Meeting";
-                          case 1:
-                            return <>
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                  <path d="M6 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V12C1 11.4696 1.21071 10.9609 1.58579 10.5858C1.96086 10.2107 2.46957 10 3 10H6M13 8V4C13 3.20435 12.6839 2.44129 12.1213 1.87868C11.5587 1.31607 10.7956 1 10 1L6 10V21H17.28C17.7623 21.0055 18.2304 20.8364 18.5979 20.524C18.9654 20.2116 19.2077 19.7769 19.28 19.3L20.66 10.3C20.7035 10.0134 20.6842 9.72068 20.6033 9.44225C20.5225 9.16382 20.3821 8.90629 20.1919 8.68751C20.0016 8.46873 19.7661 8.29393 19.5016 8.17522C19.2371 8.0565 18.9499 7.99672 18.66 8H13Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                              </span>Accept Meeting</>;
-                          case 2:
-                            return <>
-                              <span>
-                                <img src={paymentimg} alt="" />
-                              </span>
-                              Pending Payment</>;
-                          case 3:
-                            return <>
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
-                                  <path d="M15.9991 1.00036H18.6691C19.235 0.990352 19.785 1.1885 20.2145 1.55718C20.644 1.92586 20.9232 2.43942 20.9991 3.00036V10.0004C20.9232 10.5613 20.644 11.0749 20.2145 11.4435C19.785 11.8122 19.235 12.0104 18.6691 12.0004H15.9991M8.99905 14.0004V18.0004C8.99905 18.796 9.31512 19.5591 9.87773 20.1217C10.4403 20.6843 11.2034 21.0004 11.9991 21.0004L15.9991 12.0004V1.00036H4.71905C4.23673 0.994909 3.76868 1.16396 3.40115 1.47636C3.03362 1.78875 2.79138 2.22346 2.71905 2.70036L1.33905 11.7004C1.29555 11.987 1.31488 12.2797 1.39571 12.5581C1.47655 12.8365 1.61695 13.0941 1.8072 13.3128C1.99744 13.5316 2.23297 13.7064 2.49748 13.8251C2.76199 13.9439 3.04915 14.0036 3.33905 14.0004H8.99905Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                              </span>Meeting Refused</>;
-                          case 4:
-                            return <>
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="13" viewBox="0 0 18 13" fill="none">
-                                  <path d="M17 1L6 12L1 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                              </span>
-                              Confirmed Meeting
-                            </>;
-                          case 5:
-                            return <>
-                              <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="13" viewBox="0 0 18 13" fill="none">
-                                  <path d="M17 1L6 12L1 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                              </span>
-                              Meeting Done</>;
-                          default:
-                            return "";
-                        }
-                      })()}
-                    </a>
-                  </div> : null}
-
+                        {(() => {
+                          switch (productData?.meeting_status?.status) {
+                            case undefined:
+                              return "Request a Meeting";
+                            case 1:
+                              return (
+                                <>
+                                  <span>
+                                    <svg
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M7 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V13C2 12.4696 2.21071 11.9609 2.58579 11.5858C2.96086 11.2107 3.46957 11 4 11H7M14 9V5C14 4.20435 13.6839 3.44129 13.1213 2.87868C12.5587 2.31607 11.7956 2 11 2L7 11V22H18.28C18.7623 22.0055 19.2304 21.8364 19.5979 21.524C19.9654 21.2116 20.2077 20.7769 20.28 20.3L21.66 11.3C21.7035 11.0134 21.6842 10.7207 21.6033 10.4423C21.5225 10.1638 21.3821 9.90629 21.1919 9.68751C21.0016 9.46873 20.7661 9.29393 20.5016 9.17522C20.2371 9.0565 19.9499 8.99672 19.66 9H14Z"
+                                        stroke="white"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
+                                    </svg>
+                                  </span>
+                                  Accept Meeting
+                                </>
+                              );
+                            case 2:
+                              return (
+                                <>
+                                  <span>
+                                    <img src={paymentimg} alt="" />
+                                  </span>
+                                  Pending Payment
+                                </>
+                              );
+                            case 3:
+                              return (
+                                <>
+                                  <span>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="22"
+                                      height="21"
+                                      viewBox="0 0 22 21"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M15.9991 1.00036H18.6691C19.235 0.990352 19.785 1.1885 20.2145 1.55718C20.644 1.92586 20.9232 2.43942 20.9991 3.00036V10.0004C20.9232 10.5613 20.644 11.0749 20.2145 11.4435C19.785 11.8122 19.235 12.0104 18.6691 12.0004H15.9991M8.99905 14.0004V18.0004C8.99905 18.796 9.31512 19.5591 9.87773 20.1217C10.4403 20.6843 11.2034 21.0004 11.9991 21.0004L15.9991 12.0004V1.00036H4.71905C4.23673 0.994909 3.76868 1.16396 3.40115 1.47636C3.03362 1.78875 2.79138 2.22346 2.71905 2.70036L1.33905 11.7004C1.29555 11.987 1.31488 12.2797 1.39571 12.5581C1.47655 12.8365 1.61695 13.0941 1.8072 13.3128C1.99744 13.5316 2.23297 13.7064 2.49748 13.8251C2.76199 13.9439 3.04915 14.0036 3.33905 14.0004H8.99905Z"
+                                        stroke="white"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
+                                    </svg>
+                                  </span>
+                                  Meeting Refused
+                                </>
+                              );
+                            case 4:
+                              return (
+                                <>
+                                  <span>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="18"
+                                      height="13"
+                                      viewBox="0 0 18 13"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M17 1L6 12L1 7"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
+                                    </svg>
+                                  </span>
+                                  Confirmed Meeting
+                                </>
+                              );
+                            case 5:
+                              return (
+                                <>
+                                  <span>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="18"
+                                      height="13"
+                                      viewBox="0 0 18 13"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M17 1L6 12L1 7"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
+                                    </svg>
+                                  </span>
+                                  Meeting Done
+                                </>
+                              );
+                            default:
+                              return "";
+                          }
+                        })()}
+                      </a>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -706,8 +767,8 @@ function Pandingmeeting() {
                     productData?.productownerstatus == true
                       ? { display: "contents" }
                       : productData?.requeststatus == 1
-                        ? { display: "contents" }
-                        : { display: "contents" }
+                      ? { display: "contents" }
+                      : { display: "contents" }
                   }
                 >
                   <div className="profile-list profile-brand">
@@ -745,13 +806,13 @@ function Pandingmeeting() {
                                     __html:
                                       item?.type.toLowerCase() == "checkbox"
                                         ? item?.answer?.replace(
-                                          /[\\\n["{}:\]']+/g,
-                                          " "
-                                        )
+                                            /[\\\n["{}:\]']+/g,
+                                            " "
+                                          )
                                         : item?.answer?.replace(
-                                          /[\\\n[{}:\]]+/g,
-                                          "<br>"
-                                        ),
+                                            /[\\\n[{}:\]]+/g,
+                                            "<br>"
+                                          ),
                                   }}
                                 />
                               </li>
