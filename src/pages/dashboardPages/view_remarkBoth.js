@@ -11,6 +11,7 @@ function View_remarkBoth() {
     title: "",
     description: "",
   });
+  const type_user = localStorage.getItem("user_type")
   const navigate = useNavigate();
   // const {usertype}  = useParams
   const path = window.location.pathname;
@@ -20,7 +21,7 @@ function View_remarkBoth() {
   const handleSubmit = (e) => {
     // e.preventDefault();
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = `${api}/api/v1/supplier-view-remark?id=${remarkid}`;
+    const apiUrl = `${api}/api/v1/` + (type_user == "Buyer" ? `buyer-view-remark?id=${remarkid}` : `supplier-view-remark?id=${remarkid}`);;
 
     axios
       .get(apiUrl, {
@@ -32,7 +33,7 @@ function View_remarkBoth() {
         const { data } = response?.data;
         const { remark } = data;
 
-        const supplierRemark = JSON.parse(remark?.supplier_remark);
+        const supplierRemark = JSON.parse((type_user != "Buyer" ? remark?.supplier_remark : remark?.buyer_remark));
         const title = supplierRemark?.title;
         const description = supplierRemark?.description;
 

@@ -9,7 +9,7 @@ function EditRemark(props) {
   const { usertype } = useParams();
   const path = window.location.pathname;
   const remarkid = path.substring(path.lastIndexOf("/") + 1);
-
+  const type_user = localStorage.getItem("user_type")
   const [formdata, setFormData] = useState({
     title: "",
     description: "",
@@ -18,7 +18,7 @@ function EditRemark(props) {
 
   useEffect(() => {
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = `${api}/api/v1/supplier-view-remark?id=${remarkid}`;
+    const apiUrl = `${api}/api/v1/` + (type_user == "Buyer" ? `buyer-view-remark?id=${remarkid}` : `supplier-view-remark?id=${remarkid}`);
 
     axios
       .get(apiUrl, {
@@ -30,7 +30,7 @@ function EditRemark(props) {
         const { data } = response?.data;
         const { remark } = data;
 
-        const supplierRemark = JSON.parse(remark?.supplier_remark);
+        const supplierRemark = JSON.parse((type_user != "Buyer" ? remark?.supplier_remark : remark?.buyer_remark));
         const title = supplierRemark?.title;
         const description = supplierRemark?.description;
 
@@ -52,7 +52,7 @@ function EditRemark(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = `${api}/api/v1/supplier-add-remark`;
+    const apiUrl = `${api}/api/v1/` + (type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
 
     const requestData = new FormData();
     requestData.append("id", formdata.id);
@@ -70,7 +70,7 @@ function EditRemark(props) {
         toast.success("Remark Edited Successfully");
         console.log(response.data);
         setTimeout(() => {
-          naviagate("/passed-meeting/supplier");
+          naviagate("/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier"));
         }, 3000);
       })
       .catch((error) => {

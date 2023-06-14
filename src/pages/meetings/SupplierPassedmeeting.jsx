@@ -8,10 +8,10 @@ function Supplierpassedmeeting(props) {
   const [accept, setaccept] = useState(false);
   const [meetingData, setMeetingData] = useState([]);
   const navigate = useNavigate();
-
+  const path = window.location.pathname;
   useEffect(() => {
     axios
-      .get(api + "/api/v1/buyermeetingreqlist", {
+      .get(api + "/api/v1/" + (path == "/passed-meeting/buyer" ? "buyermeetingreqlist" : "supplier-confrm-meeting"), {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -125,17 +125,17 @@ function Supplierpassedmeeting(props) {
           <table>
             <thead>
               <tr>
-                <th>Buyer Name</th>
+                <th>{(path == "/passed-meeting/buyer" ? "Supplier" : "Buyer")} Name</th>
                 <th>Country Codes</th>
                 <th>Meeting Date</th>
-                <th>Buyer Time</th>
+                <th>{(path == "/passed-meeting/buyer" ? "Supplier" : "Buyer")} Time</th>
 
                 <th>
                   {" "}
-                  Meeting Time ({data !== undefined ? data[0]?.countrycode : ""}
+                  Meeting Time ({data !== undefined ? meetingData[0]?.buyerCountryCode.countrycode : ""}
                   )
                 </th>
-                <th>Buyer Profile</th>
+                <th>{(path == "/passed-meeting/buyer" ? "Supplier" : "Buyer")} Profile</th>
                 <th>Remarks</th>
                 <th>Meeting Status</th>
               </tr>
@@ -144,7 +144,7 @@ function Supplierpassedmeeting(props) {
               {data?.map((meeting, index) => (
                 meeting?.status === 5 ?
                   <tr>
-                    <td>{meetingData[index]?.buyername}</td>
+                    <td>{meetingData[index]?.buyername ? meetingData[index]?.buyername : meetingData[index]?.suppliername}</td>
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
                       {meeting?.supplieravailabledate?.map((date, index) => (
@@ -206,22 +206,34 @@ function Supplierpassedmeeting(props) {
                         // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
                         class="btn btn-success"
                         onClick={() => {
-                          navigate(
-                            `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                            {
+                          path == "/passed-meeting/buyer" ?
+                            navigate(
+                              "/product-detail-view/" + meetingData[index].product_id + "/" + meetingData[index]?.product_name?.replace(/\s+/g, "-"), {
                               state: {
-                                id: meeting?.id,
-                                buyer_id: meeting?.buyer_id,
-                              },
+                                id: data.id,
+                              }
                             }
-                          );
+                            )
+                            :
+                            navigate(
+                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                              {
+                                state: {
+                                  id: meeting?.id,
+                                  buyer_id: meeting?.buyer_id,
+                                  time: meeting?.meetingDates,
+                                  date: meeting?.meetingTime,
+                                  supplier_id: meeting?.supplier_id,
+                                },
+                              }
+                            )
                         }}
                       >
                         View More
                       </a>
                     </td>
                     <td>
-                      {meeting?.remarks === null ? (
+                      {(path != "/passed-meeting/buyer" ? meeting?.remarks === null : meetingData[index].buyer_remark === null) ? (
                         <a
                           onClick={() => handleViewRemark(meeting?.id)}
                           className="btn22 btn btn-warning"
