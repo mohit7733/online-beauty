@@ -742,7 +742,7 @@ function ProductDetailView(props) {
                                 );
                                 setTimeout(() => {
                                   window.alert(
-                                    "Redirecting to company information fill page..."
+                                    "You did not fill the company information. Please fill the company information and company profile to request a meeting."
                                   );
                                   navigate("/company-information-fill");
                                 }, 3000);
