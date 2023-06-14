@@ -128,7 +128,7 @@ function App() {
             element={<Productbeforemeeting />}
           />
           <Route
-            path="/product-detail-view/:id"
+            path="/product-detail-view/:id/:name"
             element={
               <Private_route element={<ProductDetailView pageType="new" />} />
             }
@@ -160,7 +160,7 @@ function App() {
             path="/product-view/:categorysearch2/:sub_category"
             element={<Productview />}
           />
-          <Route path="/product-details/:id" element={<Productdetails />} />
+          <Route path="/product-details/:id/:name" element={<Productdetails />} />
           <Route path="/blog-detail/:id" element={<Blog_detail />} />
           <Route path="/our-videos" element={<Our_videos />} />
           <Route path="/forgot-password" element={<Forgetpassword />} />

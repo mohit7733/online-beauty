@@ -17,6 +17,7 @@ import favouriteicon2 from "../../assets/images/favourite2.svg";
 function ProductDetailView(props) {
   const [showpolicy, setshowpolicy] = useState(false);
   const [sidebar, setsidebar] = useState(true);
+  const slugdata = useParams()
   const [iconChange, seticonChange] = useState(false);
   const [iconChange2, seticonChange2] = useState(false);
   const [thumbshow, setthumbshow] = useState(false);
@@ -38,6 +39,7 @@ function ProductDetailView(props) {
   const [apiDateFormat, setApiDateFormat] = useState("");
   const [modalState, setModalState] = useState(false);
   const getProductDetails = () => {
+
     var myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
@@ -49,7 +51,7 @@ function ProductDetailView(props) {
       redirect: "follow",
     };
     fetch(
-      api + "/api/v1/products_details?product_id=" + state?.id,
+      api + "/api/v1/products_details?product_id=" + slugdata?.id,
       requestOptions
     )
       .then((response) => response.json())
@@ -82,7 +84,7 @@ function ProductDetailView(props) {
       "Bearer " + localStorage.getItem("token")
     );
 
-    formvalues.append("product_id", state?.id);
+    formvalues.append("product_id", slugdata?.id);
 
     var requestOptions = {
       method: "post",
@@ -178,6 +180,7 @@ function ProductDetailView(props) {
       .then((response) => response.json())
       .then((result) => {
         if (result) {
+
           setModalState(false);
           toast.success("Request Appointment send succesfully");
           window.location.reload();
@@ -267,7 +270,7 @@ function ProductDetailView(props) {
 
   // const {state} = useLocation()
 
-  console.log(state);
+  console.log(state, slugdata);
 
   return (
     <>
@@ -689,13 +692,15 @@ function ProductDetailView(props) {
                         <>
                           <button
                             className="hoverRemovebtn-primary btn btn-primary"
+
                             onClick={() => {
                               if (
-                                productData?.meeting_status?.status == undefined
+                                productData?.meeting_status?.status == undefined && productData?.checkrequest == null && productData?.checkrequest == undefined
                               ) {
                                 setModalState(true);
                               }
                             }}
+
                             onMouseEnter={() => seticonChange2(true)}
                             onMouseLeave={() => seticonChange2(false)}
                           >
@@ -852,7 +857,7 @@ function ProductDetailView(props) {
                 <div className="request-box-wrapper">
                   <div className="request-box">
                     <h3>Do you want more information?</h3>
-                    {productData?.checkrequest === 0 ? (
+                    {productData?.requeststatus === null ? (
                       <button
                         className="btn btn-secondary"
                         onClick={() => requestAdmin(productData?.product.id)}
@@ -885,7 +890,10 @@ function ProductDetailView(props) {
         modalState={modalState}
         setModalState={setModalState}
       >
-        <span className="close_modal" onClick={() => setModalState(false)}>
+        <span className="close_modal" onClick={() => {
+          setSlots([])
+          setModalState(false)
+        }}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

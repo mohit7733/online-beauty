@@ -19,7 +19,7 @@ function Productview() {
   const [pagination, setpagination] = useState(8);
   const [categoryparams, setcategoryparams] = useState("");
   const [subcategoryparama, setsubcategoryparama] = useState("");
-  const { categorysearch ,categorysearch2 ,sub_category } = useParams();
+  const { categorysearch, categorysearch2, sub_category } = useParams();
   const [madeinparams, setmadeinparams] = useState("");
   const [anyparams, setanyparams] = useState("");
   const [productData, setProductData] = useState([]);
@@ -38,13 +38,12 @@ function Productview() {
     };
     fetch(
       api +
-        `/api/productlist?${
-          categoryparams
-            ? `category=${categoryparams}`
-            : categorysearch
-            ? `category=${categorysearch?.replace(/\-+/g, ' ')}`
-            : "category="
-        }&sub_cat=${ subcategoryparama }&made_in=${madeinparams}&any=${anyparams}`,
+      `/api/productlist?${categoryparams
+        ? `category=${categoryparams}`
+        : categorysearch
+          ? `category=${categorysearch?.replace(/\-+/g, ' ')}`
+          : "category="
+      }&sub_cat=${subcategoryparama}&made_in=${madeinparams}&any=${anyparams}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -112,7 +111,7 @@ function Productview() {
 
     categories.filter((itemId) => {
       if (itemId.category_name == e) {
-      
+
         axios
           .get(`${api}/api/subcategory?category_id=${itemId?.id}`)
           .then((res) => {
@@ -292,12 +291,11 @@ function Productview() {
                         {resultshow == true
                           ? `${categoryparams ? `"${categoryparams}"` : ""}`
                           : categorysearch
-                          ? `${
-                              productData[0]?.category != undefined
-                                ? `"${productData[0]?.category}"`
-                                : ""
+                            ? `${productData[0]?.category != undefined
+                              ? `"${productData[0]?.category}"`
+                              : ""
                             }`
-                          : ""}
+                            : ""}
                       </>
                     ) : (
                       ""
@@ -379,44 +377,44 @@ function Productview() {
                               localStorage.getItem("user_id") == data?.user_id
                             ) {
                               // navigate("/product-details/" + data.id);
-                              navigate("/product-detail-view/" +  data?.product_short_name?.replace(/\s+/g, "-")  , {
-                                state :{
-                                  id: data.id ,
-                                } 
-                                });
+                              navigate("/product-detail-view/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-"), {
+                                state: {
+                                  id: data.id,
+                                }
+                              });
                             } else if (
                               localStorage
                                 .getItem("user_type")
                                 ?.toLowerCase() == "supplier"
                             ) {
-                              navigate("/product-details/" +  data?.product_short_name?.replace(/\s+/g, "-")  , {
-                                state :{
-                                  id: data.id ,
-                                } 
-                                });
+                              navigate("/product-details/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, " - "), {
+                                state: {
+                                  id: data.id,
+                                }
+                              });
                             } else {
-                              navigate("/product-detail-view/" + data?.product_short_name?.replace(/\s+/g, "-")  , {
-                              state :{
-                                id: data.id ,
-                              } 
+                              navigate("/product-detail-view/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-"), {
+                                state: {
+                                  id: data.id,
+                                }
                               });
                             }
                           } else {
-                            navigate("/product-details/" +  data?.product_short_name?.replace(/\s+/g, "-")  , {
-                              state :{
-                                id: data.id ,
-                              } 
-                              });
+                            navigate("/product-details/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-"), {
+                              state: {
+                                id: data.id,
+                              }
+                            });
                           }
                         }}
                       >
                         <div className="col_img">
                           <figure
                             style={{ height: "180px" }}
-                            //    style={ grid == false ? { height: "180px"   } :{height: "180px"}}
+                          //    style={ grid == false ? { height: "180px"   } :{height: "180px"}}
                           >
                             {data.mediaFiles[Number(data?.thumb_index)]?.media_type == "image" ? (
-                              <img src={data.mediaFiles[Number(data?.thumb_index == "undefined"? "0" : data?.thumb_index)]?.file_path} alt="" />
+                              <img src={data.mediaFiles[Number(data?.thumb_index == "undefined" ? "0" : data?.thumb_index)]?.file_path} alt="" />
                             ) : data.mediaFiles?.media_type == "video" ? (
                               <video src={data.mediaFiles?.file_path} alt="" />
                             ) : data.mediaFiles?.media_type == "doc" ? (
@@ -432,11 +430,11 @@ function Productview() {
                         <div className="col_category">
                           <h4
                             className="handle_wrap"
-                            // style={
-                            //   data?.product_name?.length < 18
-                            //     ? { padding: "25.5px 9px" }
-                            //     : {}
-                            // }
+                          // style={
+                          //   data?.product_name?.length < 18
+                          //     ? { padding: "25.5px 9px" }
+                          //     : {}
+                          // }
                           >
                             {" "}
                             {data?.product_name}
@@ -469,11 +467,11 @@ function Productview() {
               className="no-data-found"
               id="blank-data"
               style={{ display: "none" }}
-              //   style={
-              //     productData?.length == 0
-              //       ? { display: "none" }
-              //       : { display: "none" }
-              //   }
+            //   style={
+            //     productData?.length == 0
+            //       ? { display: "none" }
+            //       : { display: "none" }
+            //   }
             >
               <p>
                 No Product Found. Please click on 'Clear all' button to see all
@@ -484,68 +482,68 @@ function Productview() {
               <ul style={{ marginTop: "1rem" }}>
                 {productData.length > 0
                   ? [
-                      ...Array(
-                        parseInt(
+                    ...Array(
+                      parseInt(
+                        JSON.stringify(page)
+                          .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
+                          .split(".")[1]
+                      )
+                        ? parseInt(
                           JSON.stringify(page)
-                            .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
-                            .split(".")[1]
-                        )
-                          ? parseInt(
-                              JSON.stringify(page)
-                                .substr(
-                                  JSON.stringify(page).lastIndexOf("\\") + 1
-                                )
-                                .split(".")[0]
-                            ) + 1
-                          : parseInt(
-                              JSON.stringify(page)
-                                .substr(
-                                  JSON.stringify(page).lastIndexOf("\\") + 1
-                                )
-                                .split(".")[0]
+                            .substr(
+                              JSON.stringify(page).lastIndexOf("\\") + 1
                             )
-                      ),
-                    ].map((data, i) => {
-                      i += 1;
-                      return (
+                            .split(".")[0]
+                        ) + 1
+                        : parseInt(
+                          JSON.stringify(page)
+                            .substr(
+                              JSON.stringify(page).lastIndexOf("\\") + 1
+                            )
+                            .split(".")[0]
+                        )
+                    ),
+                  ].map((data, i) => {
+                    i += 1;
+                    return (
 
-                        <>
+                      <>
                         {
-                          i ==1 ?
-                        <li
-                          className={pagination == i * 8 ? "remove_ho active" :  productData?.length <= 8 ?  "remove_ho " : ""}
-                          onClick={(e) => setpagination(i * 8)}
-                        >
+                          i == 1 ?
+                            <li
+                              className={pagination == i * 8 ? "remove_ho active" : productData?.length <= 8 ? "remove_ho " : ""}
+                              onClick={(e) => setpagination(i * 8)}
+                            >
 
-                          <a >{i}</a>
+                              <a >{i}</a>
 
-                        </li>:
-                        <li
-                          className={pagination == i * 8 ? " active" : " "}
-                          onClick={(e) => setpagination(i * 8)}
-                        >
+                            </li> :
+                            <li
+                              className={pagination == i * 8 ? " active" : " "}
+                              onClick={(e) => setpagination(i * 8)}
+                            >
 
-                          <a >{i}</a>
+                              <a >{i}</a>
 
-                        </li>
+                            </li>
 
                         }
-                        </>
-                      );
-                    })
+                      </>
+                    );
+                  })
                   : ""}
-                  {
-                    productData?.length > 8 ?
-                <li
-                  className="hover_remove2 selected"
-                  onClick={(e) => setpagination(pagination + 8)}
-                >
-                  <a > 
-                    Next <img src="images/arrow-right.png" title="" alt="" />
-                  </a>
-                </li>:""
+                {
+                  productData?.length > 8 ?
+                    <li
+                      className="hover_remove2 selected"
+                      onClick={(e) => setpagination(pagination + 8)}
+                    >
+                      <a >
+                        Next <img src="images/arrow-right.png" title="" alt="" />
+                      </a>
+                    </li> : ""
 
-                  }
+                }
               </ul>
             </div>
           </div>
@@ -639,7 +637,7 @@ function Productview() {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 }

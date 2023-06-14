@@ -10,7 +10,7 @@ function Productdetails() {
   const [check, setcheck] = useState(true);
   const { id } = useParams();
   const { state } = useLocation()
-
+  const slugdata = useParams()
   console.log(productData);
   const navigate = useNavigate();
   const getProductDetails = () => {
@@ -24,7 +24,7 @@ function Productdetails() {
       // headers: myHeaders,
       redirect: "follow",
     };
-    fetch(api + "/api/v1/products_details?product_id=" + state?.id, requestOptions)
+    fetch(api + "/api/v1/products_details?product_id=" + slugdata?.id, requestOptions)
       .then((response) => response.json())
       .then((result) => setProductData(result.data))
       .catch((error) => console.log("error", error));

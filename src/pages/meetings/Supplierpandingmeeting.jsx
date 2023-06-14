@@ -464,7 +464,7 @@ function Supplierpandingmeeting(props) {
                                 setacceptTime(meeting?.meetingTime);
                                 setacceptDates(meeting?.meetingDates);
                                 setacceptId(meeting?.id);
-                              } 
+                              }
                               // else if (meeting?.status === 2) {
                               //   // Direct navigation to '/payment's
                               //   navigate("/payment", {
@@ -498,7 +498,7 @@ function Supplierpandingmeeting(props) {
                                 <span
                                   className="close"
                                   onClick={handleCloseModal}
-                                  style={{right:"13px"}}
+                                  style={{ right: "13px" }}
                                 >
                                   &times;
                                 </span>
@@ -610,8 +610,8 @@ function Supplierpandingmeeting(props) {
                         }
                       }}
                       className={`btn ${meeting?.type === 1 || meeting?.status === 3
-                          ? "disabled"
-                          : ""
+                        ? "disabled"
+                        : ""
                         }`}
                       style={{
                         cursor:
@@ -642,9 +642,15 @@ function Supplierpandingmeeting(props) {
       <Modal
         title="Request a meeting?"
         modalState={modalState}
-        setModalState={setModalState}
+        setModalState={() => {
+          setSlots([])
+          setModalState(false)
+        }}
       >
-        <span className="close_modal" onClick={() => setModalState(false)}>
+        <span className="close_modal" onClick={() => {
+          setSlots([])
+          setModalState(false)
+        }}>
           <img src={deleteicon} />
         </span>
 
@@ -662,18 +668,19 @@ function Supplierpandingmeeting(props) {
                 {item.sDate + " - " + item.sTime}
 
                 <span
-                  style={{ marginLeft: "10px", marginTop: "10px" }}
+                  style={{ marginLeft: "10px", paddingTop: "6px" }}
                   onClick={() => removeSlot(item)}
                 >
+                  {/* <button className=""> */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     width="24"
                     height="24"
                   >
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z" />
-                  </svg>
+                    <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 10.5858L14.8284 7.75736L16.2426 9.17157L13.4142 12L16.2426 14.8284L14.8284 16.2426L12 13.4142L9.17157 16.2426L7.75736 14.8284L10.5858 12L7.75736 9.17157L9.17157 7.75736L12 10.5858Z"></path>
+                  </svg>{" "}
+                  {/* </button> */}
                 </span>
               </p>
             );
@@ -699,9 +706,11 @@ function Supplierpandingmeeting(props) {
         </div>
         <button
           className="btn btn-secondary"
+          style={{ display: "block", margin: '0 auto' }}
           onClick={
             () => {
               setclick(true);
+              setSlots([])
               setModalState(false);
             }
             // requestMeeting(
@@ -713,7 +722,7 @@ function Supplierpandingmeeting(props) {
           Request Appointment
           {/* {sDate !== "" ? "on " + sDate + " at " + sTime : null} */}
         </button>
-      </Modal>
+      </Modal >
     </>
   );
 }

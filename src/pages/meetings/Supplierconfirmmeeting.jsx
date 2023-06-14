@@ -9,10 +9,12 @@ import { useNavigate } from "react-router-dom";
 function Supplierconfirmmeeting(props) {
   const [accept, setaccept] = useState(false);
   const [meetingData, setmeetingData] = useState();
+  const path = window.location.pathname;
+  console.log(path);
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(api + "/api/v1/buyermeetingreqlist", {
+      .get(api + "/api/v1/" + (path == "/confirmed-meeting/buyer" ? "buyermeetingreqlist" : "supplier-confrm-meeting"), {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -148,28 +150,29 @@ function Supplierconfirmmeeting(props) {
           <table>
             <thead>
               <tr>
-                <th>Buyer Name</th>
+                <th>{(path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer")} Name</th>
                 <th>Country Codes</th>
                 <th>Meeting Date</th>
-                <th>Buyer Time</th>
+                <th>{(path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer")} Time</th>
 
                 <th>
-                  Meeting Time ({data !== undefined ? data[0]?.countrycode : ""}
+                  Meeting Time ({data !== undefined ? meetingData[0]?.buyerCountryCode.countrycode : ""}
                   )
                   {/* ({" "}
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>
-                <th>Buyer Profile</th>
+                <th>{(path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer")} Profile</th>
                 <th>Meeting Status</th>
                 {/* <th>Passed meeting</th> */}
                 {/* <th>ICS</th> */}
               </tr>
             </thead>
             <tbody>
+              {console.log(data)}
               {data?.map((meeting, index) => (
                 meeting?.status === 4 ?
                   <tr key={index}>
-                    <td>{meetingData[index]?.buyername}</td>
+                    <td>{meetingData[index]?.buyername ? meetingData[index]?.buyername : meetingData[index]?.suppliername}</td>
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
                       {meeting?.supplieravailabledate?.map((date, index) => (
@@ -240,18 +243,27 @@ function Supplierconfirmmeeting(props) {
                         // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
                         className="btn btn-success"
                         onClick={() => {
-                          navigate(
-                            `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                            {
+                          path == "/confirmed-meeting/buyer" ?
+                            navigate(
+                              "/product-detail-view/" + meetingData[index].product_id + "/" + meetingData[index]?.product_name?.replace(/\s+/g, "-"), {
                               state: {
-                                id: meeting?.id,
-                                buyer_id: meeting?.buyer_id,
-                                time: meeting?.meetingDates,
-                                date: meeting?.meetingTime,
-                                supplier_id: meeting?.supplier_id,
-                              },
+                                id: data.id,
+                              }
                             }
-                          );
+                            )
+                            :
+                            navigate(
+                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                              {
+                                state: {
+                                  id: meeting?.id,
+                                  buyer_id: meeting?.buyer_id,
+                                  time: meeting?.meetingDates,
+                                  date: meeting?.meetingTime,
+                                  supplier_id: meeting?.supplier_id,
+                                },
+                              }
+                            )
                         }}
                       >
                         View More
