@@ -233,7 +233,7 @@ function Supplierpassedmeeting(props) {
                       </a>
                     </td>
                     <td>
-                      {meeting?.remarks === null ? (
+                      {(path != "/passed-meeting/buyer" ? meeting?.remarks === null : meetingData[index].buyer_remark === null) ? (
                         <a
                           onClick={() => handleViewRemark(meeting?.id)}
                           className="btn22 btn btn-warning"

@@ -32,7 +32,7 @@ function Add_remark(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = api + "/api/v1/" + (type_user == "Buyer" ? "buyer-view-remark" : "supplier-add-remark");
+    const apiUrl = api + "/api/v1/" + (type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
 
     const requestData = new FormData();
     requestData.append("id", formData.id);
