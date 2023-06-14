@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Left_menu from "../productpages/left_menu";
 import { api } from "../base_url";
+import validator from "validator";
 // import Left_menu2 from "./Left_menu2";
 import { country } from "../dashboard/country";
 import { timeZoneCity } from "../dashboard/timezone";
@@ -53,7 +54,7 @@ function Company_informationNew(props) {
   const [successMsg, setSuccessMsg] = useState("");
   const [sidebar, setsidebar] = useState(false);
   const [styleapply, setstyle] = useState(false);
-  const [finalCheckTimeZone , setFinalCheckTimeZone] = useState()
+  const [finalCheckTimeZone, setFinalCheckTimeZone] = useState();
   const check_data = [
     { name: "company_name" },
     { name: "brand_name" },
@@ -108,7 +109,7 @@ function Company_informationNew(props) {
     }
   }
   function onch(e) {
-    setFinalCheckTimeZone(true)
+    setFinalCheckTimeZone(true);
     const selectedValue = e.target.value;
     setSeclectedTimeZone(selectedValue);
   }
@@ -126,7 +127,7 @@ function Company_informationNew(props) {
 
   function addCompanyInfo(event) {
     var formvalues = new FormData();
-    console.log('clicked')
+    console.log("clicked");
     //formvalues = {...formvalues , ...cInfo};
     for (let key in cInfo) {
       formvalues.append(key, cInfo[key]);
@@ -152,7 +153,7 @@ function Company_informationNew(props) {
       redirect: "follow",
       body: formvalues,
     };
-    
+
     fetch(api + "/api/company-information", requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -201,7 +202,7 @@ function Company_informationNew(props) {
         console.log("error", error);
       });
   }
-  console.log(finalCheckTimeZone , selectedTimeZone)
+  console.log(finalCheckTimeZone, selectedTimeZone);
   useEffect(() => {
     if (props.pageType !== "new") {
       //   getCompanyInfo();
@@ -249,7 +250,13 @@ function Company_informationNew(props) {
         errorfield.contact1_job = e.target.value == "" ? "required" : "";
         break;
       case "contact1_email":
-        errorfield.contact1_email = e.target.value == "" ? "required" : "";
+        if (e.target.value === "") {
+          errorfield.contact1_email = "required";
+        } else if (!validator.isEmail(e.target.value)) {
+          errorfield.contact1_email = "Invalid email address";
+        } else {
+          errorfield.contact1_email = ""; // Clear the error message
+        }
         break;
       case "contact1_phone":
         errorfield.contact1_phone = e.target.value == "" ? "required" : "";
@@ -261,15 +268,15 @@ function Company_informationNew(props) {
     seterrorfield({ ...errorfield });
     // setcontact({ ...contact, [e.target.name]: e.target.value });
   };
-const checktimezonefunction = () =>{
-  console.log('clicked')
-  console.log(selectedTimeZone)
-  if(selectedTimeZone === "") {
-    console.log('worked')
-    window.scrollTo(0, 0);
-    setFinalCheckTimeZone(false)
-  }
-}
+  const checktimezonefunction = () => {
+    console.log("clicked");
+    console.log(selectedTimeZone);
+    if (selectedTimeZone === "") {
+      console.log("worked");
+      window.scrollTo(0, 0);
+      setFinalCheckTimeZone(false);
+    }
+  };
   const logins_field = (e) => {
     switch (e) {
       case "company_name":
@@ -388,7 +395,7 @@ const checktimezonefunction = () =>{
             <div className="form-section">
               <form
                 onSubmit={(e) => {
-                  console.log('clicked')
+                  console.log("clicked");
                   // e.preventDefault();
                   addCompanyInfo(e);
                 }}
@@ -532,7 +539,8 @@ const checktimezonefunction = () =>{
                         onChange={onch}
                         required
                         style={
-                          selectedTimeZone === "" && finalCheckTimeZone === false
+                          selectedTimeZone === "" &&
+                          finalCheckTimeZone === false
                             ? { borderBottom: "1px solid red" }
                             : {}
                         }
@@ -620,12 +628,31 @@ const checktimezonefunction = () =>{
                         placeholder="Postal Code *"
                         disabled={!editcompany}
                         style={
-                          errorfield.post_code == ""
+                          errorfield.post_code === ""
                             ? {}
                             : { borderBottom: "1px solid red" }
                         }
+                        onKeyPress={(e) => {
+                          const pattern = /[0-9]/;
+                          const enteredValue = e.target.value + e.key;
+                          const isAllSelected =
+                            e.target.selectionStart === 0 &&
+                            e.target.selectionEnd === e.target.value.length;
+
+                          if (isAllSelected && enteredValue.length === 1) {
+                            e.target.value = ""; // Clear the input field
+                          } else if (isAllSelected && pattern.test(e.key)) {
+                            // Remove the selected text
+                            e.target.value = e.key;
+                          }
+
+                          if (!pattern.test(e.key) || enteredValue.length > 6) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                     </div>
+
                     <div className="form-group">
                       <input
                         type="text"
@@ -697,7 +724,6 @@ const checktimezonefunction = () =>{
                         })}
                       </select>
                     </div>
-                   
 
                     <div className="form-group">
                       <input
@@ -830,6 +856,27 @@ const checktimezonefunction = () =>{
                               ? {}
                               : { borderBottom: "1px solid red" }
                           }
+                          onKeyPress={(e) => {
+                            const pattern = /[0-9]/;
+                            const enteredValue = e.target.value + e.key;
+                            const isAllSelected =
+                              e.target.selectionStart === 0 &&
+                              e.target.selectionEnd === e.target.value.length;
+
+                            if (isAllSelected && enteredValue.length === 1) {
+                              e.target.value = ""; // Clear the input field
+                            } else if (isAllSelected && pattern.test(e.key)) {
+                              // Remove the selected text
+                              e.target.value = e.key;
+                            }
+
+                            if (
+                              !pattern.test(e.key) ||
+                              enteredValue.length > 10
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
 
                         <ul
@@ -1025,6 +1072,27 @@ const checktimezonefunction = () =>{
                           }
                           placeholder="Phone Number"
                           disabled={!editcompany}
+                          onKeyPress={(e) => {
+                            const pattern = /[0-9]/;
+                            const enteredValue = e.target.value + e.key;
+                            const isAllSelected =
+                              e.target.selectionStart === 0 &&
+                              e.target.selectionEnd === e.target.value.length;
+
+                            if (isAllSelected && enteredValue.length === 1) {
+                              e.target.value = ""; // Clear the input field
+                            } else if (isAllSelected && pattern.test(e.key)) {
+                              // Remove the selected text
+                              e.target.value = e.key;
+                            }
+
+                            if (
+                              !pattern.test(e.key) ||
+                              enteredValue.length > 10
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
 
                         <ul
@@ -1253,7 +1321,7 @@ const checktimezonefunction = () =>{
                     <button
                       className="btn btn-secondary"
                       onClick={() => {
-                        checktimezonefunction()
+                        checktimezonefunction();
                         if (
                           cInfo?.company_name != "" &&
                           cInfo?.brand_name != "" &&
@@ -1266,8 +1334,8 @@ const checktimezonefunction = () =>{
                           cInfo?.address1 != "" &&
                           cInfo?.country != "" &&
                           cInfo?.state != "" &&
-                          cInfo?.website != "" && 
-                          selectedTimeZone !== "" && 
+                          cInfo?.website != "" &&
+                          selectedTimeZone !== "" &&
                           cInfo?.contact1_image?.name != ""
                         ) {
                           addCompanyInfo();

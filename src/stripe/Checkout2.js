@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { country } from "../pages/dashboard/country";
+import validator from "validator";
 import {
   api,
   stripe_charge,
@@ -48,6 +49,12 @@ export const CheckoutForm2 = (props) => {
     name: paymentCardData?.charges?.data[0]?.billing_details?.name,
     phone: paymentCardData?.charges?.data[0]?.billing_details?.name,
   });
+
+  const [isEmailValid, setIsEmailValid] = useState();
+
+  const validateEmail = (email) => {
+    setIsEmailValid(validator.isEmail(email.target.value));
+  };
 
   let axiosConfig = {
     headers: {
@@ -123,11 +130,11 @@ export const CheckoutForm2 = (props) => {
         (data) => data.country === detail_data.address.country
       )[0]?.percentage
         ? amount +
-        (amount *
-          texdata.filter(
-            (data) => data.country === detail_data.address.country
-          )[0].percentage) /
-        100
+          (amount *
+            texdata.filter(
+              (data) => data.country === detail_data.address.country
+            )[0].percentage) /
+            100
         : amount * 100;
     } else if (
       vatError === false &&
@@ -138,12 +145,12 @@ export const CheckoutForm2 = (props) => {
         (data) => data.country === detail_data.address.country
       )[0]?.percentage
         ? amount +
-        ((amount *
-          texdata.filter(
-            (data) => data.country === detail_data.address.country
-          )[0].percentage) /
-          100) *
-        100
+          ((amount *
+            texdata.filter(
+              (data) => data.country === detail_data.address.country
+            )[0].percentage) /
+            100) *
+            100
         : amount * 100;
     } else {
       amount =
@@ -151,12 +158,12 @@ export const CheckoutForm2 = (props) => {
           (data) => data.country === detail_data.address.country
         )[0]
           ? amount +
-          amount *
-          texdata.filter(
-            (data) => data.country === detail_data.address.country
-          )[0].percentage
+            amount *
+              texdata.filter(
+                (data) => data.country === detail_data.address.country
+              )[0].percentage
           : amount) *
-        100 +
+          100 +
         amount * 20;
     }
     final_amount_show = amount / 100;
@@ -169,6 +176,10 @@ export const CheckoutForm2 = (props) => {
     calculateAmount();
   }, []);
   const handleSubmit = async (event) => {
+    if (isEmailValid === false) {
+      window.scrollTo(0, 0);
+      event.preventDefault();
+    }
     if (vatError === true && showVat === true) {
       event.preventDefault();
       return;
@@ -187,6 +198,8 @@ export const CheckoutForm2 = (props) => {
       billing_details: detail_data,
     });
     axios.get();
+
+    //  email validation
 
     if (!error) {
       try {
@@ -251,9 +264,10 @@ export const CheckoutForm2 = (props) => {
     });
 
     fetch(
-      `${api}/api/v1/${state?.meeting_id == undefined
-        ? "addpaymentsdetail"
-        : "supplier-meeting-payment"
+      `${api}/api/v1/${
+        state?.meeting_id == undefined
+          ? "addpaymentsdetail"
+          : "supplier-meeting-payment"
       } `,
       {
         method: "POST",
@@ -291,7 +305,6 @@ export const CheckoutForm2 = (props) => {
     });
   };
 
-
   useEffect(() => {
     fetch(`${stripe_tax_rate}`, {
       method: "GET",
@@ -309,9 +322,9 @@ export const CheckoutForm2 = (props) => {
       .catch((error) => console.error(error));
   }, []);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [detail_data]);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, [detail_data]);
 
   useEffect(() => {
     axios
@@ -342,10 +355,10 @@ export const CheckoutForm2 = (props) => {
             paymentJsonData.charges?.data[0]?.billing_details?.address?.line1;
         }, 50);
         setTimeout(() => {
-          setdetail_data({ ...detail_data});
+          setdetail_data({ ...detail_data });
         }, 150);
         setTimeout(() => {
-          setdetail_data({ ...detail_data});
+          setdetail_data({ ...detail_data });
         }, 250);
       })
       .catch((error) => {
@@ -438,10 +451,16 @@ export const CheckoutForm2 = (props) => {
                   type="email"
                   placeholder="email"
                   className="form-control"
-                  value={detail_data?.email}
-                  onChange={(e) =>
-                    setdetail_data({ ...detail_data, email: e.target.value })
+                  style={
+                    isEmailValid === false
+                      ? { borderBottom: "1px solid red" }
+                      : {}
                   }
+                  value={detail_data?.email}
+                  onChange={(e) => {
+                    setdetail_data({ ...detail_data, email: e.target.value });
+                    validateEmail(e);
+                  }}
                   required
                 />
               </div>
@@ -531,6 +550,24 @@ export const CheckoutForm2 = (props) => {
                       placeholder="Postal Code"
                       value={detail_data?.address?.postal_code}
                       className="form-control"
+                      onKeyPress={(e) => {
+                        const pattern = /[0-9]/;
+                        const enteredValue = e.target.value + e.key;
+                        const isAllSelected =
+                          e.target.selectionStart === 0 &&
+                          e.target.selectionEnd === e.target.value.length;
+
+                        if (isAllSelected && enteredValue.length === 1) {
+                          e.target.value = ""; // Clear the input field
+                        } else if (isAllSelected && pattern.test(e.key)) {
+                          // Remove the selected text
+                          e.target.value = e.key;
+                        }
+
+                        if (!pattern.test(e.key) || enteredValue.length > 6) {
+                          e.preventDefault();
+                        }
+                      }}
                       onChange={(e) =>
                         setdetail_data({
                           ...detail_data,
@@ -551,6 +588,27 @@ export const CheckoutForm2 = (props) => {
                       placeholder="Phone Number"
                       className="form-control"
                       value={detail_data?.phone}
+                      onKeyPress={(e) => {
+                        const pattern = /[0-9]/;
+                        const enteredValue = e.target.value + e.key;
+                        const isAllSelected =
+                          e.target.selectionStart === 0 &&
+                          e.target.selectionEnd === e.target.value.length;
+
+                        if (isAllSelected && enteredValue.length === 1) {
+                          e.target.value = ""; // Clear the input field
+                        } else if (isAllSelected && pattern.test(e.key)) {
+                          // Remove the selected text
+                          e.target.value = e.key;
+                        }
+
+                        if (
+                          !pattern.test(e.key) ||
+                          enteredValue.length > 10
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
                       onChange={(e) =>
                         setdetail_data({
                           ...detail_data,
@@ -681,7 +739,7 @@ export const CheckoutForm2 = (props) => {
                   ""
                 )}
                 {(vatError === true && vat !== "") ||
-                  (countryCode !== detail_data.address.country && vat !== "") ? (
+                (countryCode !== detail_data.address.country && vat !== "") ? (
                   <h6 style={{ color: "red" }}>Vat Number is Not Valid</h6>
                 ) : (
                   ""
@@ -746,8 +804,8 @@ export const CheckoutForm2 = (props) => {
                   (data) => data.country == detail_data.address.country
                 )[0]
                   ? texdata.filter(
-                    (data) => data.country == detail_data.address.country
-                  )[0].percentage
+                      (data) => data.country == detail_data.address.country
+                    )[0].percentage
                   : 0}
                 % (inclusive) :
               </strong>{" "}
@@ -755,11 +813,11 @@ export const CheckoutForm2 = (props) => {
                 (data) => data.country == detail_data.address.country
               )[0]
                 ? "€" +
-                (amount *
-                  texdata.filter(
-                    (data) => data.country == detail_data.address.country
-                  )[0].percentage) /
-                100
+                  (amount *
+                    texdata.filter(
+                      (data) => data.country == detail_data.address.country
+                    )[0].percentage) /
+                    100
                 : "€" + 0}
             </label>
           </div>
@@ -770,12 +828,12 @@ export const CheckoutForm2 = (props) => {
                 (data) => data.country == detail_data.address.country
               )[0]
                 ? "€" +
-                (amount +
-                  (amount *
-                    texdata.filter(
-                      (data) => data.country == detail_data.address.country
-                    )[0].percentage) /
-                  100)
+                  (amount +
+                    (amount *
+                      texdata.filter(
+                        (data) => data.country == detail_data.address.country
+                      )[0].percentage) /
+                      100)
                 : "€" + amount}
             </label>
           </div>
