@@ -31,6 +31,7 @@ function Supplierpandingmeeting(props) {
   const [acceptdate, setacceptDates] = useState([]);
   const [accepttime, setacceptTime] = useState([]);
   const [acceptId, setacceptId] = useState();
+  const [shortby, setshortby] = useState("");
 
   // let acceptId = 0
   function showTimePicker(value) {
@@ -139,20 +140,21 @@ function Supplierpandingmeeting(props) {
     "subscriptions"
   );
   React.useEffect(() => {
+    setmeetingDetails([])
     axios
-      .get(api + "/api/v1/suppliermeetingreqlist", {
+      .get(api + "/api/v1/suppliermeetingreqlist?sortBy=" + shortby, {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((res) => {
         if (res.status === 200) {
           // console.log(res.data?.data);
-          setmeetingDetails(res.data?.data.meetings);
+          setmeetingDetails(Object.values(res.data?.data.meetings));
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [shortby]);
   console.log("clicked");
 
   useEffect(() => {
@@ -306,17 +308,12 @@ function Supplierpandingmeeting(props) {
           </div>
           <div class="column justify-end">
             <div class="custom-select">
-              <select>
-                <option>
+              <select onChange={(e) => setshortby(e.target.value)}>
+                <option value={""}>
                   <span>Sorted by</span>
                 </option>
-                <option>
-                  <span>All </span>
-                </option>
-                <option>Year</option>
-                <option>Country</option>
-                <option>Alphabetic</option>
-                <option>Latest buyers</option>
+                <option value={"A-Z"}>Alphabetic</option>
+                <option value={"DESC"}>Latest buyers</option>
               </select>
             </div>
           </div>
