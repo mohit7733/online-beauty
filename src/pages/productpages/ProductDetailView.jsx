@@ -13,7 +13,7 @@ import meetingicon from "../../assets/images/meeting.svg";
 import meetingicon2 from "../../assets/images/meeting2.svg";
 import favouriteicon from "../../assets/images/favourite.svg";
 import favouriteicon2 from "../../assets/images/favourite2.svg";
-
+import axios from "axios";
 function ProductDetailView(props) {
   const [showpolicy, setshowpolicy] = useState(false);
   const [sidebar, setsidebar] = useState(true);
@@ -38,6 +38,48 @@ function ProductDetailView(props) {
   const [meetingStatus, setMeetingState] = useState();
   const [apiDateFormat, setApiDateFormat] = useState("");
   const [modalState, setModalState] = useState(false);
+  const [companydetail, setCompanydetail] = useState();
+  const [compnayProfile, setCompanyProfile] = useState();
+  // check company detail
+
+  useEffect(() => {
+    axios
+      .get(`${api}/api/company-detail`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        // Handle the successful response here
+        console.log(res.data.data, "this is data");
+        if (res?.data?.data === []) {
+          setCompanydetail(false);
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.error(error);
+      });
+
+    axios
+      .get(`${api}/api/company-profile`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        // Handle the successful response here
+        console.log(res.data.data.company, "this is data of company profile");
+        if (res?.data?.data?.company === null) {
+          setCompanyProfile(false);
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.error(error);
+      });
+  }, []);
+
   const getProductDetails = () => {
 
     var myHeaders = new Headers();
@@ -62,12 +104,12 @@ function ProductDetailView(props) {
         // console.log(result.data.media_files ,result.data?.product?.thumb_index , thumb , "<<<<<<<result.data");
         setthumb(
           result.data?.media_files[
-          Number(
-            result.data?.product?.thumb_index == undefined ||
-              result.data?.product?.thumb_index == "null"
-              ? "0"
-              : result.data?.product?.thumb_index
-          )
+            Number(
+              result.data?.product?.thumb_index == undefined ||
+                result.data?.product?.thumb_index == "null"
+                ? "0"
+                : result.data?.product?.thumb_index
+            )
           ]
         );
         setProductData(result.data);
@@ -512,7 +554,7 @@ function ProductDetailView(props) {
                       })}
 
                       {productData.product?.youtube_link == "null" ||
-                        productData.product?.youtube_link == "undefined" ? (
+                      productData.product?.youtube_link == "undefined" ? (
                         ""
                       ) : (
                         <div>
@@ -647,23 +689,23 @@ function ProductDetailView(props) {
                             .format("DD MM YYYY")
                             .toLowerCase() === "invalid date"
                             ? productData.product?.date_of_creation.replace(
-                              /\//g,
-                              "-"
-                            )
-                            : moment(
-                              productData.product?.date_of_creation?.replace(
                                 /\//g,
-                                " "
-                              ),
-                              "DD MM YYYY"
-                            ).format("DD-MM-YYYY")}
+                                "-"
+                              )
+                            : moment(
+                                productData.product?.date_of_creation?.replace(
+                                  /\//g,
+                                  " "
+                                ),
+                                "DD MM YYYY"
+                              ).format("DD-MM-YYYY")}
                         </h5>
                       </li>
                     ) : null}
                   </ul>
 
                   {productData?.product?.supplier_id ==
-                    localStorage.getItem("user_id") ? (
+                  localStorage.getItem("user_id") ? (
                     ""
                   ) : (
                     <div className="button-wrapper m-t">
@@ -687,13 +729,25 @@ function ProductDetailView(props) {
                           : "Add your favourites"}
                       </a>
                       {localStorage.getItem("user_type") &&
-                        localStorage.getItem("user_type").toLowerCase() ===
+                      localStorage.getItem("user_type").toLowerCase() ===
                         "supplier" ? null : (
                         <>
                           <button
                             className="hoverRemovebtn-primary btn btn-primary"
 
                             onClick={() => {
+                              if (!companydetail || !compnayProfile) {
+                                toast.error(
+                                  "You have not filled the company details"
+                                );
+                                setTimeout(() => {
+                                  window.alert(
+                                    "Redirecting to company information fill page..."
+                                  );
+                                  navigate("/company-information-fill");
+                                }, 3000);
+                                return null;
+                              }
                               if (
                                 productData?.meeting_status?.status == undefined && productData?.checkrequest == null && productData?.checkrequest == undefined
                               ) {
@@ -715,57 +769,145 @@ function ProductDetailView(props) {
                             {(() => {
                               switch (productData?.checkrequest) {
                                 case null:
-                                  return <><span>
-                                    {iconChange2 ? (
-                                      <img src={meetingicon2} alt="" />
-                                    ) : (
-                                      <img src={meetingicon} alt="" />
-                                    )}
-                                  </span>Request a meeting?</>;
+                                  return (
+                                    <>
+                                      <span>
+                                        {iconChange2 ? (
+                                          <img src={meetingicon2} alt="" />
+                                        ) : (
+                                          <img src={meetingicon} alt="" />
+                                        )}
+                                      </span>
+                                      Request a meeting?
+                                    </>
+                                  );
                                 case undefined:
-                                  return <><span>
-                                    {iconChange2 ? (
-                                      <img src={meetingicon2} alt="" />
-                                    ) : (
-                                      <img src={meetingicon} alt="" />
-                                    )}
-                                  </span>Request a meeting?</>;
+                                  return (
+                                    <>
+                                      <span>
+                                        {iconChange2 ? (
+                                          <img src={meetingicon2} alt="" />
+                                        ) : (
+                                          <img src={meetingicon} alt="" />
+                                        )}
+                                      </span>
+                                      Request a meeting?
+                                    </>
+                                  );
                                 // case 0:
                                 //   return "Request in procces";
                                 case 3:
-                                  return <>
-                                    <span>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="none">
-                                        <path d="M15.9991 1.00036H18.6691C19.235 0.990352 19.785 1.1885 20.2145 1.55718C20.644 1.92586 20.9232 2.43942 20.9991 3.00036V10.0004C20.9232 10.5613 20.644 11.0749 20.2145 11.4435C19.785 11.8122 19.235 12.0104 18.6691 12.0004H15.9991M8.99905 14.0004V18.0004C8.99905 18.796 9.31512 19.5591 9.87773 20.1217C10.4403 20.6843 11.2034 21.0004 11.9991 21.0004L15.9991 12.0004V1.00036H4.71905C4.23673 0.994909 3.76868 1.16396 3.40115 1.47636C3.03362 1.78875 2.79138 2.22346 2.71905 2.70036L1.33905 11.7004C1.29555 11.987 1.31488 12.2797 1.39571 12.5581C1.47655 12.8365 1.61695 13.0941 1.8072 13.3128C1.99744 13.5316 2.23297 13.7064 2.49748 13.8251C2.76199 13.9439 3.04915 14.0036 3.33905 14.0004H8.99905Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                      </svg>
-                                    </span>Meeting declined !</>;
+                                  return (
+                                    <>
+                                      <span>
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="22"
+                                          height="21"
+                                          viewBox="0 0 22 21"
+                                          fill="none"
+                                        >
+                                          <path
+                                            d="M15.9991 1.00036H18.6691C19.235 0.990352 19.785 1.1885 20.2145 1.55718C20.644 1.92586 20.9232 2.43942 20.9991 3.00036V10.0004C20.9232 10.5613 20.644 11.0749 20.2145 11.4435C19.785 11.8122 19.235 12.0104 18.6691 12.0004H15.9991M8.99905 14.0004V18.0004C8.99905 18.796 9.31512 19.5591 9.87773 20.1217C10.4403 20.6843 11.2034 21.0004 11.9991 21.0004L15.9991 12.0004V1.00036H4.71905C4.23673 0.994909 3.76868 1.16396 3.40115 1.47636C3.03362 1.78875 2.79138 2.22346 2.71905 2.70036L1.33905 11.7004C1.29555 11.987 1.31488 12.2797 1.39571 12.5581C1.47655 12.8365 1.61695 13.0941 1.8072 13.3128C1.99744 13.5316 2.23297 13.7064 2.49748 13.8251C2.76199 13.9439 3.04915 14.0036 3.33905 14.0004H8.99905Z"
+                                            stroke="white"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                          />
+                                        </svg>
+                                      </span>
+                                      Meeting declined !
+                                    </>
+                                  );
                                 case 1:
-                                  return <>
-                                    <span>
-                                      <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 14.7923C12.5523 14.7923 13 14.3433 13 13.7893C13 13.2354 12.5523 12.7864 12 12.7864C11.4477 12.7864 11 13.2354 11 13.7893C11 14.3433 11.4477 14.7923 12 14.7923Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M19 14.7923C19.5523 14.7923 20 14.3433 20 13.7893C20 13.2354 19.5523 12.7864 19 12.7864C18.4477 12.7864 18 13.2354 18 13.7893C18 14.3433 18.4477 14.7923 19 14.7923Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M5 14.7923C5.55228 14.7923 6 14.3433 6 13.7893C6 13.2354 5.55228 12.7864 5 12.7864C4.44772 12.7864 4 13.2354 4 13.7893C4 14.3433 4.44772 14.7923 5 14.7923Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <circle cx="12" cy="12" r="11.5" stroke="white" />
-                                      </svg>
-                                    </span>Pending Approval</>;
+                                  return (
+                                    <>
+                                      <span>
+                                        <svg
+                                          width="24"
+                                          height="26"
+                                          viewBox="0 0 24 26"
+                                          fill="none"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M12 14.7923C12.5523 14.7923 13 14.3433 13 13.7893C13 13.2354 12.5523 12.7864 12 12.7864C11.4477 12.7864 11 13.2354 11 13.7893C11 14.3433 11.4477 14.7923 12 14.7923Z"
+                                            stroke="white"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                          />
+                                          <path
+                                            d="M19 14.7923C19.5523 14.7923 20 14.3433 20 13.7893C20 13.2354 19.5523 12.7864 19 12.7864C18.4477 12.7864 18 13.2354 18 13.7893C18 14.3433 18.4477 14.7923 19 14.7923Z"
+                                            stroke="white"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                          />
+                                          <path
+                                            d="M5 14.7923C5.55228 14.7923 6 14.3433 6 13.7893C6 13.2354 5.55228 12.7864 5 12.7864C4.44772 12.7864 4 13.2354 4 13.7893C4 14.3433 4.44772 14.7923 5 14.7923Z"
+                                            stroke="white"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                          />
+                                          <circle
+                                            cx="12"
+                                            cy="12"
+                                            r="11.5"
+                                            stroke="white"
+                                          />
+                                        </svg>
+                                      </span>
+                                      Pending Approval
+                                    </>
+                                  );
                                 case 2:
-                                  return <>
-                                    <span>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="13" viewBox="0 0 18 13" fill="none">
-                                        <path d="M17 1L6 12L1 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                      </svg>
-                                    </span>
-                                    Meeting Done</>;
+                                  return (
+                                    <>
+                                      <span>
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="18"
+                                          height="13"
+                                          viewBox="0 0 18 13"
+                                          fill="none"
+                                        >
+                                          <path
+                                            d="M17 1L6 12L1 7"
+                                            stroke="white"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                          />
+                                        </svg>
+                                      </span>
+                                      Meeting Done
+                                    </>
+                                  );
                                 case 4:
-                                  return <>
-                                    <span>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="13" viewBox="0 0 18 13" fill="none">
-                                        <path d="M17 1L6 12L1 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                      </svg>
-                                    </span>
-                                    Confirmed Meeting
-                                  </>;
+                                  return (
+                                    <>
+                                      <span>
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="18"
+                                          height="13"
+                                          viewBox="0 0 18 13"
+                                          fill="none"
+                                        >
+                                          <path
+                                            d="M17 1L6 12L1 7"
+                                            stroke="white"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                          />
+                                        </svg>
+                                      </span>
+                                      Confirmed Meeting
+                                    </>
+                                  );
                                 default:
                                   return "";
                               }
@@ -792,8 +934,8 @@ function ProductDetailView(props) {
                     productData?.productownerstatus == true
                       ? { display: "contents" }
                       : productData?.requeststatus == 1
-                        ? { display: "contents" }
-                        : {}
+                      ? { display: "contents" }
+                      : {}
                   }
                 >
                   <div className="profile-list profile-brand">
@@ -831,13 +973,13 @@ function ProductDetailView(props) {
                                     __html:
                                       item?.type.toLowerCase() == "checkbox"
                                         ? item?.answer.replace(
-                                          /[\\\n["{}:\]']+/g,
-                                          " "
-                                        )
+                                            /[\\\n["{}:\]']+/g,
+                                            " "
+                                          )
                                         : item?.answer.replace(
-                                          /[\\\n[{}:\]]+/g,
-                                          "<br>"
-                                        ),
+                                            /[\\\n[{}:\]]+/g,
+                                            "<br>"
+                                          ),
                                   }}
                                 />
                               </li>
@@ -852,8 +994,8 @@ function ProductDetailView(props) {
 
               {/* {console.log(productData?.requeststatus)} */}
               {productData?.requeststatus === null ||
-                (productData?.requeststatus != 1 &&
-                  productData?.productownerstatus != true) ? (
+              (productData?.requeststatus != 1 &&
+                productData?.productownerstatus != true) ? (
                 <div className="request-box-wrapper">
                   <div className="request-box">
                     <h3>Do you want more information?</h3>

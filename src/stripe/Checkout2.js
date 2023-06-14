@@ -550,23 +550,24 @@ export const CheckoutForm2 = (props) => {
                       value={detail_data?.address?.postal_code}
                       className="form-control"
                       onKeyPress={(e) => {
-                        const pattern = /[0-9]/;
+                        const pattern = /[0-9a-zA-Z]/; // Updated pattern to include numerics (0-9) and alphabets (a-z, A-Z)
                         const enteredValue = e.target.value + e.key;
                         const isAllSelected =
                           e.target.selectionStart === 0 &&
                           e.target.selectionEnd === e.target.value.length;
-
+                      
                         if (isAllSelected && enteredValue.length === 1) {
                           e.target.value = ""; // Clear the input field
                         } else if (isAllSelected && pattern.test(e.key)) {
                           // Remove the selected text
                           e.target.value = e.key;
                         }
-
-                        if (!pattern.test(e.key) || enteredValue.length > 6) {
+                      
+                        if (!pattern.test(e.key) || enteredValue.length > 8) {
                           e.preventDefault();
                         }
                       }}
+                      
                       onChange={(e) =>
                         setdetail_data({
                           ...detail_data,

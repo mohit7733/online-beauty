@@ -376,20 +376,21 @@ function Pandingmeeting() {
                         onChange={handleDateChange} // Call the handleDateChange function
                       />
                       <label htmlFor={`date${index}`}>
-                        {date} - {moment(time, "HH:mm").format("h:mm A")}
+                        {date} - {time}
                       </label>
                     </li>
                   );
                 })}
               </ul>
 
-              <a className="btn btn-secondary" onClick={clickedAccept}>
+              <button className="btn btn-secondary" onClick={clickedAccept}>
                 Submit
-              </a>
+              </button>
             </div>
           </div>
         </div>
       )}
+
       <div className="product_before_meeting profile_popup">
         <div className="main">
           <Left_menu sidebar={sidebar} setsidebar={setsidebar} />

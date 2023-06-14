@@ -352,9 +352,7 @@ function Supplierpandingmeeting(props) {
 
                   <td>
                     {meeting?.meetingTime?.map((time, index) => {
-                      const formattedTime = moment(time, "h:mm A").format(
-                        "h:mm a"
-                      );
+                      const formattedTime = time;
                       return (
                         <div key={index}>
                           {moment(time, "h:mm A").isValid()
@@ -424,7 +422,7 @@ function Supplierpandingmeeting(props) {
                               meeting_id: meeting?.id,
                               amount: subscriptions[0]?.price,
                               plan: subscriptions[0]?.days,
-                              subscription_plan_id: subscriptions[0]?.id
+                              subscription_plan_id: subscriptions[0]?.id,
                             },
                           }
                         );
@@ -456,7 +454,10 @@ function Supplierpandingmeeting(props) {
                           <a
                             className="btn btn-secondary"
                             onClick={() => {
-                              if (meeting?.status === 1 || meeting?.status === 2) {
+                              if (
+                                meeting?.status === 1 ||
+                                meeting?.status === 2
+                              ) {
                                 handleAcceptClick(meeting?.id);
                                 setacceptTime(meeting?.meetingTime);
                                 setacceptDates(meeting?.meetingDates);
@@ -491,7 +492,10 @@ function Supplierpandingmeeting(props) {
 
                           {showModal && (
                             <div className="modal">
-                              <div className="modal-content" style={{ position: "fixed" }}>
+                              <div
+                                className="modal-content"
+                                style={{ position: "fixed" }}
+                              >
                                 <span
                                   className="close"
                                   onClick={handleCloseModal}
@@ -503,10 +507,7 @@ function Supplierpandingmeeting(props) {
                                   <h3>Accept Meeting</h3>
                                   <ul>
                                     {acceptdate?.map((date, index) => {
-                                      const time = moment(
-                                        accepttime[index],
-                                        "HH:mm"
-                                      ).format("h:mm A");
+                                      const time = accepttime[index];
                                       const isDisabled = data.some((detail) =>
                                         detail.buyerSlot.some(
                                           (slot) =>
@@ -530,10 +531,7 @@ function Supplierpandingmeeting(props) {
                                                   availability: [
                                                     {
                                                       date: date,
-                                                      time: moment(
-                                                        accepttime[index],
-                                                        "HH:mm"
-                                                      ).format("h:mm A"),
+                                                      time: time,
                                                     },
                                                   ],
                                                 },
@@ -542,14 +540,9 @@ function Supplierpandingmeeting(props) {
                                             disabled={isDisabled}
                                           />
                                           <label htmlFor={`date${index}`}>
-                                            {date} -{" "}
-                                            {moment(
-                                              accepttime[index],
-                                              "HH:mm"
-                                            ).format("h:mm A")}
+                                            {date} - {time}
                                             {isDisabled && (
                                               <span style={{ color: "red" }}>
-                                                {" "}
                                                 *Slot no longer available
                                               </span>
                                             )}
@@ -558,12 +551,12 @@ function Supplierpandingmeeting(props) {
                                       );
                                     })}
                                   </ul>
-                                  <a
+                                  <button
                                     className="btn btn-secondary"
                                     onClick={() => clickedAccept()}
                                   >
                                     Submit
-                                  </a>
+                                  </button>
                                 </div>
                               </div>
                             </div>
@@ -606,10 +599,11 @@ function Supplierpandingmeeting(props) {
                           ]);
                         }
                       }}
-                      className={`btn ${meeting?.type === 1 || meeting?.status === 3
-                        ? "disabled"
-                        : ""
-                        }`}
+                      className={`btn ${
+                        meeting?.type === 1 || meeting?.status === 3
+                          ? "disabled"
+                          : ""
+                      }`}
                       style={{
                         cursor:
                           meeting?.type === 1 || meeting?.status === 3
@@ -640,14 +634,17 @@ function Supplierpandingmeeting(props) {
         title="Request a meeting?"
         modalState={modalState}
         setModalState={() => {
-          setSlots([])
-          setModalState(false)
+          setSlots([]);
+          setModalState(false);
         }}
       >
-        <span className="close_modal" onClick={() => {
-          setSlots([])
-          setModalState(false)
-        }}>
+        <span
+          className="close_modal"
+          onClick={() => {
+            setSlots([]);
+            setModalState(false);
+          }}
+        >
           <img src={deleteicon} />
         </span>
 
@@ -689,8 +686,9 @@ function Supplierpandingmeeting(props) {
                 <button
                   onClick={confirmSlots}
                   // disabled={slots.length >= 5}
-                  className={`btn_confirm btn btn-primary ${slots.length >= 5 ? "disabled" : ""
-                    }`}
+                  className={`btn_confirm btn btn-primary ${
+                    slots.length >= 5 ? "disabled" : ""
+                  }`}
                   style={{
                     filter: slots.length >= 5 ? "grayscale(100%)" : "none",
                   }}
@@ -703,11 +701,11 @@ function Supplierpandingmeeting(props) {
         </div>
         <button
           className="btn btn-secondary"
-          style={{ display: "block", margin: '0 auto' }}
+          style={{ display: "block", margin: "0 auto" }}
           onClick={
             () => {
               setclick(true);
-              setSlots([])
+              setSlots([]);
               setModalState(false);
             }
             // requestMeeting(
@@ -719,7 +717,7 @@ function Supplierpandingmeeting(props) {
           Request Appointment
           {/* {sDate !== "" ? "on " + sDate + " at " + sTime : null} */}
         </button>
-      </Modal >
+      </Modal>
     </>
   );
 }
