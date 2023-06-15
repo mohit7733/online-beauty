@@ -7,16 +7,20 @@ import { api } from "../base_url";
 function Supplierpassedmeeting(props) {
   const [accept, setaccept] = useState(false);
   const [meetingData, setMeetingData] = useState([]);
+  const [meetingData2, setmeetingData2] = useState([]);
   const navigate = useNavigate();
   const path = window.location.pathname;
+  const [shortby, setshortby] = useState("");
+  const [searchdata, setsearchdata] = useState("");
+
   useEffect(() => {
     axios
       .get(
         api +
-          "/api/v1/" +
-          (path == "/passed-meeting/buyer"
-            ? "buyermeetingreqlist"
-            : "supplier-confrm-meeting"),
+        "/api/v1/" +
+        (path == "/passed-meeting/buyer"
+          ? "buyermeetingreqlist?sortBy=" + shortby + "&buyerName=" + searchdata
+          : "supplier-confrm-meeting?sortBy=" + shortby + "&buyerName=" + searchdata),
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -26,13 +30,27 @@ function Supplierpassedmeeting(props) {
       .then((response) => {
         // Handle the response here
         // console.log(response?.data?.data?.meetings);
-        setMeetingData(response?.data?.data?.meetings);
+        setMeetingData(Object.values(response?.data?.data?.meetings));
+        setmeetingData2(Object.values(response?.data?.data?.meetings));
+        if (shortby == "A-Z") {
+          searchfilter()
+        }
       })
       .catch((error) => {
         // Handle any errors here
         console.error(error);
       });
   }, []);
+
+  const searchfilter = () => {
+    if (path != "/confirmed-meeting/buyer") {
+      const sortedData = [...meetingData].sort((a, b) => a.buyerName.buyername.localeCompare(b.buyerName.buyername));
+      setmeetingData(sortedData)
+    } else {
+      const sortedData = [...meetingData].sort((a, b) => a.supplierName.supliername.localeCompare(b.supplierName.supliername));
+      setmeetingData(sortedData)
+    }
+  }
   const data = meetingData?.map((detail) => {
     const supplierAvailable = detail?.supplier_available
       ? JSON.parse(detail.supplier_available)
@@ -114,16 +132,20 @@ function Supplierpassedmeeting(props) {
         <div class="add_product_wrap row justify-content-between">
           <div class="column">
             <div class="search">
-              <input type="text" class="form-control" placeholder="Type here" />
+              <input type="text" class="form-control" placeholder="Type here" onChange={e => setsearchdata(e.target.value)} />
             </div>
-            <button type="submit" class="btn btn-block btn-secondary">
+            <button type="submit" class="btn btn-block btn-secondary" onClick={e => setshortby(shortby == " " ? "" : " ")}>
               Search
             </button>
           </div>
           <div class="column justify-end">
             <div class="custom-select">
-              <select>
-                <option>Sorted by</option>
+              <select onChange={(e) => setshortby(e.target.value)}>
+                <option value={""}>
+                  <span>Sorted by</span>
+                </option>
+                <option value={"A-Z"}>Alphabetic</option>
+                <option value={"DESC"}>Latest buyers</option>
               </select>
             </div>
           </div>
@@ -279,14 +301,14 @@ function Supplierpassedmeeting(props) {
                           {meeting?.status === 4
                             ? "Supplier confirm Meeting"
                             : meeting?.status === 5
-                            ? "Completed"
-                            : meeting?.status === 1
-                            ? "In Progress"
-                            : meeting?.status === 2
-                            ? "Supplier confirm Meeting. Payment Pending"
-                            : meeting?.status === 3
-                            ? "Refused"
-                            : ""}
+                              ? "Completed"
+                              : meeting?.status === 1
+                                ? "In Progress"
+                                : meeting?.status === 2
+                                  ? "Supplier confirm Meeting. Payment Pending"
+                                  : meeting?.status === 3
+                                    ? "Refused"
+                                    : ""}
                         </a>
                       </div>
                     </td>

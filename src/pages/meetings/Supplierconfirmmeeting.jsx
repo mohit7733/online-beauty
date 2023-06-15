@@ -9,17 +9,21 @@ import { useNavigate } from "react-router-dom";
 function Supplierconfirmmeeting(props) {
   const [accept, setaccept] = useState(false);
   const [meetingData, setmeetingData] = useState();
+  const [meetingData2, setmeetingData2] = useState();
   const path = window.location.pathname;
   console.log(path);
+  const [shortby, setshortby] = useState("");
+  const [searchdata, setsearchdata] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
+    setmeetingData([])
     axios
       .get(
         api +
-          "/api/v1/" +
-          (path == "/confirmed-meeting/buyer"
-            ? "buyermeetingreqlist"
-            : "supplier-confrm-meeting"),
+        "/api/v1/" +
+        (path == "/confirmed-meeting/buyer"
+          ? "buyermeetingreqlist?sortBy=" + shortby + "&buyerName=" + searchdata
+          : "supplier-confrm-meeting?sortBy=" + shortby + "&buyerName=" + searchdata),
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -29,13 +33,28 @@ function Supplierconfirmmeeting(props) {
       .then((response) => {
         // Handle the response here
         console.log(response?.data?.data?.meetings);
-        setmeetingData(response?.data?.data?.meetings);
+        setmeetingData(Object.values(response?.data?.data?.meetings));
+        setmeetingData2(Object.values(response?.data?.data?.meetings));
+        if (shortby == "A-Z") {
+          searchfilter()
+        }
       })
       .catch((error) => {
         // Handle any errors here
         console.error(error);
       });
-  }, []);
+  }, [shortby]);
+
+  const searchfilter = () => {
+    if (path != "/confirmed-meeting/buyer") {
+      const sortedData = [...meetingData].sort((a, b) => a.buyerName.buyername.localeCompare(b.buyerName.buyername));
+      setmeetingData(sortedData)
+    } else {
+      const sortedData = [...meetingData].sort((a, b) => a.supplierName.supliername.localeCompare(b.supplierName.supliername));
+      setmeetingData(sortedData)
+    }
+  }
+
   const handleButtonClick = (id, event) => {
     event.preventDefault(); // Prevent the default behavior of the anchor tag
     axios
@@ -134,21 +153,21 @@ function Supplierconfirmmeeting(props) {
         </div>
         <div className="add_product_wrap row justify-content-between">
           <div className="column">
-            <div className="search">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Type here"
-              />
+            <div class="search">
+              <input type="text" class="form-control" placeholder="Type here" onChange={e => setsearchdata(e.target.value)} />
             </div>
-            <button type="submit" className="btn btn-block btn-secondary">
+            <button type="submit" class="btn btn-block btn-secondary" onClick={e => setshortby(shortby == " " ? "" : " ")}>
               Search
             </button>
           </div>
           <div className="column justify-end">
             <div className="custom-select">
-              <select>
-                <option>Sorted by</option>
+              <select onChange={(e) => setshortby(e.target.value)}>
+                <option value={""}>
+                  <span>Sorted by</span>
+                </option>
+                <option value={"A-Z"}>Alphabetic</option>
+                <option value={"DESC"}>Latest buyers</option>
               </select>
             </div>
           </div>
@@ -192,8 +211,8 @@ function Supplierconfirmmeeting(props) {
                 meeting?.status === 4 ? (
                   <tr key={index}>
                     <td>
-                      {meetingData[index]?.buyername
-                        ? meetingData[index]?.buyername
+                      {path != "/confirmed-meeting/buyer"
+                        ? meeting.buyername
                         : meetingData[index]?.suppliername}
                     </td>
                     <td>{meeting?.buyerCountryCode}</td>
@@ -298,14 +317,14 @@ function Supplierconfirmmeeting(props) {
                           {meeting?.status === 4
                             ? "Meeting Done ?"
                             : meeting?.status === 5
-                            ? "Completed"
-                            : meeting?.status === 1
-                            ? "In Progress"
-                            : meeting?.status === 2
-                            ? "Supplier confirm Meeting. Payment Pending"
-                            : meeting?.status === 3
-                            ? "Refused"
-                            : ""}
+                              ? "Completed"
+                              : meeting?.status === 1
+                                ? "In Progress"
+                                : meeting?.status === 2
+                                  ? "Supplier confirm Meeting. Payment Pending"
+                                  : meeting?.status === 3
+                                    ? "Refused"
+                                    : ""}
                         </a>
                       </div>
                     </td>
