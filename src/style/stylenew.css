@@ -6819,9 +6819,11 @@ table thead tr th:last-child {
 .company_wrapper h2 {
   padding: 0px;
 }
+
 .pr {
   position: relative;
 }
+
 .pr p {
   position: absolute;
   top: 5px;
@@ -10421,6 +10423,13 @@ iframe {
 
 .contact_comapny .border-bottom {
   border-bottom: solid 1px #999999;
+}
+
+
+.contact_comapny label,
+.contact_comapny li h6 {
+  padding-left: 0px;
+  word-break: break-all;
 }
 
 .contact_comapny .icon-bottom {
