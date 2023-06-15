@@ -217,10 +217,31 @@ function Supplierconfirmmeeting(props) {
                     </td>
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
-                      {meeting?.supplieravailabledate?.map((date, index) => (
-                        <div key={index}>{date}</div>
-                      ))}
-                    </td>
+                    {(() => {
+                      const buyerTimeZone = meeting?.buyer_Time_Zone;
+                      const supplierTimeZone = meeting?.supplier_Time_Zone;
+
+                      if (buyerTimeZone === null || supplierTimeZone === null) {
+                        // Handle the case when time zone information is missing
+                        return meeting?.meetingDates?.map((date, index) => (
+                          <div key={index}>{date}</div>
+                        ));
+                      }
+
+                      return meeting?.meetingDates?.map((date, index) => {
+                        const formattedDate = moment(date, "DD-MM-YYYY")
+                          .tz(supplierTimeZone)
+                          .format("DD-MM-YYYY");
+                        const convertedDate = moment(
+                          formattedDate,
+                          "DD-MM-YYYY"
+                        )
+                          .tz(buyerTimeZone)
+                          .format("DD-MM-YYYY");
+                        return <div key={index}>{convertedDate}</div>;
+                      });
+                    })()}
+                  </td>
 
                     <td>
                       {(() => {

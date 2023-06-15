@@ -190,9 +190,33 @@ function Supplierpassedmeeting(props) {
                     </td>
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
-                      {meeting?.supplieravailabledate?.map((date, index) => (
-                        <div key={index}>{date}</div>
-                      ))}
+                      {(() => {
+                        const buyerTimeZone = meeting?.buyer_Time_Zone;
+                        const supplierTimeZone = meeting?.supplier_Time_Zone;
+
+                        if (
+                          buyerTimeZone === null ||
+                          supplierTimeZone === null
+                        ) {
+                          // Handle the case when time zone information is missing
+                          return meeting?.meetingDates?.map((date, index) => (
+                            <div key={index}>{date}</div>
+                          ));
+                        }
+
+                        return meeting?.meetingDates?.map((date, index) => {
+                          const formattedDate = moment(date, "DD-MM-YYYY")
+                            .tz(supplierTimeZone)
+                            .format("DD-MM-YYYY");
+                          const convertedDate = moment(
+                            formattedDate,
+                            "DD-MM-YYYY"
+                          )
+                            .tz(buyerTimeZone)
+                            .format("DD-MM-YYYY");
+                          return <div key={index}>{convertedDate}</div>;
+                        });
+                      })()}
                     </td>
 
                     <td>
@@ -243,27 +267,33 @@ function Supplierpassedmeeting(props) {
                         // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
                         class="btn btn-success"
                         onClick={() => {
-                          path == "/passed-meeting/buyer" ?
-                            navigate(
-                              "/product-view/" + meetingData[index].product_id + "/" + meetingData[index]?.product_name?.replace(/\s+/g, "-"), {
-                              state: {
-                                id: data.id,
-                              }
-                            }
-                            )
-                            :
-                            navigate(
-                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                              {
-                                state: {
-                                  id: meeting?.id,
-                                  buyer_id: meeting?.buyer_id,
-                                  time: meeting?.meetingDates,
-                                  date: meeting?.meetingTime,
-                                  supplier_id: meeting?.supplier_id,
-                                },
-                              }
-                            )
+                          path == "/passed-meeting/buyer"
+                            ? navigate(
+                                "/product-view/" +
+                                  meetingData[index].product_id +
+                                  "/" +
+                                  meetingData[index]?.product_name?.replace(
+                                    /\s+/g,
+                                    "-"
+                                  ),
+                                {
+                                  state: {
+                                    id: data.id,
+                                  },
+                                }
+                              )
+                            : navigate(
+                                `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                                {
+                                  state: {
+                                    id: meeting?.id,
+                                    buyer_id: meeting?.buyer_id,
+                                    time: meeting?.meetingDates,
+                                    date: meeting?.meetingTime,
+                                    supplier_id: meeting?.supplier_id,
+                                  },
+                                }
+                              );
                         }}
                       >
                         View More

@@ -25,7 +25,12 @@ function Company_informationNew(props) {
   const [searchcode2, setsearchcode2] = useState("");
   const [timeZone, setTimeZone] = useState([]);
   const [selectedTimeZone, setSeclectedTimeZone] = useState("");
+  const [compnay_profile, setCompany_profile] = useState();
+  console.log(state?.company_info, "this is state");
 
+  useEffect(() => {
+    setCompany_profile(state?.company_info);
+  }, [state]);
   // console.log(state, "<<<<<< state");
   const [cInfo, setCInfo] = useState({
     country_code: "",
@@ -525,7 +530,9 @@ function Company_informationNew(props) {
 
                 <div className="form-row align-items-center">
                   <div className="left">
-                    <label>TimeZone <span style={{ color: "red" }}>*</span></label>
+                    <label>
+                      TimeZone <span style={{ color: "red" }}>*</span>
+                    </label>
                   </div>
                   <div className="right">
                     <div className="form-group">
@@ -638,19 +645,18 @@ function Company_informationNew(props) {
                           const isAllSelected =
                             e.target.selectionStart === 0 &&
                             e.target.selectionEnd === e.target.value.length;
-                        
+
                           if (isAllSelected && enteredValue.length === 1) {
                             e.target.value = ""; // Clear the input field
                           } else if (isAllSelected && pattern.test(e.key)) {
                             // Remove the selected text
                             e.target.value = e.key;
                           }
-                        
+
                           if (!pattern.test(e.key) || enteredValue.length > 8) {
                             e.preventDefault();
                           }
                         }}
-                        
                       />
                     </div>
 

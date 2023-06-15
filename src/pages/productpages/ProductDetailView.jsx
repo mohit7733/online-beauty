@@ -17,7 +17,7 @@ import axios from "axios";
 function ProductDetailView(props) {
   const [showpolicy, setshowpolicy] = useState(false);
   const [sidebar, setsidebar] = useState(true);
-  const slugdata = useParams()
+  const slugdata = useParams();
   const [iconChange, seticonChange] = useState(false);
   const [iconChange2, seticonChange2] = useState(false);
   const [thumbshow, setthumbshow] = useState(false);
@@ -55,7 +55,6 @@ function ProductDetailView(props) {
         if (res?.data?.data.length === 0) {
           setCompanydetail(false);
         }
-        
       })
       .catch((error) => {
         // Handle any errors that occur during the request
@@ -80,9 +79,8 @@ function ProductDetailView(props) {
         console.error(error);
       });
   }, []);
-  console.log(companydetail , compnayProfile)
+  console.log(companydetail, compnayProfile);
   const getProductDetails = () => {
-
     var myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
@@ -223,7 +221,6 @@ function ProductDetailView(props) {
       .then((response) => response.json())
       .then((result) => {
         if (result) {
-
           setModalState(false);
           toast.success("Request Appointment send succesfully");
           window.location.reload();
@@ -735,9 +732,11 @@ function ProductDetailView(props) {
                         <>
                           <button
                             className="hoverRemovebtn-primary btn btn-primary"
-
                             onClick={() => {
-                              if (companydetail === false || compnayProfile === false) {
+                              if (
+                                companydetail === false ||
+                                compnayProfile === false
+                              ) {
                                 // toast.error(
                                 //   "You did not fill the company information. Please fill the company information and company profile to request a meeting."
                                 // );
@@ -745,17 +744,21 @@ function ProductDetailView(props) {
                                   window.alert(
                                     "You did not fill the company information. Please fill the company information and company profile to request a meeting."
                                   );
-                                  navigate("/company-information-fill");
+                                  navigate("/company-information-fill", {
+                                    state: { company_info: 2 },
+                                  });
                                 }, 5000);
                                 return null;
                               }
                               if (
-                                productData?.meeting_status?.status == undefined && productData?.checkrequest == null && productData?.checkrequest == undefined
+                                productData?.meeting_status?.status ==
+                                  undefined &&
+                                productData?.checkrequest == null &&
+                                productData?.checkrequest == undefined
                               ) {
                                 setModalState(true);
                               }
                             }}
-
                             onMouseEnter={() => seticonChange2(true)}
                             onMouseLeave={() => seticonChange2(false)}
                           >
@@ -1033,10 +1036,13 @@ function ProductDetailView(props) {
         modalState={modalState}
         setModalState={setModalState}
       >
-        <span className="close_modal" onClick={() => {
-          setSlots([])
-          setModalState(false)
-        }}>
+        <span
+          className="close_modal"
+          onClick={() => {
+            setSlots([]);
+            setModalState(false);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
