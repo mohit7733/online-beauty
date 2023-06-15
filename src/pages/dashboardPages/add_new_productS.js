@@ -62,7 +62,57 @@ function Add_product(props) {
 
   const [subcategory, setsubcategory] = useState([]);
   const [anserstyle, setanserstyle] = useState(false);
+  const [companydetail, setCompanydetail] = useState(true);
+  const [compnayProfile, setCompanyProfile] = useState(true);
+  // check company detail
 
+  useEffect(() => {
+    axios
+      .get(`${api}/api/company-detail`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        // Handle the successful response here
+        console.log(res.data.data, "this is data");
+        if (res?.data?.data.length === 0) {
+          setCompanydetail(false);
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.error(error);
+      });
+
+    axios
+      .get(`${api}/api/company-profile`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        // Handle the successful response here
+        console.log(res.data.data.company, "this is data of company profile");
+        if (res?.data?.data?.company === null) {
+          setCompanyProfile(false);
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.error(error);
+      });
+  }, []);
+  useEffect(() => {
+    if (companydetail === false || setCompanyProfile === false) {
+      setTimeout(() => {
+        window.alert(
+          "You did not fill the company information. Please fill the company information and company profile to add new product."
+        );
+        navigate("/company-information-fill");
+      }, 1000);
+    }
+  }, [companydetail, compnayProfile]);
   const logins_field2 = (e) => {
     switch (e.target.name) {
       case "p_name":
@@ -170,7 +220,6 @@ function Add_product(props) {
     setvalidLink(matchYoutubeUrl());
   }, [contact.yt_link]);
 
-
   const logins_field = (e) => {
     switch (e) {
       case "p_name":
@@ -239,9 +288,9 @@ function Add_product(props) {
             prevOptions.map((option) =>
               option.id === id
                 ? {
-                  ...option,
-                  checkboxValues: [...option.checkboxValues, e.target.value],
-                }
+                    ...option,
+                    checkboxValues: [...option.checkboxValues, e.target.value],
+                  }
                 : option
             )
           );
@@ -251,11 +300,11 @@ function Add_product(props) {
           prevOptions.map((option) =>
             option.id === id
               ? {
-                ...option,
-                checkboxValues: option.checkboxValues.filter(
-                  (value) => value !== e.target.value
-                ),
-              }
+                  ...option,
+                  checkboxValues: option.checkboxValues.filter(
+                    (value) => value !== e.target.value
+                  ),
+                }
               : option
           )
         );
@@ -273,7 +322,7 @@ function Add_product(props) {
   });
   // console.log(subcate_id, subcate_idvalue, "acate_idacate_idacate_id");
   const add_product = () => {
-    setsubmitStatus(true)
+    setsubmitStatus(true);
     var myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
@@ -329,7 +378,7 @@ function Add_product(props) {
       });
       window.scrollTo(0, 0);
       setanserstyle(true);
-      setsubmitStatus(false)
+      setsubmitStatus(false);
     } else {
       // setanserstyle(false);
 
@@ -347,8 +396,7 @@ function Add_product(props) {
         .catch((error) => {
           toast.error("Something went wrong !");
           console.log("error", error);
-          setsubmitStatus(false)
-
+          setsubmitStatus(false);
         });
     }
   };
@@ -366,7 +414,11 @@ function Add_product(props) {
         event.target.files[0].type.split("/")[0] === "image"
       ) {
         if (event.target.files[0].size < 838000) {
-          if (event.target.files[0].name.substr(event.target.files[0].name.lastIndexOf('\\') + 1).split('.')[1] != "jfif") {
+          if (
+            event.target.files[0].name
+              .substr(event.target.files[0].name.lastIndexOf("\\") + 1)
+              .split(".")[1] != "jfif"
+          ) {
             contact.product_file.push(event.target.files[0]);
           } else {
             toast.error("This is not supported!");
@@ -661,9 +713,9 @@ function Add_product(props) {
                       style={
                         multis_category?.length == 0 && anserstyle == true
                           ? {
-                            borderBottom: "1px solid red",
-                            borderRadius: "43px",
-                          }
+                              borderBottom: "1px solid red",
+                              borderRadius: "43px",
+                            }
                           : {}
                       }
                       className="form-group full"
@@ -930,7 +982,7 @@ function Add_product(props) {
                         </p>
                         <div className="radio_btn">
                           {quest?.type == "Subjective" ||
-                            quest?.type.toLowerCase() === "textarea" ? (
+                          quest?.type.toLowerCase() === "textarea" ? (
                             <textarea
                               className="form-control"
                               name="Policy"
@@ -964,8 +1016,8 @@ function Add_product(props) {
                                     emptyans?.filter((item) => {
                                       return item?.id == quest?.id;
                                     }) == undefined
-                                    ? { borderBottom: "1px solid red" }
-                                    : {}
+                                  ? { borderBottom: "1px solid red" }
+                                  : {}
                               }
                             ></textarea>
                           ) : (
@@ -983,8 +1035,8 @@ function Add_product(props) {
                                     emptyans?.filter((item) => {
                                       return item?.id == quest?.id;
                                     }) == undefined
-                                    ? { borderBottom: "1px solid red" }
-                                    : {}
+                                  ? { borderBottom: "1px solid red" }
+                                  : {}
                               }
                             >
                               <select
@@ -1011,7 +1063,7 @@ function Add_product(props) {
                                       <input
                                         type={
                                           quest?.type.toLowerCase() !==
-                                            "objective"
+                                          "objective"
                                             ? quest?.type.toLowerCase()
                                             : "radio"
                                         }
@@ -1037,14 +1089,14 @@ function Add_product(props) {
                                           emptyans_id?.filter((item) => {
                                             return item === quest?.id;
                                           })[0] == quest?.id &&
-                                            anserstyle == true
+                                          anserstyle == true
                                             ? { borderBottom: "1px solid red" }
                                             : anserstyle == true &&
                                               emptyans?.filter((item) => {
                                                 return item?.id == quest?.id;
                                               }) == undefined
-                                              ? { borderBottom: "1px solid red" }
-                                              : {}
+                                            ? { borderBottom: "1px solid red" }
+                                            : {}
                                         }
                                       >
                                         {option}
@@ -1117,10 +1169,10 @@ function Add_product(props) {
                             contact.yt_link == ""
                               ? { display: "none" }
                               : {
-                                display: "block",
-                                color: "red",
-                                fontSize: "10px",
-                              }
+                                  display: "block",
+                                  color: "red",
+                                  fontSize: "10px",
+                                }
                           }
                         >
                           {validlink != true
