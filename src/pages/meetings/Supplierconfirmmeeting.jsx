@@ -14,11 +14,18 @@ function Supplierconfirmmeeting(props) {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(api + "/api/v1/" + (path == "/confirmed-meeting/buyer" ? "buyermeetingreqlist" : "supplier-confrm-meeting"), {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+      .get(
+        api +
+          "/api/v1/" +
+          (path == "/confirmed-meeting/buyer"
+            ? "buyermeetingreqlist"
+            : "supplier-confrm-meeting"),
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      )
       .then((response) => {
         // Handle the response here
         console.log(response?.data?.data?.meetings);
@@ -41,7 +48,7 @@ function Supplierconfirmmeeting(props) {
         toast.success("Meeting Done !");
         // Handle successful response here
         console.log(response.data);
-        window.location.reload()
+        window.location.reload();
         // Do something with the data
       })
       .catch((error) => {
@@ -150,18 +157,30 @@ function Supplierconfirmmeeting(props) {
           <table>
             <thead>
               <tr>
-                <th>{(path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer")} Name</th>
+                <th>
+                  {path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
+                  Name
+                </th>
                 <th>Country Codes</th>
                 <th>Meeting Date</th>
-                <th>{(path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer")} Time</th>
+                <th>
+                  {path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
+                  Time
+                </th>
 
                 <th>
-                  Meeting Time ({data !== undefined ? meetingData[0]?.buyerCountryCode.countrycode : ""}
+                  Meeting Time (
+                  {data !== undefined
+                    ? meetingData[0]?.buyerCountryCode.countrycode
+                    : ""}
                   )
                   {/* ({" "}
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>
-                <th>{(path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer")} Profile</th>
+                <th>
+                  {path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
+                  Profile
+                </th>
                 <th>Meeting Status</th>
                 {/* <th>Passed meeting</th> */}
                 {/* <th>ICS</th> */}
@@ -169,10 +188,14 @@ function Supplierconfirmmeeting(props) {
             </thead>
             <tbody>
               {console.log(data)}
-              {data?.map((meeting, index) => (
-                meeting?.status === 4 ?
+              {data?.map((meeting, index) =>
+                meeting?.status === 4 ? (
                   <tr key={index}>
-                    <td>{meetingData[index]?.buyername ? meetingData[index]?.buyername : meetingData[index]?.suppliername}</td>
+                    <td>
+                      {meetingData[index]?.buyername
+                        ? meetingData[index]?.buyername
+                        : meetingData[index]?.suppliername}
+                    </td>
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
                       {meeting?.supplieravailabledate?.map((date, index) => (
@@ -200,7 +223,7 @@ function Supplierconfirmmeeting(props) {
                         return meetingDateTimeStrings.map((time, index) => {
                           const buyerMeetingTime = moment.tz(
                             time,
-                            "DD-MM-YYYY HH:mm",
+                            "DD-MM-YYYY HH:mm A",
                             buyerTimeZone
                           );
                           const timeDiffMinutes = moment
@@ -218,7 +241,9 @@ function Supplierconfirmmeeting(props) {
                           const formattedSupplierMeetingTime =
                             supplierMeetingTime.format("h:mm A");
                           return (
-                            <div key={index}>{formattedSupplierMeetingTime}</div>
+                            <div key={index}>
+                              {formattedSupplierMeetingTime}
+                            </div>
                           );
                         });
                       })()}
@@ -226,44 +251,42 @@ function Supplierconfirmmeeting(props) {
 
                     <td>
                       {meeting?.supplieravailabletime?.map((time, index) => {
-                        const formattedTime = moment(time, "h:mm A").format(
-                          "h:mm a"
-                        );
-                        return (
-                          <div key={index}>
-                            {moment(time, "h:mm A").isValid()
-                              ? formattedTime
-                              : time}
-                          </div>
-                        );
+                        return <div key={index}>{time}</div>;
                       })}
                     </td>
+
                     <td className="roles">
                       <a
                         // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
                         className="btn btn-success"
                         onClick={() => {
-                          path == "/confirmed-meeting/buyer" ?
-                            navigate(
-                              "/product-detail-view/" + meetingData[index].product_id + "/" + meetingData[index]?.product_name?.replace(/\s+/g, "-"), {
-                              state: {
-                                id: data.id,
-                              }
-                            }
-                            )
-                            :
-                            navigate(
-                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                              {
-                                state: {
-                                  id: meeting?.id,
-                                  buyer_id: meeting?.buyer_id,
-                                  time: meeting?.meetingDates,
-                                  date: meeting?.meetingTime,
-                                  supplier_id: meeting?.supplier_id,
-                                },
-                              }
-                            )
+                          path == "/confirmed-meeting/buyer"
+                            ? navigate(
+                                "/product-detail-view/" +
+                                  meetingData[index].product_id +
+                                  "/" +
+                                  meetingData[index]?.product_name?.replace(
+                                    /\s+/g,
+                                    "-"
+                                  ),
+                                {
+                                  state: {
+                                    id: data.id,
+                                  },
+                                }
+                              )
+                            : navigate(
+                                `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                                {
+                                  state: {
+                                    id: meeting?.id,
+                                    buyer_id: meeting?.buyer_id,
+                                    time: meeting?.meetingDates,
+                                    date: meeting?.meetingTime,
+                                    supplier_id: meeting?.supplier_id,
+                                  },
+                                }
+                              );
                         }}
                       >
                         View More
@@ -281,20 +304,22 @@ function Supplierconfirmmeeting(props) {
                           {meeting?.status === 4
                             ? "Meeting Done ?"
                             : meeting?.status === 5
-                              ? "Completed"
-                              : meeting?.status === 1
-                                ? "In Progress"
-                                : meeting?.status === 2
-                                  ? "Supplier confirm Meeting. Payment Pending"
-                                  : meeting?.status === 3
-                                    ? "Refused"
-                                    : ""}
+                            ? "Completed"
+                            : meeting?.status === 1
+                            ? "In Progress"
+                            : meeting?.status === 2
+                            ? "Supplier confirm Meeting. Payment Pending"
+                            : meeting?.status === 3
+                            ? "Refused"
+                            : ""}
                         </a>
                       </div>
                     </td>
                   </tr>
-                  : ""
-              ))}
+                ) : (
+                  ""
+                )
+              )}
             </tbody>
           </table>
         </div>

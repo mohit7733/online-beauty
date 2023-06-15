@@ -525,7 +525,7 @@ function Company_informationNew(props) {
 
                 <div className="form-row align-items-center">
                   <div className="left">
-                    <label>TimeZone</label>
+                    <label>TimeZone <span style={{ color: "red" }}>*</span></label>
                   </div>
                   <div className="right">
                     <div className="form-group">
