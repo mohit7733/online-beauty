@@ -739,14 +739,14 @@ function ProductDetailView(props) {
                             onClick={() => {
                               if (companydetail === false || compnayProfile === false) {
                                 toast.error(
-                                  "You have not filled the company details"
+                                  "You did not fill the company information. Please fill the company information and company profile to request a meeting."
                                 );
                                 setTimeout(() => {
                                   window.alert(
                                     "You did not fill the company information. Please fill the company information and company profile to request a meeting."
                                   );
                                   navigate("/company-information-fill");
-                                }, 3000);
+                                }, 5000);
                                 return null;
                               }
                               if (
