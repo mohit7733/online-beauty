@@ -243,7 +243,7 @@ function Productview() {
                                                 <div className='img-wrapper' onClick={() => {
                                                     if (localStorage.getItem("token") != null) {
 
-                                                        navigate("/product-detail-view/" + data.id)
+                                                        navigate("/product-view/" + data.id)
                                                     } else {
                                                         navigate("/product-details/" + data.id)
                                                     }

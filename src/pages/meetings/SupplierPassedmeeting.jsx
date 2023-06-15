@@ -221,33 +221,27 @@ function Supplierpassedmeeting(props) {
                         // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
                         class="btn btn-success"
                         onClick={() => {
-                          path == "/passed-meeting/buyer"
-                            ? navigate(
-                                "/product-detail-view/" +
-                                  meetingData[index].product_id +
-                                  "/" +
-                                  meetingData[index]?.product_name?.replace(
-                                    /\s+/g,
-                                    "-"
-                                  ),
-                                {
-                                  state: {
-                                    id: data.id,
-                                  },
-                                }
-                              )
-                            : navigate(
-                                `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                                {
-                                  state: {
-                                    id: meeting?.id,
-                                    buyer_id: meeting?.buyer_id,
-                                    time: meeting?.meetingDates,
-                                    date: meeting?.meetingTime,
-                                    supplier_id: meeting?.supplier_id,
-                                  },
-                                }
-                              );
+                          path == "/passed-meeting/buyer" ?
+                            navigate(
+                              "/product-view/" + meetingData[index].product_id + "/" + meetingData[index]?.product_name?.replace(/\s+/g, "-"), {
+                              state: {
+                                id: data.id,
+                              }
+                            }
+                            )
+                            :
+                            navigate(
+                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                              {
+                                state: {
+                                  id: meeting?.id,
+                                  buyer_id: meeting?.buyer_id,
+                                  time: meeting?.meetingDates,
+                                  date: meeting?.meetingTime,
+                                  supplier_id: meeting?.supplier_id,
+                                },
+                              }
+                            )
                         }}
                       >
                         View More
