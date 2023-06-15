@@ -128,7 +128,7 @@ function App() {
             element={<Productbeforemeeting />}
           />
           <Route
-            path="/product-detail-view/:id/:name"
+            path="/product-view/:id/:name"
             element={
               <Private_route element={<ProductDetailView pageType="new" />} />
             }

@@ -377,7 +377,7 @@ function Productview() {
                               localStorage.getItem("user_id") == data?.user_id
                             ) {
                               // navigate("/product-details/" + data.id);
-                              navigate("/product-detail-view/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-"), {
+                              navigate("/product-view/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-").normalize('NFD').replace(/[\u0300-\u036f]/g, ''), {
                                 state: {
                                   id: data.id,
                                 }
@@ -387,13 +387,13 @@ function Productview() {
                                 .getItem("user_type")
                                 ?.toLowerCase() == "supplier"
                             ) {
-                              navigate("/product-details/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, " - "), {
+                              navigate("/product-details/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-").normalize('NFD').replace(/[\u0300-\u036f]/g, ''), {
                                 state: {
                                   id: data.id,
                                 }
                               });
                             } else {
-                              navigate("/product-detail-view/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-"), {
+                              navigate("/product-view/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-").normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, ''), {
                                 state: {
                                   id: data.id,
                                 }

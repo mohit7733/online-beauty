@@ -208,7 +208,7 @@ function Supplierpassedmeeting(props) {
                         onClick={() => {
                           path == "/passed-meeting/buyer" ?
                             navigate(
-                              "/product-detail-view/" + meetingData[index].product_id + "/" + meetingData[index]?.product_name?.replace(/\s+/g, "-"), {
+                              "/product-view/" + meetingData[index].product_id + "/" + meetingData[index]?.product_name?.replace(/\s+/g, "-"), {
                               state: {
                                 id: data.id,
                               }
