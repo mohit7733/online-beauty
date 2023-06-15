@@ -222,7 +222,7 @@ export const CheckoutForm2 = (props) => {
           // console.log(response.data.payment.charges.data[0].billing_details);
           window.scrollTo(0, 0);
           if (state?.meeting_id == undefined) {
-            // navigate("/dashboard");
+            navigate("/dashboard");
           } else {
             navigate("/confirmed-meeting/supplier");
           }

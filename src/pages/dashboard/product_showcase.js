@@ -6,7 +6,7 @@ import deleteicon from "../../assets/images/trash-2.svg";
 import warningicon from "../../assets/images/warning2.png";
 import editicon from "../../assets/images/edit (1).svg";
 import { toast } from "react-toastify";
-
+import axios from "axios";
 function Product_showcase(props) {
   const [theytrusted, settheytrusted] = useState([]);
   const [check, setcheck] = useState(true);
@@ -19,6 +19,48 @@ function Product_showcase(props) {
   const [pageNumberLimit, setpageNumberLimit] = useState(5);
   const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setminPageNumberLimit] = useState(0);
+
+  const [companydetail, setCompanydetail] = useState(true);
+  const [compnayProfile, setCompanyProfile] = useState(true);
+  // check company detail
+
+  useEffect(() => {
+    axios
+      .get(`${api}/api/company-detail`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        // Handle the successful response here
+        console.log(res.data.data, "this is data");
+        if (res?.data?.data.length === 0) {
+          setCompanydetail(false);
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.error(error);
+      });
+
+    axios
+      .get(`${api}/api/company-profile`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        // Handle the successful response here
+        console.log(res.data.data.company, "this is data of company profile");
+        if (res?.data?.data?.company === null) {
+          setCompanyProfile(false);
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.error(error);
+      });
+  }, []);
 
   const handleNextbtn = () => {
     setcurrentPage(currentPage + 1);
@@ -121,9 +163,7 @@ function Product_showcase(props) {
     }, 100);
   }, []);
 
-
   const user_type = localStorage.getItem("user_type")?.toLowerCase();
-
 
   return (
     <>
@@ -165,13 +205,13 @@ function Product_showcase(props) {
             </li>
             <li>
               <a href="#">
-              {user_type == "both"
+                {user_type == "both"
                   ? "Supplier"
                   : user_type == "buyer"
                   ? "Buyer"
                   : user_type == "supplier"
                   ? "Supplier"
-                  : ""}             
+                  : ""}
               </a>
             </li>
             <li>
@@ -199,9 +239,15 @@ function Product_showcase(props) {
               // href="/add-new-product"
               onClick={() => {
                 checkSubscription().then((response) => {
-                  console.log(response, "<<<<<<<," ,response?.message?.subscription_status ,                    response?.data.manage_type?.toLowerCase() == "shareduser"
+                  console.log(
+                    response,
+                    "<<<<<<<,",
+                    response?.message?.subscription_status,
+                    response?.data.manage_type?.toLowerCase() == "shareduser"
                   );
-                  if (response?.data?.subscription_status !== 0) {
+                  if (companydetail === false || compnayProfile === false) {
+                    navigate("/company-Information-fill");
+                  } else if (response?.data?.subscription_status !== 0) {
                     navigate("/add-new-product");
                   } else if (
                     response?.message?.subscription_status != 0 &&
@@ -290,7 +336,7 @@ function Product_showcase(props) {
                       />
                       <img
                         src={deleteicon}
-                        style={{opacity:"0.6"}}
+                        style={{ opacity: "0.6" }}
                         alt=""
                         // onClick={(e) => {
                         //   setdeleteid(data.id);
