@@ -171,7 +171,9 @@ function Company_informationNew(props) {
           toast.success(result?.message);
           setTimeout(() => {
             // props.setsection(3)
-
+            if (compnay_profile !== null) {
+              navigate("/buyer-company-profile");
+            }
             if (state?.fill_now == "details") {
               navigate("/company-Information");
             } else {
