@@ -738,9 +738,9 @@ function ProductDetailView(props) {
 
                             onClick={() => {
                               if (companydetail === false || compnayProfile === false) {
-                                toast.error(
-                                  "You did not fill the company information. Please fill the company information and company profile to request a meeting."
-                                );
+                                // toast.error(
+                                //   "You did not fill the company information. Please fill the company information and company profile to request a meeting."
+                                // );
                                 setTimeout(() => {
                                   window.alert(
                                     "You did not fill the company information. Please fill the company information and company profile to request a meeting."
