@@ -38,8 +38,8 @@ function ProductDetailView(props) {
   const [meetingStatus, setMeetingState] = useState();
   const [apiDateFormat, setApiDateFormat] = useState("");
   const [modalState, setModalState] = useState(false);
-  const [companydetail, setCompanydetail] = useState();
-  const [compnayProfile, setCompanyProfile] = useState();
+  const [companydetail, setCompanydetail] = useState(true);
+  const [compnayProfile, setCompanyProfile] = useState(true);
   // check company detail
 
   useEffect(() => {
@@ -52,9 +52,10 @@ function ProductDetailView(props) {
       .then((res) => {
         // Handle the successful response here
         console.log(res.data.data, "this is data");
-        if (res?.data?.data === []) {
+        if (res?.data?.data.length === 0) {
           setCompanydetail(false);
         }
+        
       })
       .catch((error) => {
         // Handle any errors that occur during the request
@@ -79,7 +80,7 @@ function ProductDetailView(props) {
         console.error(error);
       });
   }, []);
-
+  console.log(companydetail , compnayProfile)
   const getProductDetails = () => {
 
     var myHeaders = new Headers();
@@ -100,7 +101,7 @@ function ProductDetailView(props) {
       .then((result) => {
         settextChange(result.data?.favornot);
         setMeetingState(result?.data?.checkrequest);
-        console.log(result?.data?.checkrequest, "this is meeting status");
+        // console.log(result?.data?.checkrequest, "this is meeting status");
         // console.log(result.data.media_files ,result.data?.product?.thumb_index , thumb , "<<<<<<<result.data");
         setthumb(
           result.data?.media_files[
@@ -147,7 +148,7 @@ function ProductDetailView(props) {
             setMessageshow(false);
           }, 5000);
         }
-        console.log(result);
+        // console.log(result);
       })
       .catch((error) => {
         console.log("error", error);
@@ -257,12 +258,12 @@ function ProductDetailView(props) {
         ...slots,
         { sDate: sDate, sTime: sTime, apiDate: apiDateFormat },
       ];
-      console.log(mergedSlots);
+      // console.log(mergedSlots);
       setSlots(mergedSlots);
       setSdate("");
       setSTime("");
       setApiDateFormat("");
-      console.log(slots);
+      // console.log(slots);
     }
   };
 
@@ -280,7 +281,7 @@ function ProductDetailView(props) {
   let url2 = productData.product?.category?.replace(/\s+/g, "-");
 
   useEffect(() => {
-    console.log(main, select, "ASDF<state<<<<<<<<");
+    // console.log(main, select, "ASDF<state<<<<<<<<");
   }, [main, select]);
 
   if (
@@ -312,7 +313,7 @@ function ProductDetailView(props) {
 
   // const {state} = useLocation()
 
-  console.log(state, slugdata);
+  // console.log(state, slugdata);
 
   return (
     <>
@@ -736,16 +737,16 @@ function ProductDetailView(props) {
                             className="hoverRemovebtn-primary btn btn-primary"
 
                             onClick={() => {
-                              if (!companydetail || !compnayProfile) {
-                                toast.error(
-                                  "You have not filled the company details"
-                                );
+                              if (companydetail === false || compnayProfile === false) {
+                                // toast.error(
+                                //   "You did not fill the company information. Please fill the company information and company profile to request a meeting."
+                                // );
                                 setTimeout(() => {
                                   window.alert(
                                     "You did not fill the company information. Please fill the company information and company profile to request a meeting."
                                   );
                                   navigate("/company-information-fill");
-                                }, 3000);
+                                }, 5000);
                                 return null;
                               }
                               if (
