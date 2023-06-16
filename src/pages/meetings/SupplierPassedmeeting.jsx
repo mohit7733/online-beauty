@@ -14,13 +14,14 @@ function Supplierpassedmeeting(props) {
   const [searchdata, setsearchdata] = useState("");
 
   useEffect(() => {
+    setMeetingData([])
     axios
       .get(
         api +
         "/api/v1/" +
         (path == "/passed-meeting/buyer"
           ? "buyermeetingreqlist?sortBy=" + shortby + "&buyerName=" + searchdata
-          : "supplier-confrm-meeting?sortBy=" + shortby + "&buyerName=" + searchdata),
+          : "supplier-complete-meeting?sortBy=" + shortby + "&buyerName=" + searchdata),
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -40,7 +41,7 @@ function Supplierpassedmeeting(props) {
         // Handle any errors here
         console.error(error);
       });
-  }, []);
+  }, [shortby]);
 
   const searchfilter = () => {
     if (path != "/confirmed-meeting/buyer") {
@@ -269,31 +270,31 @@ function Supplierpassedmeeting(props) {
                         onClick={() => {
                           path == "/passed-meeting/buyer"
                             ? navigate(
-                                "/product-view/" +
-                                  meetingData[index].product_id +
-                                  "/" +
-                                  meetingData[index]?.product_name?.replace(
-                                    /\s+/g,
-                                    "-"
-                                  ),
-                                {
-                                  state: {
-                                    id: data.id,
-                                  },
-                                }
-                              )
+                              "/product-view/" +
+                              meetingData[index].product_id +
+                              "/" +
+                              meetingData[index]?.product_name?.replace(
+                                /\s+/g,
+                                "-"
+                              ),
+                              {
+                                state: {
+                                  id: data.id,
+                                },
+                              }
+                            )
                             : navigate(
-                                `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                                {
-                                  state: {
-                                    id: meeting?.id,
-                                    buyer_id: meeting?.buyer_id,
-                                    time: meeting?.meetingDates,
-                                    date: meeting?.meetingTime,
-                                    supplier_id: meeting?.supplier_id,
-                                  },
-                                }
-                              );
+                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                              {
+                                state: {
+                                  id: meeting?.id,
+                                  buyer_id: meeting?.buyer_id,
+                                  time: meeting?.meetingDates,
+                                  date: meeting?.meetingTime,
+                                  supplier_id: meeting?.supplier_id,
+                                },
+                              }
+                            );
                         }}
                       >
                         View More

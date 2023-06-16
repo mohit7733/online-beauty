@@ -4012,6 +4012,11 @@ iframe {
   font-size: 13px;
 }
 
+.serach_sectionset .custom-select {
+  display: flex;
+  align-items: center;
+}
+
 .product_section .categories .column .search input {
   min-width: 190px !important;
   font-size: 13px !important;
@@ -6819,9 +6824,11 @@ table thead tr th:last-child {
 .company_wrapper h2 {
   padding: 0px;
 }
+
 .pr {
   position: relative;
 }
+
 .pr p {
   position: absolute;
   top: 5px;

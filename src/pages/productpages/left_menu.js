@@ -654,10 +654,10 @@ export default function Left_menu(props) {
           <a className="dropdown-item" href="/buyer-favourite-product">
             Favourite List
           </a>
-          <a className="dropdown-item" href="#">
+          <a className="dropdown-item" href="/confirmed-meeting/buyer">
             Confirmed Meetings
           </a>
-          <a className="dropdown-item" href="#">
+          <a className="dropdown-item" href="/passed-meeting/buyer">
             Passed Meetings
           </a>
         </div>
