@@ -3942,11 +3942,11 @@ iframe {
   font-size: 14px;
 }
 
-.contact_comapny li {
+/* .contact_comapny li {
   display: flex;
   align-items: center;
   padding-bottom: 15px;
-}
+} */
 
 .contact_comapny li img {
   padding-right: 15px;
@@ -9024,7 +9024,7 @@ a.error_icon i {
 }
 
 .product_section .categories .column .btn {
-  min-width: 125px;
+  min-width: 180px;
 }
 
 .product_section .categories .column .btn {
@@ -10415,11 +10415,13 @@ iframe {
   font-size: 14px;
 }
 
+
 .contact_comapny li {
-  display: flex;
-  align-items: center;
+  /* display: flex; */
+  /* align-items: center; */
   padding-bottom: 15px;
 }
+
 
 .contact_comapny li img {
   padding-right: 15px;
