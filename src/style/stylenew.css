@@ -9027,6 +9027,10 @@ a.error_icon i {
   min-width: 125px;
 }
 
+.product_section .categories .column .btn {
+  min-width: 180px;
+}
+
 .product_section .categories .column .btn-default {
   background-color: #fff;
   color: #19a0dd;
