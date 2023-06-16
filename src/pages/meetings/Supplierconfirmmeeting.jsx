@@ -4,14 +4,18 @@ import axios from "axios";
 import { country } from "../../pages/dashboard/country";
 import moment from "moment-timezone";
 import { api } from "../base_url";
+import warningicon from "../../assets/images/warning2.png";
+
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 function Supplierconfirmmeeting(props) {
   const [accept, setaccept] = useState(false);
   const [meetingData, setmeetingData] = useState();
   const [meetingData2, setmeetingData2] = useState();
+  const [alertshow, setalertshow] = useState(false);
   const path = window.location.pathname;
   console.log(path);
+  const [acceptId, setAcceptId] = useState();
   const [shortby, setshortby] = useState("");
   const [searchdata, setsearchdata] = useState("");
   const navigate = useNavigate();
@@ -20,16 +24,16 @@ function Supplierconfirmmeeting(props) {
     axios
       .get(
         api +
-        "/api/v1/" +
-        (path == "/confirmed-meeting/buyer"
-          ? "buyermeetingreqlist?sortBy=" +
-          shortby +
-          "&buyerName=" +
-          searchdata
-          : "supplier-confrm-meeting?sortBy=" +
-          shortby +
-          "&buyerName=" +
-          searchdata),
+          "/api/v1/" +
+          (path == "/confirmed-meeting/buyer"
+            ? "buyermeetingreqlist?sortBy=" +
+              shortby +
+              "&buyerName=" +
+              searchdata
+            : "supplier-confrm-meeting?sortBy=" +
+              shortby +
+              "&buyerName=" +
+              searchdata),
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -65,7 +69,7 @@ function Supplierconfirmmeeting(props) {
     }
   };
 
-  const handleButtonClick = (id, event) => {
+  const handleButtonClick = (id) => {
     event.preventDefault(); // Prevent the default behavior of the anchor tag
     axios
       .get(api + `/api/v1/supplier-meeting-done?meeting_id=${id}`, {
@@ -77,7 +81,7 @@ function Supplierconfirmmeeting(props) {
         toast.success("Meeting Done !");
         // Handle successful response here
         console.log(response.data);
-        window.location.reload();
+        navigate("/passed-meeting/supplier");
         // Do something with the data
       })
       .catch((error) => {
@@ -140,6 +144,37 @@ function Supplierconfirmmeeting(props) {
   // console.log(data[0]?.countrycode, "this is data");
   return (
     <>
+      {alertshow == true ? (
+        <div className="alert_box">
+          <div className="box_size">
+            <img
+              src={warningicon}
+              style={{ paddingBottom: "14px" }}
+              alt="warning"
+            />
+            <br />
+            <p> is the meeting done?</p>
+
+            <div>
+              <button
+                onClick={() => setalertshow(false)}
+                className="btn btn-block btn-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleButtonClick(acceptId)}
+                className="btn btn-block btn-primary"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
       <div className={(props.sidebar ? "active " : " ") + "router-body"}>
         <div className="breadcrumbs" data-aos="fade-down">
           <ul>
@@ -235,13 +270,21 @@ function Supplierconfirmmeeting(props) {
                     </td>
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
-
                       {(() => {
                         const buyerTimeZone = meeting?.buyer_Time_Zone;
                         const supplierTimeZone = meeting?.supplier_Time_Zone;
-                        { console.log(buyerTimeZone, supplierTimeZone, "<<<<<<<<<>>>>>>>>>>>>") }
+                        {
+                          console.log(
+                            buyerTimeZone,
+                            supplierTimeZone,
+                            "<<<<<<<<<>>>>>>>>>>>>"
+                          );
+                        }
 
-                        if (buyerTimeZone === null || supplierTimeZone === null) {
+                        if (
+                          buyerTimeZone === null ||
+                          supplierTimeZone === null
+                        ) {
                           // Handle the case when time zone information is missing
                           return meeting?.meetingDates?.map((date, index) => (
                             <div key={index}>{date}</div>
@@ -259,11 +302,16 @@ function Supplierconfirmmeeting(props) {
                           )
                             .tz(supplierTimeZone)
                             .format("DD-MM-YYYY");
-                             console.log(date, buyerTimeZone, supplierTimeZone, formattedDate, convertedDate,new Date());
+                          console.log(
+                            date,
+                            buyerTimeZone,
+                            supplierTimeZone,
+                            formattedDate,
+                            convertedDate,
+                            new Date()
+                          );
                           return <div key={index}>{convertedDate}</div>;
-                          
                         });
-                       
 
                         return meeting?.meetingDates?.map((date, index) => (
                           <div key={index}>{date}</div>
@@ -329,8 +377,6 @@ function Supplierconfirmmeeting(props) {
                       })()}
                     </td>
 
-
-
                     <td className="roles">
                       <a
                         // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
@@ -338,31 +384,31 @@ function Supplierconfirmmeeting(props) {
                         onClick={() => {
                           path == "/confirmed-meeting/buyer"
                             ? navigate(
-                              "/product-view/" +
-                              meetingData[index].product_id +
-                              "/" +
-                              meetingData[index]?.product_name?.replace(
-                                /\s+/g,
-                                "-"
-                              ),
-                              {
-                                state: {
-                                  id: data.id,
-                                },
-                              }
-                            )
+                                "/product-view/" +
+                                  meetingData[index].product_id +
+                                  "/" +
+                                  meetingData[index]?.product_name?.replace(
+                                    /\s+/g,
+                                    "-"
+                                  ),
+                                {
+                                  state: {
+                                    id: data.id,
+                                  },
+                                }
+                              )
                             : navigate(
-                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                              {
-                                state: {
-                                  id: meeting?.id,
-                                  buyer_id: meeting?.buyer_id,
-                                  time: meeting?.meetingDates,
-                                  date: meeting?.meetingTime,
-                                  supplier_id: meeting?.supplier_id,
-                                },
-                              }
-                            );
+                                `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                                {
+                                  state: {
+                                    id: meeting?.id,
+                                    buyer_id: meeting?.buyer_id,
+                                    time: meeting?.meetingDates,
+                                    date: meeting?.meetingTime,
+                                    supplier_id: meeting?.supplier_id,
+                                  },
+                                }
+                              );
                         }}
                       >
                         View More
@@ -374,20 +420,24 @@ function Supplierconfirmmeeting(props) {
                           href="#"
                           className="btn btn-secondary"
                           onClick={(event) =>
-                            handleButtonClick(meeting?.id, event)
+                            // handleButtonClick(meeting?.id, event)
+                            {
+                              setalertshow(true);
+                              setAcceptId(meeting?.id);
+                            }
                           }
                         >
                           {meeting?.status === 4
                             ? "Meeting Done ?"
-                            : meeting?.status === 5
-                              ? "Completed"
-                              : meeting?.status === 1
-                                ? "In Progress"
-                                : meeting?.status === 2
-                                  ? "Supplier confirm Meeting. Payment Pending"
-                                  : meeting?.status === 3
-                                    ? "Refused"
-                                    : ""}
+                            : // : meeting?.status === 5
+                              // ? "Completed"
+                              // : meeting?.status === 1
+                              // ? "In Progress"
+                              // : meeting?.status === 2
+                              // ? "Supplier confirm Meeting. Payment Pending"
+                              // : meeting?.status === 3
+                              // ? "Refused"
+                              ""}
                         </a>
                       </div>
                     </td>

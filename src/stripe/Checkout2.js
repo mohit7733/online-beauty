@@ -691,6 +691,7 @@ export const CheckoutForm2 = (props) => {
                     id="buyer"
                     name="fav_language"
                     value="A buyer"
+                    m
                     // checked=""
                     onChange={(e) => {
                       setshowVat(true);
@@ -707,6 +708,7 @@ export const CheckoutForm2 = (props) => {
                     id="supplier"
                     name="fav_language"
                     value="A supplier"
+                    required
                     onChange={(e) => {
                       setshowVat(false);
                       // console.log(e);
