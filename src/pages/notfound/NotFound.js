@@ -13,13 +13,13 @@ const NotFound404 = () => {
             </li>
             <li>
               <a href="error.html">
-                <span>Page not found</span>
+                <span>Products</span>
               </a>
             </li>
           </ul>
         </div>
       </div>
-
+    <center><p>Sorry We couldn't find any product</p></center>
       <div className="container">
         <div className="error_page row justify-content-around">
           <figure>
@@ -27,9 +27,8 @@ const NotFound404 = () => {
           </figure>
         </div>
         <div className="error-button row justify-content-center">
-          <a className="error_icon" href="/dashboard">
-            <i className="fa fa-arrow-left left" aria-hidden="true"></i>Back to
-            Homepage
+          <a className="error_icon" href="/product-view">
+            <i className="fa fa-arrow-left left" aria-hidden="true"></i>Back To All Product
           </a>
         </div>
       </div>
