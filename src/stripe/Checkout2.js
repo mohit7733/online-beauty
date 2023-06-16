@@ -334,34 +334,32 @@ export const CheckoutForm2 = (props) => {
         },
       })
       .then((response) => {
-        if (data != null) {
 
-          const { data } = response.data;
-          const paymentJsonData = JSON.parse(data.payment_json_data);
-          setPaymentCardData(paymentJsonData);
-          setTimeout(() => {
-            detail_data.name =
-              paymentJsonData?.charges?.data[0]?.billing_details?.name;
-            detail_data.email =
-              paymentJsonData?.charges?.data[0]?.billing_details?.email;
-            detail_data.phone =
-              paymentJsonData?.charges?.data[0]?.billing_details?.phone;
-            detail_data.address.city =
-              paymentJsonData.charges?.data[0]?.billing_details?.address?.city;
-            detail_data.address.postal_code =
-              paymentJsonData.charges?.data[0]?.billing_details?.address?.postal_code;
-            detail_data.address.country =
-              paymentJsonData.charges?.data[0]?.billing_details?.address?.country;
-            detail_data.address.line1 =
-              paymentJsonData.charges?.data[0]?.billing_details?.address?.line1;
-          }, 50);
-          setTimeout(() => {
-            setdetail_data({ ...detail_data });
-          }, 150);
-          setTimeout(() => {
-            setdetail_data({ ...detail_data });
-          }, 250);
-        }
+        const { data } = response.data;
+        const paymentJsonData = JSON.parse(data.payment_json_data);
+        setPaymentCardData(paymentJsonData);
+        setTimeout(() => {
+          detail_data.name =
+            paymentJsonData?.charges?.data[0]?.billing_details?.name;
+          detail_data.email =
+            paymentJsonData?.charges?.data[0]?.billing_details?.email;
+          detail_data.phone =
+            paymentJsonData?.charges?.data[0]?.billing_details?.phone;
+          detail_data.address.city =
+            paymentJsonData.charges?.data[0]?.billing_details?.address?.city;
+          detail_data.address.postal_code =
+            paymentJsonData.charges?.data[0]?.billing_details?.address?.postal_code;
+          detail_data.address.country =
+            paymentJsonData.charges?.data[0]?.billing_details?.address?.country;
+          detail_data.address.line1 =
+            paymentJsonData.charges?.data[0]?.billing_details?.address?.line1;
+        }, 50);
+        setTimeout(() => {
+          setdetail_data({ ...detail_data });
+        }, 150);
+        setTimeout(() => {
+          setdetail_data({ ...detail_data });
+        }, 250);
       })
       .catch((error) => {
         console.error(error);

@@ -94,10 +94,13 @@ function Supplierpassedmeeting(props) {
         detail?.supplierCountryCode?.countrycode != null
           ? detail?.supplierCountryCode?.countrycode
           : "Not Added",
-      meetingDates: detail?.meetDateTime?.map((date) => date.meet_date) || [
+      meetingDates: detail?.supplier_available ? JSON.parse(detail?.supplier_available)?.map((date) => date.date) : [
         "Not Added",
       ],
-      meetingTime: detail?.meetDateTime?.map((time) => time.meet_time) || [
+      meetingTime: detail?.supplier_available ? JSON.parse(detail?.supplier_available).map((time) => time.time) : [
+        "Not Added",
+      ],
+      meetingTime2: detail?.buyer_availaible_timezone ? JSON.parse(detail?.buyer_availaible_timezone).map((time) => time) : [
         "Not Added",
       ],
     };
@@ -159,18 +162,15 @@ function Supplierpassedmeeting(props) {
                   {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"} Name
                 </th>
                 <th>Country Codes</th>
-                <th>Meeting Date</th>
+                <th>Supplier Date / Time</th>
                 <th>
-                  {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"} Time
-                </th>
-
-                <th>
-                  {" "}
-                  Meeting Time (
+                  Buyer Date / Time (
                   {data !== undefined
                     ? meetingData[0]?.buyerCountryCode.countrycode
                     : ""}
                   )
+                  {/* ({" "}
+                  {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>
                 <th>
                   {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
@@ -191,77 +191,26 @@ function Supplierpassedmeeting(props) {
                     </td>
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
-                      {(() => {
-                        const buyerTimeZone = meeting?.buyer_Time_Zone;
-                        const supplierTimeZone = meeting?.supplier_Time_Zone;
-
-                        if (
-                          buyerTimeZone === null ||
-                          supplierTimeZone === null
-                        ) {
-                          // Handle the case when time zone information is missing
-                          return meeting?.meetingDates?.map((date, index) => (
-                            <div key={index}>{date}</div>
-                          ));
+                      <div>
+                        {
+                          meeting?.meetingDates?.map((date, index) => {
+                            return date
+                          })
+                        } {
+                          meeting?.supplieravailabletime?.map((time, index) => {
+                            return time
+                          })
                         }
+                      </div>
 
-                        return meeting?.meetingDates?.map((date, index) => {
-                          const formattedDate = moment(date, "DD-MM-YYYY")
-                            .tz(supplierTimeZone)
-                            .format("DD-MM-YYYY");
-                          const convertedDate = moment(
-                            formattedDate,
-                            "DD-MM-YYYY"
-                          )
-                            .tz(buyerTimeZone)
-                            .format("DD-MM-YYYY");
-                          return <div key={index}>{convertedDate}</div>;
-                        });
-                      })()}
                     </td>
 
                     <td>
-                      {meeting?.supplieravailabletime?.map((time, index) => {
-                        return <div key={index}>{time}</div>;
-                      })}
-                    </td>
-
-                    <td>
-                      {(() => {
-                        const buyerTimeZone = meeting?.supplier_Time_Zone;
-                        const supplierTimeZone = meeting?.buyer_Time_Zone;
-                        // console.log(supplierTimeZonexx`)
-
-                        const meetingDateTimeStrings =
-                          meeting?.meetingDateTimeStrings || [];
-
-                        return meetingDateTimeStrings.map((time, index) => {
-                          const buyerMeetingTime = moment.tz(
-                            time,
-                            "DD-MM-YYYY HH:mm A",
-                            buyerTimeZone
-                          );
-                          const timeDiffMinutes = moment
-                            .tz(buyerMeetingTime, buyerTimeZone)
-                            .diff(
-                              moment.tz(buyerMeetingTime, supplierTimeZone),
-                              "minutes"
-                            );
-                          const supplierMeetingTime = moment.tz(
-                            buyerMeetingTime
-                              .clone()
-                              .add(timeDiffMinutes, "minutes"),
-                            supplierTimeZone
-                          );
-                          const formattedSupplierMeetingTime =
-                            supplierMeetingTime.format("h:mm A");
-                          return (
-                            <div key={index}>
-                              {formattedSupplierMeetingTime}
-                            </div>
-                          );
-                        });
-                      })()}
+                      {
+                        meeting?.meetingTime2.map((date, index) => {
+                          return date
+                        })
+                      }
                     </td>
                     <td>
                       <a

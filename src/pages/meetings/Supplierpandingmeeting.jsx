@@ -253,10 +253,10 @@ function Supplierpandingmeeting(props) {
       detail?.supplierCountryCode?.countrycode != null
         ? detail?.supplierCountryCode?.countrycode
         : "Not Added",
-    meetingDates: detail.meetDateTime?.map((date) => date.meet_date) || [
+    meetingDates: detail.meetDateTime?.map((date) => date.supplier_timezone_date) || [
       "Not Added",
     ],
-    meetingTime: detail.meetDateTime?.map((time) => time.meet_time) || [
+    meetingTime: detail.meetDateTime?.map((time) => time.supplier_timezone_time) || [
       "Not Added",
     ],
   }));
@@ -541,6 +541,7 @@ function Supplierpandingmeeting(props) {
                                   <h3>Accept Meeting</h3>
                                   <ul>
                                     {acceptdate?.map((date, index) => {
+                                      console.log(date);
                                       const time = accepttime[index];
                                       const isDisabled = data.some((detail) =>
                                         detail.buyerSlot.some(
