@@ -103,17 +103,20 @@ function ProductDetailView(props) {
         // console.log(result.data.media_files ,result.data?.product?.thumb_index , thumb , "<<<<<<<result.data");
         setthumb(
           result.data?.media_files[
-          Number(
-            result.data?.product?.thumb_index == undefined ||
-              result.data?.product?.thumb_index == "null"
-              ? "0"
-              : result.data?.product?.thumb_index
-          )
+            Number(
+              result.data?.product?.thumb_index == undefined ||
+                result.data?.product?.thumb_index == "null"
+                ? "0"
+                : result.data?.product?.thumb_index
+            )
           ]
         );
         setProductData(result.data);
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => {
+        console.log("error", error);
+        navigate("/notfound");
+      });
   };
 
   const addtofavvrate = () => {
@@ -556,7 +559,7 @@ function ProductDetailView(props) {
                       })}
 
                       {productData.product?.youtube_link == "null" ||
-                        productData.product?.youtube_link == "undefined" ? (
+                      productData.product?.youtube_link == "undefined" ? (
                         ""
                       ) : (
                         <div>
@@ -691,23 +694,23 @@ function ProductDetailView(props) {
                             .format("DD MM YYYY")
                             .toLowerCase() === "invalid date"
                             ? productData.product?.date_of_creation.replace(
-                              /\//g,
-                              "-"
-                            )
-                            : moment(
-                              productData.product?.date_of_creation?.replace(
                                 /\//g,
-                                " "
-                              ),
-                              "DD MM YYYY"
-                            ).format("DD-MM-YYYY")}
+                                "-"
+                              )
+                            : moment(
+                                productData.product?.date_of_creation?.replace(
+                                  /\//g,
+                                  " "
+                                ),
+                                "DD MM YYYY"
+                              ).format("DD-MM-YYYY")}
                         </h5>
                       </li>
                     ) : null}
                   </ul>
 
                   {productData?.product?.supplier_id ==
-                    localStorage.getItem("user_id") ? (
+                  localStorage.getItem("user_id") ? (
                     ""
                   ) : (
                     <div className="button-wrapper m-t">
@@ -731,18 +734,18 @@ function ProductDetailView(props) {
                           : "Add your favourites"}
                       </a>
                       {localStorage.getItem("user_type") &&
-                        localStorage.getItem("user_type").toLowerCase() ===
+                      localStorage.getItem("user_type").toLowerCase() ===
                         "supplier" ? null : (
                         <>
-                          {console.log(companydetail, compnayProfile, ">>>>>>>>>>>>><<<<<<<<<<<<<")}
+                          {console.log(
+                            companydetail,
+                            compnayProfile,
+                            ">>>>>>>>>>>>><<<<<<<<<<<<<"
+                          )}
                           <button
                             className="hoverRemovebtn-primary btn btn-primary"
-
                             onClick={() => {
-                              if (
-                                companydetail === false
-
-                              ) {
+                              if (companydetail === false) {
                                 // toast.error(
                                 //   "You did not fill the company information. Please fill the company information and company profile to request a meeting."
                                 // );
@@ -768,7 +771,7 @@ function ProductDetailView(props) {
                               }
                               if (
                                 productData?.meeting_status?.status ==
-                                undefined &&
+                                  undefined &&
                                 productData?.checkrequest == null &&
                                 productData?.checkrequest == undefined
                               ) {
@@ -954,8 +957,8 @@ function ProductDetailView(props) {
                     productData?.productownerstatus == true
                       ? { display: "contents" }
                       : productData?.requeststatus == 1
-                        ? { display: "contents" }
-                        : {}
+                      ? { display: "contents" }
+                      : {}
                   }
                 >
                   <div className="profile-list profile-brand">
@@ -993,13 +996,13 @@ function ProductDetailView(props) {
                                     __html:
                                       item?.type.toLowerCase() == "checkbox"
                                         ? item?.answer.replace(
-                                          /[\\\n["{}:\]']+/g,
-                                          " "
-                                        )
+                                            /[\\\n["{}:\]']+/g,
+                                            " "
+                                          )
                                         : item?.answer.replace(
-                                          /[\\\n[{}:\]]+/g,
-                                          "<br>"
-                                        ),
+                                            /[\\\n[{}:\]]+/g,
+                                            "<br>"
+                                          ),
                                   }}
                                 />
                               </li>
@@ -1014,8 +1017,8 @@ function ProductDetailView(props) {
 
               {/* {console.log(productData?.requeststatus)} */}
               {productData?.requeststatus === null ||
-                (productData?.requeststatus != 1 &&
-                  productData?.productownerstatus != true) ? (
+              (productData?.requeststatus != 1 &&
+                productData?.productownerstatus != true) ? (
                 <div className="request-box-wrapper">
                   <div className="request-box">
                     <h3>Do you want more information?</h3>
