@@ -2855,11 +2855,11 @@ a.error_icon i {
   font-size: 14px;
 }
 
-.contact_comapny li {
+/* .contact_comapny li {
   display: flex;
   align-items: center;
   padding-bottom: 15px;
-}
+} */
 
 .contact_comapny li img {
   padding-right: 15px;
