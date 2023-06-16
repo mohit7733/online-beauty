@@ -16,14 +16,20 @@ function Supplierconfirmmeeting(props) {
   const [searchdata, setsearchdata] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-    setmeetingData([])
+    setmeetingData([]);
     axios
       .get(
         api +
-        "/api/v1/" +
-        (path == "/confirmed-meeting/buyer"
-          ? "buyermeetingreqlist?sortBy=" + shortby + "&buyerName=" + searchdata
-          : "supplier-confrm-meeting?sortBy=" + shortby + "&buyerName=" + searchdata),
+          "/api/v1/" +
+          (path == "/confirmed-meeting/buyer"
+            ? "buyermeetingreqlist?sortBy=" +
+              shortby +
+              "&buyerName=" +
+              searchdata
+            : "supplier-confrm-meeting?sortBy=" +
+              shortby +
+              "&buyerName=" +
+              searchdata),
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -36,7 +42,7 @@ function Supplierconfirmmeeting(props) {
         setmeetingData(Object.values(response?.data?.data?.meetings));
         setmeetingData2(Object.values(response?.data?.data?.meetings));
         if (shortby == "A-Z") {
-          searchfilter()
+          searchfilter();
         }
       })
       .catch((error) => {
@@ -47,13 +53,17 @@ function Supplierconfirmmeeting(props) {
 
   const searchfilter = () => {
     if (path != "/confirmed-meeting/buyer") {
-      const sortedData = [...meetingData].sort((a, b) => a.buyerName.buyername.localeCompare(b.buyerName.buyername));
-      setmeetingData(sortedData)
+      const sortedData = [...meetingData].sort((a, b) =>
+        a.buyerName.buyername.localeCompare(b.buyerName.buyername)
+      );
+      setmeetingData(sortedData);
     } else {
-      const sortedData = [...meetingData].sort((a, b) => a.supplierName.supliername.localeCompare(b.supplierName.supliername));
-      setmeetingData(sortedData)
+      const sortedData = [...meetingData].sort((a, b) =>
+        a.supplierName.supliername.localeCompare(b.supplierName.supliername)
+      );
+      setmeetingData(sortedData);
     }
-  }
+  };
 
   const handleButtonClick = (id, event) => {
     event.preventDefault(); // Prevent the default behavior of the anchor tag
@@ -154,9 +164,18 @@ function Supplierconfirmmeeting(props) {
         <div className="add_product_wrap row justify-content-between">
           <div className="column">
             <div class="search">
-              <input type="text" class="form-control" placeholder="Type here" onChange={e => setsearchdata(e.target.value)} />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Type here"
+                onChange={(e) => setsearchdata(e.target.value)}
+              />
             </div>
-            <button type="submit" class="btn btn-block btn-secondary" onClick={e => setshortby(shortby == " " ? "" : " ")}>
+            <button
+              type="submit"
+              class="btn btn-block btn-secondary"
+              onClick={(e) => setshortby(shortby == " " ? "" : " ")}
+            >
               Search
             </button>
           </div>
@@ -230,18 +249,25 @@ function Supplierconfirmmeeting(props) {
 
                       return meeting?.meetingDates?.map((date, index) => {
                         const formattedDate = moment(date, "DD-MM-YYYY")
-                          .tz(supplierTimeZone)
+                          .tz(buyerTimeZone)
                           .format("DD-MM-YYYY");
                         const convertedDate = moment(
                           formattedDate,
                           "DD-MM-YYYY"
                         )
-                          .tz(buyerTimeZone)
+                          .tz(supplierTimeZone)
                           .format("DD-MM-YYYY");
                         return <div key={index}>{convertedDate}</div>;
                       });
                     })()}
                   </td>
+                    {/* <td>
+                      {(() => {
+                        return meeting?.meetingDates?.map((date, index) => (
+                          <div key={index}>{date}</div>
+                        ));
+                      })()}
+                    </td> */}
 
                     <td>
                       {(() => {
@@ -300,27 +326,33 @@ function Supplierconfirmmeeting(props) {
                         // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
                         className="btn btn-success"
                         onClick={() => {
-                          path == "/confirmed-meeting/buyer" ?
-                            navigate(
-                              "/product-view/" + meetingData[index].product_id + "/" + meetingData[index]?.product_name?.replace(/\s+/g, "-"), {
-                              state: {
-                                id: data.id,
-                              }
-                            }
-                            )
-                            :
-                            navigate(
-                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                              {
-                                state: {
-                                  id: meeting?.id,
-                                  buyer_id: meeting?.buyer_id,
-                                  time: meeting?.meetingDates,
-                                  date: meeting?.meetingTime,
-                                  supplier_id: meeting?.supplier_id,
-                                },
-                              }
-                            )
+                          path == "/confirmed-meeting/buyer"
+                            ? navigate(
+                                "/product-view/" +
+                                  meetingData[index].product_id +
+                                  "/" +
+                                  meetingData[index]?.product_name?.replace(
+                                    /\s+/g,
+                                    "-"
+                                  ),
+                                {
+                                  state: {
+                                    id: data.id,
+                                  },
+                                }
+                              )
+                            : navigate(
+                                `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                                {
+                                  state: {
+                                    id: meeting?.id,
+                                    buyer_id: meeting?.buyer_id,
+                                    time: meeting?.meetingDates,
+                                    date: meeting?.meetingTime,
+                                    supplier_id: meeting?.supplier_id,
+                                  },
+                                }
+                              );
                         }}
                       >
                         View More
@@ -338,14 +370,14 @@ function Supplierconfirmmeeting(props) {
                           {meeting?.status === 4
                             ? "Meeting Done ?"
                             : meeting?.status === 5
-                              ? "Completed"
-                              : meeting?.status === 1
-                                ? "In Progress"
-                                : meeting?.status === 2
-                                  ? "Supplier confirm Meeting. Payment Pending"
-                                  : meeting?.status === 3
-                                    ? "Refused"
-                                    : ""}
+                            ? "Completed"
+                            : meeting?.status === 1
+                            ? "In Progress"
+                            : meeting?.status === 2
+                            ? "Supplier confirm Meeting. Payment Pending"
+                            : meeting?.status === 3
+                            ? "Refused"
+                            : ""}
                         </a>
                       </div>
                     </td>
