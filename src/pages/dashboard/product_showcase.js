@@ -62,6 +62,7 @@ function Product_showcase(props) {
       });
   }, []);
 
+  const [companyinfo, setcompanyinfo] = useState([]);
   const handleNextbtn = () => {
     setcurrentPage(currentPage + 1);
 
@@ -122,9 +123,34 @@ function Product_showcase(props) {
       .then((result) => settheytrusted(result.data))
       .catch((error) => console.log("error", error));
   };
+  function getCompanyInfo() {
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    fetch(api + "/api/company-detail", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result?.success == false) {
+          toast.error("No records have found ! Please Fill");
+        } else {
+          setcompanyinfo(result.data)
+        }
+      })
+      .catch((error) => {
+        toast.error("No records have found");
+      });
+  }
   useEffect(() => {
     if (check) {
       theytrusted_data();
+      getCompanyInfo();
       setcheck(false);
     }
   }, [check]);
@@ -208,10 +234,10 @@ function Product_showcase(props) {
                 {user_type == "both"
                   ? "Supplier"
                   : user_type == "buyer"
-                  ? "Buyer"
-                  : user_type == "supplier"
-                  ? "Supplier"
-                  : ""}
+                    ? "Buyer"
+                    : user_type == "supplier"
+                      ? "Supplier"
+                      : ""}
               </a>
             </li>
             <li>
@@ -233,31 +259,30 @@ function Product_showcase(props) {
               Search
             </button>
           </div>
+          {console.log(companyinfo)}
           <div class="column justify-end">
             {/* <!-- <button type="submit" class="btn-block btn btn-primary row align-item-center"><img src="images/plus-circle.svg" alt=""/>Add New Product</button> --> */}
             <a
               // href="/add-new-product"
               onClick={() => {
-                checkSubscription().then((response) => {
-                  console.log(
-                    response,
-                    "<<<<<<<,",
-                    response?.message?.subscription_status,
-                    response?.data.manage_type?.toLowerCase() == "shareduser"
-                  );
-                  if (companydetail === false || compnayProfile === false) {
-                    navigate("/company-Information-fill");
-                  } else if (response?.data?.subscription_status !== 0) {
-                    navigate("/add-new-product");
-                  } else if (
-                    response?.message?.subscription_status != 0 &&
-                    response?.data.manage_type?.toLowerCase() == "shareduser"
-                  ) {
-                    navigate("/add-new-product");
-                  } else {
-                    navigate("/company-subscription");
-                  }
-                });
+                if (companyinfo[0].timezone != "" && companyinfo[0].timezone != null) {
+                  checkSubscription().then((response) => {
+                    console.log(response, "<<<<<<<,", response?.message?.subscription_status, response?.data.manage_type?.toLowerCase() == "shareduser"
+                    );
+                    if (response?.data?.subscription_status !== 0) {
+                      navigate("/add-new-product");
+                    } else if (
+                      response?.message?.subscription_status != 0 &&
+                      response?.data.manage_type?.toLowerCase() == "shareduser"
+                    ) {
+                      navigate("/add-new-product");
+                    } else {
+                      navigate("/company-subscription");
+                    }
+                  });
+                } else {
+                  navigate("/company-Information-fill")
+                }
               }}
               class="btn-block btn btn-primary row align-item-center"
             >
@@ -338,11 +363,11 @@ function Product_showcase(props) {
                         src={deleteicon}
                         style={{ opacity: "0.6" }}
                         alt=""
-                        // onClick={(e) => {
-                        //   setdeleteid(data.id);
-                        //   setalertshow(true);
-                        // }}
-                        // onClick={(e) => deletedata(data.id)}
+                      // onClick={(e) => {
+                      //   setdeleteid(data.id);
+                      //   setalertshow(true);
+                      // }}
+                      // onClick={(e) => deletedata(data.id)}
                       />
                     </td>
                   </tr>

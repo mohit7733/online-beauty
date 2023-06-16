@@ -400,7 +400,7 @@ function Productview() {
                               });
                             }
                           } else {
-                            navigate("/product-details/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-"), {
+                            navigate("/product-details/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-").normalize('NFD').replace(/[\u0300-\u036f]/g, ''), {
                               state: {
                                 id: data.id,
                               }

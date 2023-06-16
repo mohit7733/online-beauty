@@ -162,7 +162,7 @@ function Company_informationNew(props) {
     fetch(api + "/api/company-information", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         if (result?.success == false) {
           toast.error("Please Select Profile and Brand Image !");
         }
@@ -171,22 +171,24 @@ function Company_informationNew(props) {
           toast.success(result?.message);
           setTimeout(() => {
             // props.setsection(3)
-            if (compnay_profile !== null) {
+            if (localStorage.getItem("user_type")?.toLowerCase() != "supplier") {
               navigate("/buyer-company-profile");
-            }
-            if (state?.fill_now == "details") {
-              navigate("/company-Information");
             } else {
-              if (localStorage.getItem("user_type")?.toLowerCase() == "buyer") {
-                navigate("/buyer-company-profile");
-              } else if (
-                localStorage.getItem("user_type")?.toLowerCase() == "both"
-              ) {
-                navigate("/dashboard/user-manegment");
-              } else {
-                navigate("/dashboard/user-manegment");
-              }
+              navigate("/dashboard/user-manegment");
             }
+            // if (state?.fill_now == "details") {
+            //   navigate("/company-Information");
+            // } else {
+            //   if (localStorage.getItem("user_type")?.toLowerCase() == "buyer") {
+            //     navigate("/buyer-company-profile");
+            //   } else if (
+            //     localStorage.getItem("user_type")?.toLowerCase() == "both"
+            //   ) {
+            //     navigate("/dashboard/user-manegment");
+            //   } else {
+            //     navigate("/dashboard");
+            //   }
+            // }
 
             // window.location.reload()
           }, 2000);
@@ -491,11 +493,11 @@ function Company_informationNew(props) {
                         <>
                           <div
                             className="upload-files"
-                            // style={
-                            //   errorfield.brand_logo == ""
-                            //     ? {}
-                            //     : { borderBottom: "1px solid red" }
-                            // }
+                          // style={
+                          //   errorfield.brand_logo == ""
+                          //     ? {}
+                          //     : { borderBottom: "1px solid red" }
+                          // }
                           >
                             <div className="button">Choose File *</div>
                             <div className="files">
@@ -549,7 +551,7 @@ function Company_informationNew(props) {
                         required
                         style={
                           selectedTimeZone === "" &&
-                          finalCheckTimeZone === false
+                            finalCheckTimeZone === false
                             ? { borderBottom: "1px solid red" }
                             : {}
                         }

@@ -24,6 +24,7 @@ function Supplierpandingmeeting(props) {
   const [slots, setSlots] = useState([]);
   const [apiDateFormat, setApiDateFormat] = useState("");
   const [meetingDetails, setmeetingDetails] = useState([]);
+  const [meetingDetails2, setmeetingDetails2] = useState([]);
   const [deleteId, setDeleteId] = useState();
   const [supplierTime, setSupplierTime] = useState([]);
   const [click, setclick] = useState(false);
@@ -32,6 +33,8 @@ function Supplierpandingmeeting(props) {
   const [accepttime, setacceptTime] = useState([]);
   const [acceptId, setacceptId] = useState();
   const [shortby, setshortby] = useState("");
+  const [searchdata, setsearchdata] = useState("");
+
 
   // let acceptId = 0
   function showTimePicker(value) {
@@ -142,13 +145,17 @@ function Supplierpandingmeeting(props) {
   React.useEffect(() => {
     setmeetingDetails([]);
     axios
-      .get(api + "/api/v1/suppliermeetingreqlist?sortBy=" + shortby, {
+      .get(api + "/api/v1/suppliermeetingreqlist?sortBy=" + shortby + "&buyerName=" + searchdata, {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((res) => {
         if (res.status === 200) {
           // console.log(res.data?.data);
+          setmeetingDetails2(Object.values(res.data?.data.meetings));
           setmeetingDetails(Object.values(res.data?.data.meetings));
+          if (shortby == "A-Z") {
+            searchfilter()
+          }
         }
       })
       .catch((error) => {
@@ -156,6 +163,12 @@ function Supplierpandingmeeting(props) {
       });
   }, [shortby]);
   console.log("clicked");
+
+
+  const searchfilter = () => {
+    const sortedData = [...meetingDetails2].sort((a, b) => a.buyerName.buyername.localeCompare(b.buyerName.buyername));
+    setmeetingDetails(sortedData)
+  }
 
   useEffect(() => {
     supplierTime.length > 0 &&
@@ -300,9 +313,9 @@ function Supplierpandingmeeting(props) {
         <div class="add_product_wrap row justify-content-between">
           <div class="column">
             <div class="search">
-              <input type="text" class="form-control" placeholder="Type here" />
+              <input type="text" class="form-control" placeholder="Type here" onChange={e => setsearchdata(e.target.value)} />
             </div>
-            <button type="submit" class="btn btn-block btn-secondary">
+            <button type="submit" class="btn btn-block btn-secondary" onClick={e => setshortby(shortby == " " ? "" : " ")}>
               Search
             </button>
           </div>
@@ -620,11 +633,10 @@ function Supplierpandingmeeting(props) {
                           ]);
                         }
                       }}
-                      className={`btn ${
-                        meeting?.type === 1 || meeting?.status === 3
-                          ? "disabled"
-                          : ""
-                      }`}
+                      className={`btn ${meeting?.type === 1 || meeting?.status === 3
+                        ? "disabled"
+                        : ""
+                        }`}
                       style={{
                         cursor:
                           meeting?.type === 1 || meeting?.status === 3
@@ -707,9 +719,8 @@ function Supplierpandingmeeting(props) {
                 <button
                   onClick={confirmSlots}
                   // disabled={slots.length >= 5}
-                  className={`btn_confirm btn btn-primary ${
-                    slots.length >= 5 ? "disabled" : ""
-                  }`}
+                  className={`btn_confirm btn btn-primary ${slots.length >= 5 ? "disabled" : ""
+                    }`}
                   style={{
                     filter: slots.length >= 5 ? "grayscale(100%)" : "none",
                   }}
