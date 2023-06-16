@@ -707,6 +707,7 @@ export const CheckoutForm2 = (props) => {
                     id="supplier"
                     name="fav_language"
                     value="A supplier"
+                    required
                     onChange={(e) => {
                       setshowVat(false);
                       // console.log(e);
