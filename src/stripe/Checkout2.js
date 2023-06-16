@@ -123,19 +123,18 @@ export const CheckoutForm2 = (props) => {
 
   const calculateAmount = () => {
     let amount = props.amount;
-
     // Calculate the amount based on your conditions
     if (!coutnry_list.includes(detail_data.address.country)) {
       amount = texdata.filter(
-        (data) => data.country === detail_data.address.country
+        (data) => data.country === detail_data.address.country && detail_data.address.country !== "IN"
       )[0]?.percentage
         ? amount * 100 +
-          ((amount *
-            texdata.filter(
-              (data) => data.country === detail_data.address.country
-            )[0].percentage) /
-            100) *
-            100
+        ((amount *
+          texdata.filter(
+            (data) => data.country === detail_data.address.country
+          )[0].percentage) /
+          100) *
+        100
         : amount * 100;
     } else if (
       vatError === false &&
@@ -146,12 +145,12 @@ export const CheckoutForm2 = (props) => {
         (data) => data.country === detail_data.address.country
       )[0]?.percentage
         ? amount +
-          ((amount *
-            texdata.filter(
-              (data) => data.country === detail_data.address.country
-            )[0].percentage) /
-            100) *
-            100
+        ((amount *
+          texdata.filter(
+            (data) => data.country === detail_data.address.country
+          )[0].percentage) /
+          100) *
+        100
         : amount * 100;
     } else {
       amount =
@@ -159,12 +158,12 @@ export const CheckoutForm2 = (props) => {
           (data) => data.country === detail_data.address.country
         )[0]
           ? amount +
-            amount *
-              texdata.filter(
-                (data) => data.country === detail_data.address.country
-              )[0].percentage
+          amount *
+          texdata.filter(
+            (data) => data.country === detail_data.address.country
+          )[0].percentage
           : amount) *
-          100 +
+        100 +
         amount * 20;
     }
     final_amount_show = amount / 100;
@@ -265,10 +264,9 @@ export const CheckoutForm2 = (props) => {
     });
 
     fetch(
-      `${api}/api/v1/${
-        state?.meeting_id == undefined
-          ? "addpaymentsdetail"
-          : "supplier-meeting-payment"
+      `${api}/api/v1/${state?.meeting_id == undefined
+        ? "addpaymentsdetail"
+        : "supplier-meeting-payment"
       } `,
       {
         method: "POST",
@@ -336,38 +334,41 @@ export const CheckoutForm2 = (props) => {
         },
       })
       .then((response) => {
-        const { data } = response.data;
-        const paymentJsonData = JSON.parse(data.payment_json_data);
-        setPaymentCardData(paymentJsonData);
-        setTimeout(() => {
-          detail_data.name =
-            paymentJsonData?.charges?.data[0]?.billing_details?.name;
-          detail_data.email =
-            paymentJsonData?.charges?.data[0]?.billing_details?.email;
-          detail_data.phone =
-            paymentJsonData?.charges?.data[0]?.billing_details?.phone;
-          detail_data.address.city =
-            paymentJsonData.charges?.data[0]?.billing_details?.address?.city;
-          detail_data.address.postal_code =
-            paymentJsonData.charges?.data[0]?.billing_details?.address?.postal_code;
-          detail_data.address.country =
-            paymentJsonData.charges?.data[0]?.billing_details?.address?.country;
-          detail_data.address.line1 =
-            paymentJsonData.charges?.data[0]?.billing_details?.address?.line1;
-        }, 50);
-        setTimeout(() => {
-          setdetail_data({ ...detail_data });
-        }, 150);
-        setTimeout(() => {
-          setdetail_data({ ...detail_data });
-        }, 250);
+        if (data != null) {
+
+          const { data } = response.data;
+          const paymentJsonData = JSON.parse(data.payment_json_data);
+          setPaymentCardData(paymentJsonData);
+          setTimeout(() => {
+            detail_data.name =
+              paymentJsonData?.charges?.data[0]?.billing_details?.name;
+            detail_data.email =
+              paymentJsonData?.charges?.data[0]?.billing_details?.email;
+            detail_data.phone =
+              paymentJsonData?.charges?.data[0]?.billing_details?.phone;
+            detail_data.address.city =
+              paymentJsonData.charges?.data[0]?.billing_details?.address?.city;
+            detail_data.address.postal_code =
+              paymentJsonData.charges?.data[0]?.billing_details?.address?.postal_code;
+            detail_data.address.country =
+              paymentJsonData.charges?.data[0]?.billing_details?.address?.country;
+            detail_data.address.line1 =
+              paymentJsonData.charges?.data[0]?.billing_details?.address?.line1;
+          }, 50);
+          setTimeout(() => {
+            setdetail_data({ ...detail_data });
+          }, 150);
+          setTimeout(() => {
+            setdetail_data({ ...detail_data });
+          }, 250);
+        }
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
 
-  console.log(detail_data, country, "detaildata information");
+  console.log(detail_data, country, "detaildata information", texdata);
   return (
     <>
       <ToastContainer
@@ -737,7 +738,7 @@ export const CheckoutForm2 = (props) => {
                   ""
                 )}
                 {(vatError === true && vat !== "") ||
-                (countryCode !== detail_data.address.country && vat !== "") ? (
+                  (countryCode !== detail_data.address.country && vat !== "") ? (
                   <h6 style={{ color: "red" }}>Vat Number is Not Valid</h6>
                 ) : (
                   ""
@@ -802,8 +803,8 @@ export const CheckoutForm2 = (props) => {
                   (data) => data.country == detail_data.address.country
                 )[0]
                   ? texdata.filter(
-                      (data) => data.country == detail_data.address.country
-                    )[0].percentage
+                    (data) => data.country == detail_data.address.country
+                  )[0].percentage
                   : 0}
                 % (inclusive) :
               </strong>{" "}
@@ -811,11 +812,11 @@ export const CheckoutForm2 = (props) => {
                 (data) => data.country == detail_data.address.country
               )[0]
                 ? "€" +
-                  (amount *
-                    texdata.filter(
-                      (data) => data.country == detail_data.address.country
-                    )[0].percentage) /
-                    100
+                (amount *
+                  texdata.filter(
+                    (data) => data.country == detail_data.address.country
+                  )[0].percentage) /
+                100
                 : "€" + 0}
             </label>
           </div>
@@ -826,12 +827,12 @@ export const CheckoutForm2 = (props) => {
                 (data) => data.country == detail_data.address.country
               )[0]
                 ? "€" +
-                  (amount +
-                    (amount *
-                      texdata.filter(
-                        (data) => data.country == detail_data.address.country
-                      )[0].percentage) /
-                      100)
+                (amount +
+                  (amount *
+                    texdata.filter(
+                      (data) => data.country == detail_data.address.country
+                    )[0].percentage) /
+                  100)
                 : "€" + amount}
             </label>
           </div>

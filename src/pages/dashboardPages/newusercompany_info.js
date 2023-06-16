@@ -191,7 +191,7 @@ function Company_informationNew(props) {
             // }
 
             // window.location.reload()
-          }, 2000);
+          }, 1500);
         } else {
           toast.error(result?.message);
         }

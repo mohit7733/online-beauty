@@ -195,44 +195,48 @@ function ProductDetailView(props) {
   };
 
   function requestMeeting(pid, sid) {
-    var formdata = new FormData();
-    formdata.append("product_id", pid);
-    formdata.append("supplier_id", sid);
-    slots?.map((obj, index) => {
-      formdata.append(`meetings[meeting_date][${index}]`, obj.apiDate);
-      formdata.append(
-        `meetings[meeting_time][${index}]`,
-        moment(obj.sTime, ["HH:mm A"]).format("h:mm A ")
-      );
-    });
-
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      "Bearer " + localStorage.getItem("token")
-    );
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      redirect: "follow",
-      body: formdata,
-    };
-    fetch(api + "/api/v1/sendrequestformeeting", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result) {
-          setModalState(false);
-          toast.success("Request Appointment send succesfully");
-          window.location.reload();
-        } else {
-          toast.error(result.message);
-          // console.log("Error", result);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("500 Internal Server Error");
+    if (slots[0]) {
+      var formdata = new FormData();
+      formdata.append("product_id", pid);
+      formdata.append("supplier_id", sid);
+      slots?.map((obj, index) => {
+        formdata.append(`meetings[meeting_date][${index}]`, obj.apiDate);
+        formdata.append(
+          `meetings[meeting_time][${index}]`,
+          moment(obj.sTime, ["HH:mm A"]).format("h:mm A ")
+        );
       });
+
+      var myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        "Bearer " + localStorage.getItem("token")
+      );
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+        body: formdata,
+      };
+      fetch(api + "/api/v1/sendrequestformeeting", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result) {
+            setModalState(false);
+            toast.success("Request Appointment send succesfully");
+            window.location.reload();
+          } else {
+            toast.error(result.message);
+            // console.log("Error", result);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("500 Internal Server Error");
+        });
+    } else {
+      toast.error(" Please select availabilities first!");
+    }
   }
 
   function showTimePicker(value) {

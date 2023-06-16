@@ -783,7 +783,9 @@ li.remove_ho:hover a {
   color: #e30613;
   border-color: #e30613;
 }
-
+.hoverRemovebtn-primary:hover svg circle,.hoverRemovebtn-primary:hover svg path{
+  stroke:#e30613;
+}
 .hide_numbersign input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

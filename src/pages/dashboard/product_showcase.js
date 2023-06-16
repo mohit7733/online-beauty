@@ -265,7 +265,7 @@ function Product_showcase(props) {
             <a
               // href="/add-new-product"
               onClick={() => {
-                if (companyinfo[0].timezone != "" && companyinfo[0].timezone != null) {
+                if (companyinfo[0]?.timezone != "" && companyinfo[0]?.timezone != null) {
                   checkSubscription().then((response) => {
                     console.log(response, "<<<<<<<,", response?.message?.subscription_status, response?.data.manage_type?.toLowerCase() == "shareduser"
                     );
@@ -281,7 +281,14 @@ function Product_showcase(props) {
                     }
                   });
                 } else {
-                  navigate("/company-Information-fill")
+                  setTimeout(() => {
+                    window.alert(
+                      "You did not fill the company information. Please fill the company information to add a product."
+                    );
+                    navigate("/company-Information-fill", {
+                      state: { company_info: 2 },
+                    });
+                  }, 5000);
                 }
               }}
               class="btn-block btn btn-primary row align-item-center"

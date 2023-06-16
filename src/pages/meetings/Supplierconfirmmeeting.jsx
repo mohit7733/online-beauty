@@ -20,16 +20,16 @@ function Supplierconfirmmeeting(props) {
     axios
       .get(
         api +
-          "/api/v1/" +
-          (path == "/confirmed-meeting/buyer"
-            ? "buyermeetingreqlist?sortBy=" +
-              shortby +
-              "&buyerName=" +
-              searchdata
-            : "supplier-confrm-meeting?sortBy=" +
-              shortby +
-              "&buyerName=" +
-              searchdata),
+        "/api/v1/" +
+        (path == "/confirmed-meeting/buyer"
+          ? "buyermeetingreqlist?sortBy=" +
+          shortby +
+          "&buyerName=" +
+          searchdata
+          : "supplier-confrm-meeting?sortBy=" +
+          shortby +
+          "&buyerName=" +
+          searchdata),
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -225,42 +225,51 @@ function Supplierconfirmmeeting(props) {
               </tr>
             </thead>
             <tbody>
-              {console.log(data)}
               {data?.map((meeting, index) =>
                 meeting?.status === 4 ? (
                   <tr key={index}>
                     <td>
                       {path != "/confirmed-meeting/buyer"
                         ? meeting.buyername
-                        : meetingData[index]?.suppliername}
+                        : meetingData[index]?.supplierName.suppliername}
                     </td>
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
-                    {(() => {
-                      const buyerTimeZone = meeting?.buyer_Time_Zone;
-                      const supplierTimeZone = meeting?.supplier_Time_Zone;
 
-                      if (buyerTimeZone === null || supplierTimeZone === null) {
-                        // Handle the case when time zone information is missing
+                      {(() => {
+                        const buyerTimeZone = meeting?.buyer_Time_Zone;
+                        const supplierTimeZone = meeting?.supplier_Time_Zone;
+                        { console.log(buyerTimeZone, supplierTimeZone, "<<<<<<<<<>>>>>>>>>>>>") }
+
+                        if (buyerTimeZone === null || supplierTimeZone === null) {
+                          // Handle the case when time zone information is missing
+                          return meeting?.meetingDates?.map((date, index) => (
+                            <div key={index}>{date}</div>
+                          ));
+                        }
+                        const meetingDateTimeStrings =
+                          meeting?.meetingDateTimeStrings || [];
+                        return meetingDateTimeStrings.map((date, index) => {
+                          const formattedDate = moment(date, "DD-MM-YYYY")
+                            .tz(buyerTimeZone)
+                            .format("DD-MM-YYYY");
+                          const convertedDate = moment(
+                            formattedDate,
+                            "DD-MM-YYYY"
+                          )
+                            .tz(supplierTimeZone)
+                            .format("DD-MM-YYYY");
+                             console.log(date, buyerTimeZone, supplierTimeZone, formattedDate, convertedDate,new Date());
+                          return <div key={index}>{convertedDate}</div>;
+                          
+                        });
+                       
+
                         return meeting?.meetingDates?.map((date, index) => (
                           <div key={index}>{date}</div>
                         ));
-                      }
-
-                      return meeting?.meetingDates?.map((date, index) => {
-                        const formattedDate = moment(date, "DD-MM-YYYY")
-                          .tz(buyerTimeZone)
-                          .format("DD-MM-YYYY");
-                        const convertedDate = moment(
-                          formattedDate,
-                          "DD-MM-YYYY"
-                        )
-                          .tz(supplierTimeZone)
-                          .format("DD-MM-YYYY");
-                        return <div key={index}>{convertedDate}</div>;
-                      });
-                    })()}
-                  </td>
+                      })()}
+                    </td>
                     {/* <td>
                       {(() => {
                         return meeting?.meetingDates?.map((date, index) => (
@@ -268,6 +277,11 @@ function Supplierconfirmmeeting(props) {
                         ));
                       })()}
                     </td> */}
+                    <td>
+                      {meeting?.supplieravailabletime?.map((time, index) => {
+                        return <div key={index}>{time}</div>;
+                      })}
+                    </td>
 
                     <td>
                       {(() => {
@@ -281,7 +295,6 @@ function Supplierconfirmmeeting(props) {
 
                         const buyerTimeZone = meeting?.buyer_Time_Zone;
                         const supplierTimeZone = meeting?.supplier_Time_Zone;
-                        // console.log(supplierTimeZonexx`)
 
                         const meetingDateTimeStrings =
                           meeting?.meetingDateTimeStrings || [];
@@ -292,6 +305,7 @@ function Supplierconfirmmeeting(props) {
                             "DD-MM-YYYY HH:mm A",
                             buyerTimeZone
                           );
+
                           const timeDiffMinutes = moment
                             .tz(buyerMeetingTime, buyerTimeZone)
                             .diff(
@@ -315,11 +329,7 @@ function Supplierconfirmmeeting(props) {
                       })()}
                     </td>
 
-                    <td>
-                      {meeting?.supplieravailabletime?.map((time, index) => {
-                        return <div key={index}>{time}</div>;
-                      })}
-                    </td>
+
 
                     <td className="roles">
                       <a
@@ -328,31 +338,31 @@ function Supplierconfirmmeeting(props) {
                         onClick={() => {
                           path == "/confirmed-meeting/buyer"
                             ? navigate(
-                                "/product-view/" +
-                                  meetingData[index].product_id +
-                                  "/" +
-                                  meetingData[index]?.product_name?.replace(
-                                    /\s+/g,
-                                    "-"
-                                  ),
-                                {
-                                  state: {
-                                    id: data.id,
-                                  },
-                                }
-                              )
+                              "/product-view/" +
+                              meetingData[index].product_id +
+                              "/" +
+                              meetingData[index]?.product_name?.replace(
+                                /\s+/g,
+                                "-"
+                              ),
+                              {
+                                state: {
+                                  id: data.id,
+                                },
+                              }
+                            )
                             : navigate(
-                                `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                                {
-                                  state: {
-                                    id: meeting?.id,
-                                    buyer_id: meeting?.buyer_id,
-                                    time: meeting?.meetingDates,
-                                    date: meeting?.meetingTime,
-                                    supplier_id: meeting?.supplier_id,
-                                  },
-                                }
-                              );
+                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                              {
+                                state: {
+                                  id: meeting?.id,
+                                  buyer_id: meeting?.buyer_id,
+                                  time: meeting?.meetingDates,
+                                  date: meeting?.meetingTime,
+                                  supplier_id: meeting?.supplier_id,
+                                },
+                              }
+                            );
                         }}
                       >
                         View More
@@ -370,14 +380,14 @@ function Supplierconfirmmeeting(props) {
                           {meeting?.status === 4
                             ? "Meeting Done ?"
                             : meeting?.status === 5
-                            ? "Completed"
-                            : meeting?.status === 1
-                            ? "In Progress"
-                            : meeting?.status === 2
-                            ? "Supplier confirm Meeting. Payment Pending"
-                            : meeting?.status === 3
-                            ? "Refused"
-                            : ""}
+                              ? "Completed"
+                              : meeting?.status === 1
+                                ? "In Progress"
+                                : meeting?.status === 2
+                                  ? "Supplier confirm Meeting. Payment Pending"
+                                  : meeting?.status === 3
+                                    ? "Refused"
+                                    : ""}
                         </a>
                       </div>
                     </td>
