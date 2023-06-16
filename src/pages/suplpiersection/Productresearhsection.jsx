@@ -1408,6 +1408,9 @@ function Productresearchsection(props) {
                     // contact.sector_name != ""
                   ) {
                     add_company_profile();
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 3000);
                   } else {
                     check_data?.map((data) => {
                       logins_field(data.name);

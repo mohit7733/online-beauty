@@ -10430,6 +10430,13 @@ iframe {
   border-bottom: solid 1px #999999;
 }
 
+
+.contact_comapny label,
+.contact_comapny li h6 {
+  padding-left: 0px;
+  word-break: break-all;
+}
+
 .contact_comapny .icon-bottom {
   padding-top: 25px;
 }
