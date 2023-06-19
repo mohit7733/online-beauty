@@ -124,7 +124,6 @@ function Product_showcase(props) {
       .catch((error) => console.log("error", error));
   };
 
-  
   function getCompanyInfo() {
     var myHeaders = new Headers();
     myHeaders.append(
@@ -142,7 +141,7 @@ function Product_showcase(props) {
         if (result?.success == false) {
           toast.error("No records have found ! Please Fill");
         } else {
-          setcompanyinfo(result.data)
+          setcompanyinfo(result.data);
         }
       })
       .catch((error) => {
@@ -236,10 +235,10 @@ function Product_showcase(props) {
                 {user_type == "both"
                   ? "Supplier"
                   : user_type == "buyer"
-                    ? "Buyer"
-                    : user_type == "supplier"
-                      ? "Supplier"
-                      : ""}
+                  ? "Buyer"
+                  : user_type == "supplier"
+                  ? "Supplier"
+                  : ""}
               </a>
             </li>
             <li>
@@ -267,9 +266,16 @@ function Product_showcase(props) {
             <a
               // href="/add-new-product"
               onClick={() => {
-                if (companyinfo[0]?.timezone != "" && companyinfo[0]?.timezone != null) {
+                if (
+                  companyinfo[0]?.timezone != "" &&
+                  companyinfo[0]?.timezone != null
+                ) {
                   checkSubscription().then((response) => {
-                    console.log(response, "<<<<<<<,", response?.message?.subscription_status, response?.data.manage_type?.toLowerCase() == "shareduser"
+                    console.log(
+                      response,
+                      "<<<<<<<,",
+                      response?.message?.subscription_status,
+                      response?.data.manage_type?.toLowerCase() == "shareduser"
                     );
                     if (response?.data?.subscription_status !== 0) {
                       navigate("/add-new-product");
@@ -372,11 +378,11 @@ function Product_showcase(props) {
                         src={deleteicon}
                         style={{ opacity: "0.6" }}
                         alt=""
-                      // onClick={(e) => {
-                      //   setdeleteid(data.id);
-                      //   setalertshow(true);
-                      // }}
-                      // onClick={(e) => deletedata(data.id)}
+                        // onClick={(e) => {
+                        //   setdeleteid(data.id);
+                        //   setalertshow(true);
+                        // }}
+                        // onClick={(e) => deletedata(data.id)}
                       />
                     </td>
                   </tr>
