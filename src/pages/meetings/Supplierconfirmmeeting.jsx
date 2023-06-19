@@ -24,16 +24,16 @@ function Supplierconfirmmeeting(props) {
     axios
       .get(
         api +
-        "/api/v1/" +
-        (path == "/confirmed-meeting/buyer"
-          ? "buyermeetingreqlist?sortBy=" +
-          shortby +
-          "&buyerName=" +
-          searchdata
-          : "supplier-confrm-meeting?sortBy=" +
-          shortby +
-          "&buyerName=" +
-          searchdata),
+          "/api/v1/" +
+          (path == "/confirmed-meeting/buyer"
+            ? "buyermeetingreqlist?sortBy=" +
+              shortby +
+              "&buyerName=" +
+              searchdata
+            : "supplier-confrm-meeting?sortBy=" +
+              shortby +
+              "&buyerName=" +
+              searchdata),
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -70,9 +70,20 @@ function Supplierconfirmmeeting(props) {
   };
 
   const handleButtonClick = (id) => {
-    event.preventDefault(); // Prevent the default behavior of the anchor tag
+    const url = window.location.pathname;
+
+    let apiEndpoint = "";
+    if (url.includes("confirmed-meeting/supplier")) {
+      apiEndpoint = `/api/v1/supplier-meeting-done`;
+    } else if (url.includes("confirmed-meeting/buyer")) {
+      apiEndpoint = `/api/v1/buyer-meeting-done`;
+    }
+
     axios
-      .get(api + `/api/v1/supplier-meeting-done?meeting_id=${id}`, {
+      .get(api + apiEndpoint, {
+        params: {
+          meeting_id: id,
+        },
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -132,15 +143,15 @@ function Supplierconfirmmeeting(props) {
         detail?.supplierCountryCode?.countrycode != null
           ? detail?.supplierCountryCode?.countrycode
           : "Not Added",
-      meetingDates: detail?.supplier_available ? JSON.parse(detail?.supplier_available)?.map((date) => date.date) : [
-        "Not Added",
-      ],
-      meetingTime: detail?.supplier_available ? JSON.parse(detail?.supplier_available).map((time) => time.time) : [
-        "Not Added",
-      ],
-      meetingTime2: detail?.buyer_availaible_timezone ? JSON.parse(detail?.buyer_availaible_timezone).map((time) => time) : [
-        "Not Added",
-      ],
+      meetingDates: detail?.supplier_available
+        ? JSON.parse(detail?.supplier_available)?.map((date) => date.date)
+        : ["Not Added"],
+      meetingTime: detail?.supplier_available
+        ? JSON.parse(detail?.supplier_available).map((time) => time.time)
+        : ["Not Added"],
+      meetingTime2: detail?.buyer_availaible_timezone
+        ? JSON.parse(detail?.buyer_availaible_timezone).map((time) => time)
+        : ["Not Added"],
     };
   });
 
@@ -249,8 +260,7 @@ function Supplierconfirmmeeting(props) {
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>
                 <th>
-                  {path == "/confirmed-meeting/buyer" ? "Supplier" : ""}{" "}
-                  Profile
+                  {path == "/confirmed-meeting/buyer" ? "Supplier" : ""} Profile
                 </th>
                 <th>Meeting Status</th>
                 {/* <th>Passed meeting</th> */}
@@ -269,25 +279,19 @@ function Supplierconfirmmeeting(props) {
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
                       <div>
-                        {
-                          meeting?.meetingDates?.map((date, index) => {
-                            return date
-                          })
-                        } {
-                          meeting?.supplieravailabletime?.map((time, index) => {
-                            return time
-                          })
-                        }
+                        {meeting?.meetingDates?.map((date, index) => {
+                          return date;
+                        })}{" "}
+                        {meeting?.supplieravailabletime?.map((time, index) => {
+                          return time;
+                        })}
                       </div>
-
                     </td>
 
                     <td>
-                      {
-                        meeting?.meetingTime2.map((date, index) => {
-                          return date
-                        })
-                      }
+                      {meeting?.meetingTime2.map((date, index) => {
+                        return date;
+                      })}
                     </td>
 
                     <td className="roles">
@@ -297,31 +301,31 @@ function Supplierconfirmmeeting(props) {
                         onClick={() => {
                           path == "/confirmed-meeting/buyer"
                             ? navigate(
-                              "/product-view/" +
-                              meetingData[index].product_id +
-                              "/" +
-                              meetingData[index]?.product_name?.replace(
-                                /\s+/g,
-                                "-"
-                              ),
-                              {
-                                state: {
-                                  id: data.id,
-                                },
-                              }
-                            )
+                                "/product-view/" +
+                                  meetingData[index].product_id +
+                                  "/" +
+                                  meetingData[index]?.product_name?.replace(
+                                    /\s+/g,
+                                    "-"
+                                  ),
+                                {
+                                  state: {
+                                    id: data.id,
+                                  },
+                                }
+                              )
                             : navigate(
-                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                              {
-                                state: {
-                                  id: meeting?.id,
-                                  buyer_id: meeting?.buyer_id,
-                                  time: meeting?.meetingDates,
-                                  date: meeting?.meetingTime,
-                                  supplier_id: meeting?.supplier_id,
-                                },
-                              }
-                            );
+                                `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                                {
+                                  state: {
+                                    id: meeting?.id,
+                                    buyer_id: meeting?.buyer_id,
+                                    time: meeting?.meetingDates,
+                                    date: meeting?.meetingTime,
+                                    supplier_id: meeting?.supplier_id,
+                                  },
+                                }
+                              );
                         }}
                       >
                         View More
@@ -333,24 +337,24 @@ function Supplierconfirmmeeting(props) {
                           href="#"
                           className="btn btn-secondary"
                           onClick={(event) =>
-                          // handleButtonClick(meeting?.id, event)
-                          {
-                            setalertshow(true);
-                            setAcceptId(meeting?.id);
-                          }
+                            // handleButtonClick(meeting?.id, event)
+                            {
+                              setalertshow(true);
+                              setAcceptId(meeting?.id);
+                            }
                           }
                         >
                           {meeting?.status === 4
                             ? "Meeting Done ?"
                             : // : meeting?.status === 5
-                            // ? "Completed"
-                            // : meeting?.status === 1
-                            // ? "In Progress"
-                            // : meeting?.status === 2
-                            // ? "Supplier confirm Meeting. Payment Pending"
-                            // : meeting?.status === 3
-                            // ? "Refused"
-                            ""}
+                              // ? "Completed"
+                              // : meeting?.status === 1
+                              // ? "In Progress"
+                              // : meeting?.status === 2
+                              // ? "Supplier confirm Meeting. Payment Pending"
+                              // : meeting?.status === 3
+                              // ? "Refused"
+                              ""}
                         </a>
                       </div>
                     </td>

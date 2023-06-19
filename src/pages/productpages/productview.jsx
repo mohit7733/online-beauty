@@ -415,7 +415,7 @@ function Productview() {
                                 }
                               );
                             } else {
-                              navigate(
+                              window.open(
                                 "/product-view/" +
                                   data.id +
                                   "/" +
@@ -425,15 +425,11 @@ function Productview() {
                                     .replace(/[\u0300-\u036f]/g, "")
                                     .normalize("NFD")
                                     .replace(/[\u0300-\u036f]/g, ""),
-                                {
-                                  state: {
-                                    id: data.id,
-                                  },
-                                }
+                                "_blank"
                               );
                             }
                           } else {
-                            navigate(
+                            window.open(
                               "/product-details/" +
                                 data.id +
                                 "/" +
@@ -441,11 +437,7 @@ function Productview() {
                                   ?.replace(/\s+/g, "-")
                                   .normalize("NFD")
                                   .replace(/[\u0300-\u036f]/g, ""),
-                              {
-                                state: {
-                                  id: data.id,
-                                },
-                              }
+                              "_blank"
                             );
                           }
                         }}
@@ -494,7 +486,7 @@ function Productview() {
                             // }
                           >
                             {" "}
-                            {data?.product_name}
+                            {data?.product_short_name && data.product_short_name}
                           </h4>
                           <ul className="d-flex align-items-center">
                             <li className="made_inclass">

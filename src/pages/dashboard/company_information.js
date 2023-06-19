@@ -24,6 +24,7 @@ function Company_information(props) {
   const [timeZone, setTimeZone] = useState([]);
   const [selectedTimeZone, setSeclectedTimeZone] = useState();
   const navigate = useNavigate();
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const utcDetails = timeZoneCity.map((city) => city.utc).flat();
@@ -1113,25 +1114,27 @@ function Company_information(props) {
                       class="btn btn-secondary"
                       onClick={() => {
                         if (
-                          cInfo?.address1 != "" &&
-                          // cInfo?.address2 != "" &&
-                          cInfo?.company_name != "" &&
-                          cInfo?.post_code != "" &&
-                          cInfo?.brand_name != "" &&
-                          cInfo?.website != "" &&
-                          cInfo?.post_code != "" &&
-                          cInfo?.state != "" &&
-                          cInfo?.country != "" &&
-                          cInfo?.contact1_email != "" &&
-                          cInfo?.contact1_phone != "" &&
-                          cInfo?.contact1_job != "" &&
-                          cInfo?.contact1_name != "" &&
-                          cInfo?.city != ""
+                          cInfo?.address1 !== "" &&
+                          cInfo?.company_name !== "" &&
+                          cInfo?.post_code !== "" &&
+                          cInfo?.brand_name !== "" &&
+                          cInfo?.website !== "" &&
+                          cInfo?.post_code !== "" &&
+                          cInfo?.state !== "" &&
+                          cInfo?.country !== "" &&
+                          cInfo?.contact1_email !== "" &&
+                          cInfo?.contact1_phone !== "" &&
+                          cInfo?.contact1_job !== "" &&
+                          cInfo?.contact1_name !== "" &&
+                          cInfo?.city !== ""
                         ) {
-                          editCompanyInfo();
+                          if (!submitting) {
+                            setSubmitting(true);
+                            editCompanyInfo();
+                          }
                         } else {
                           window.scrollTo(0, 0);
-                          toast.error("Please Fill All Required Field !");
+                          toast.error("Please Fill All Required Fields!");
                         }
                       }}
                       type="button"

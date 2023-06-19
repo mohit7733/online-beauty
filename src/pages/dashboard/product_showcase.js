@@ -123,6 +123,8 @@ function Product_showcase(props) {
       .then((result) => settheytrusted(result.data))
       .catch((error) => console.log("error", error));
   };
+
+  
   function getCompanyInfo() {
     var myHeaders = new Headers();
     myHeaders.append(
