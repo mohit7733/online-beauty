@@ -1,7 +1,7 @@
 import React from "react";
 import "../../style/reset.css";
 import "../../style/style.css";
-
+import '../../style/stylenew.css'
 const NotFound404 = () => {
   return (
     <div>
@@ -9,10 +9,10 @@ const NotFound404 = () => {
         <div className="container aos-init aos-animate" data-aos="fade-up">
           <ul>
             <li>
-              <a href="index.html">Home</a>
+              <a href="/product-view">Home</a>
             </li>
             <li>
-              <a href="error.html">
+              <a href="/product-view">
                 <span>Products</span>
               </a>
             </li>
@@ -28,7 +28,7 @@ const NotFound404 = () => {
         </div>
         <div className="error-button row justify-content-center">
           <a className="error_icon" href="/product-view">
-            <i className="fa fa-arrow-left left" aria-hidden="true"></i>Back To All Product
+            <i className="fa fa-arrow-left left" aria-hidden="true"></i>Back To All Products
           </a>
         </div>
       </div>
