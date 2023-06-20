@@ -469,11 +469,12 @@ table td {
   padding: 5px 0;
 }
 .modal .modal-content span.close {
-  position: absolute;
-  font-size: 30px;
-  top: 0;
   cursor: pointer;
-  padding: 0px;
+  font-size: 30px;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  right: 15px;
 }
 .modal .modal-content .btn-secondary {
     margin-top: 5px;

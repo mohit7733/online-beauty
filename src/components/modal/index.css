@@ -16,18 +16,22 @@
     z-index: 1001;
 }
 
+.modal-content, .modal-wrapper {
+    left: 0;
+    position: fixed;
+    right: 0;
+}
+
+
 .modal-content {
     background-color: #fff;
-    width: 50vw;
-    height: auto;
-    position:absolute;
-    left:0;
-    right:0;
-    top:5%;
-    margin:auto;
-    color:#000;
-    padding:30px;
     border-radius: 25px;
+    color: #000;
+    height: auto;
+    margin: auto;
+    padding: 30px;
+    top: 25%;
+    width: 30vw;
 }
 
 .modal-header {
