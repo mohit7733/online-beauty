@@ -1,7 +1,7 @@
 import React from "react";
 import "../../style/reset.css";
 import "../../style/style.css";
-import '../../style/stylenew.css'
+import "../../style/stylenew.css";
 const NotFound404 = () => {
   return (
     <div>
@@ -19,7 +19,9 @@ const NotFound404 = () => {
           </ul>
         </div>
       </div>
-    <center><p>Sorry We couldn't find any product</p></center>
+      <center>
+        <p>Sorry , we couldn't find any product</p>
+      </center>
       <div className="container">
         <div className="error_page row justify-content-around">
           <figure>
@@ -28,7 +30,8 @@ const NotFound404 = () => {
         </div>
         <div className="error-button row justify-content-center">
           <a className="error_icon" href="/product-view">
-            <i className="fa fa-arrow-left left" aria-hidden="true"></i>Back To All Products
+            <i className="fa fa-arrow-left left" aria-hidden="true"></i>Back To
+            All Products
           </a>
         </div>
       </div>
