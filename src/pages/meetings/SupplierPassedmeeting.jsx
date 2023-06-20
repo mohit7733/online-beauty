@@ -205,10 +205,13 @@ function Supplierpassedmeeting(props) {
                 meeting?.buyerStatus === 2 ? (
                   <tr>
                     <td>
-                      {path == "/passed-meeting/buyer"
+                      {path === "/passed-meeting/buyer"
                         ? meetingData[index]?.supplierName?.suppliername
-                        : meetingData[index]?.buyername}
+                        : path === "/passed-meeting/supplier"
+                        ? meetingData[index]?.buyerName?.buyername
+                        : null}
                     </td>
+
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
                       <div>

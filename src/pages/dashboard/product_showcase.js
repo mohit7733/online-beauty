@@ -25,39 +25,40 @@ function Product_showcase(props) {
   // check company detail
 
   useEffect(() => {
-    axios
-      .get(`${api}/api/company-detail`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        // Handle the successful response here
-        console.log(res.data.data, "this is data");
-        if (res?.data?.data.length === 0) {
-          setCompanydetail(false);
-        }
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the request
-        console.error(error);
-      });
+    const getCompanyDetail = axios.get(`${api}/api/company-detail`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+
+    const getCompanyProfile = axios.get(`${api}/api/company-profile`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
 
     axios
-      .get(`${api}/api/company-profile`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        // Handle the successful response here
-        console.log(res.data.data.company, "this is data of company profile");
-        if (res?.data?.data?.company === null) {
-          setCompanyProfile(false);
-        }
-      })
+      .all([getCompanyDetail, getCompanyProfile])
+      .then(
+        axios.spread((companyDetailRes, companyProfileRes) => {
+          // Handle the successful responses here
+          console.log(companyDetailRes.data.data, "this is data");
+          console.log(
+            companyProfileRes.data.data.company,
+            "this is data of company profile"
+          );
+
+          if (companyDetailRes?.data?.data.length !== 0) {
+            setCompanydetail(false);
+          }
+
+          if (companyProfileRes?.data?.data?.company === null) {
+            setCompanyProfile(false);
+          }
+        })
+      )
       .catch((error) => {
-        // Handle any errors that occur during the request
+        // Handle any errors that occur during the requests
         console.error(error);
       });
   }, []);
@@ -266,6 +267,16 @@ function Product_showcase(props) {
             <a
               // href="/add-new-product"
               onClick={() => {
+                if (companydetail === false || compnayProfile === false) {
+                  setTimeout(() => {
+                    window.alert(
+                      "You did not fill the company information. Please fill the company information to add a product."
+                    );
+                    navigate("/company-Information-fill", {
+                      state: { company_info: 2 },
+                    });
+                  }, 5000);
+                }
                 if (
                   companyinfo[0]?.timezone != "" &&
                   companyinfo[0]?.timezone != null
@@ -288,15 +299,6 @@ function Product_showcase(props) {
                       navigate("/company-subscription");
                     }
                   });
-                } else {
-                  setTimeout(() => {
-                    window.alert(
-                      "You did not fill the company information. Please fill the company information to add a product."
-                    );
-                    navigate("/company-Information-fill", {
-                      state: { company_info: 2 },
-                    });
-                  }, 5000);
                 }
               }}
               class="btn-block btn btn-primary row align-item-center"
