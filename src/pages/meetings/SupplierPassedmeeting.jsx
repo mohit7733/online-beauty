@@ -93,7 +93,7 @@ function Supplierpassedmeeting(props) {
       supplierCityName: detail?.supplierCityName?.city_name,
       remarks: detail?.supplier_remark,
       buyerCityName: detail?.buyerCityName?.city_name,
-      buyerStatus : detail?.buyer_status ,
+      buyerStatus: detail?.buyer_status,
       buyerCountryCode:
         detail?.buyerCountryCode?.countrycode !== "undefined"
           ? detail.buyerCountryCode.countrycode
@@ -205,9 +205,9 @@ function Supplierpassedmeeting(props) {
                 meeting?.buyerStatus === 2 ? (
                   <tr>
                     <td>
-                      {meetingData[index]?.buyername
-                        ? meetingData[index]?.buyername
-                        : meetingData[index]?.suppliername}
+                      {path == "/passed-meeting/buyer"
+                        ? meetingData[index]?.supplierName?.suppliername
+                        : meetingData[index]?.buyername}
                     </td>
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>

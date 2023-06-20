@@ -20,7 +20,7 @@ const NotFound404 = () => {
         </div>
       </div>
       <center>
-        <p>Sorry , we couldn't find any product</p>
+        <p>Sorry , we couldn't find any products</p>
       </center>
       <div className="container">
         <div className="error_page row justify-content-around">

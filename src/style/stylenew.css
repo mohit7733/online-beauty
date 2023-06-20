@@ -8612,8 +8612,11 @@ footer span {
 /* sign page css end */
 /* error page css start */
 .error_page {
-  padding: 55px 0;
+  padding: 10px 0 40px;
   justify-content: center;
+}
+center p {
+  padding-top: 50px;
 }
 
 
