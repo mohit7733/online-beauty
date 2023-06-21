@@ -11,14 +11,18 @@ function Productdetails() {
   const { id } = useParams();
   const { state } = useLocation();
   const slugdata = useParams();
-  let token = localStorage.getItem("token")
+  let token = localStorage.getItem("token");
   const path = window.location.pathname;
-  console.log(token ,path)
+  console.log(token, path);
   console.log(productData);
   const navigate = useNavigate();
   useEffect(() => {
-    if (token !== null && path.includes('/product-details')) {
-      const newPath = path.replace('/product-details', '/product-view');
+    if (
+      token !== null &&
+      path.includes("/product-details") &&
+      localStorage.getItem("user_type") !== "Supplier"
+    ) {
+      const newPath = path.replace("/product-details", "/product-view");
       navigate(newPath);
     }
   }, [token]);
