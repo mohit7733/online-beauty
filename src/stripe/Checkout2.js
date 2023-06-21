@@ -196,6 +196,7 @@ export const CheckoutForm2 = (props) => {
       card: cardCvcElement,
       // card: elements.getElement(CardElement),
       billing_details: detail_data,
+
     });
     axios.get();
 
@@ -250,6 +251,7 @@ export const CheckoutForm2 = (props) => {
       "Cookie",
       "onlinebeauty_session=" + localStorage.getItem("token")
     );
+    var vat_amount = vat !== "" ? amount * 0.2 : "N/A";
 
     var raw = JSON.stringify({
       plan_type: props.plan,
@@ -261,6 +263,9 @@ export const CheckoutForm2 = (props) => {
       subscription_plan_id: state.subscription_plan_id,
       address_line: billingdata?.address?.line1,
       meeting_id: state?.meeting_id,
+      vat_number: vat !== "" ? vat : "N/A" ,
+      vat_amount: vat_amount,
+      // total_amount : 200 
     });
 
     fetch(
@@ -366,7 +371,7 @@ export const CheckoutForm2 = (props) => {
       });
   }, []);
 
-  console.log(detail_data, country, "detaildata information", texdata);
+  console.log(amount , "vat details")
   return (
     <>
       <ToastContainer

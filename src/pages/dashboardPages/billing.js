@@ -31,7 +31,7 @@ function Billing() {
         toast.error(error?.message);
       });
   }, []);
-  console.log(billingdata , "this is billing data");
+  console.log(billingdata, "this is billing data");
 
   return (
     <div className="product_showcase Billing_wrapper Meeting_wrap profile_popup">
