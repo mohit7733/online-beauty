@@ -31,7 +31,7 @@ function Billing() {
         toast.error(error?.message);
       });
   }, []);
-  console.log(billingdata);
+  console.log(billingdata , "this is billing data");
 
   return (
     <div className="product_showcase Billing_wrapper Meeting_wrap profile_popup">
@@ -73,6 +73,7 @@ function Billing() {
                   <th>Package</th>
                   <th>Price</th>
                   <th>Package Details</th>
+                  <th>Product Name</th>
                   <th>Invoice</th>
                 </tr>
               </thead>
@@ -83,6 +84,7 @@ function Billing() {
                   <>
                     {billingdata?.map((item, index) => {
                       console.log(JSON.parse(item?.billing_details));
+                      console.log(item , "this is item")
                       return (
                         <tr key={index}>
                           <td>
@@ -91,6 +93,7 @@ function Billing() {
                           <td>{item?.title}</td>
                           <td>${item?.amount}</td>
                           <td>{item?.subtitle}</td>
+                          <td>{item.productName?.product_name ?? ""}</td>
                           <td>
                             <img
                               onClick={() =>

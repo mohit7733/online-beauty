@@ -202,16 +202,16 @@ function Supplierpassedmeeting(props) {
             </thead>
             <tbody>
               {data?.map((meeting, index) =>
-                meeting?.buyerStatus === 2 ? (
+                (path === "/passed-meeting/buyer" &&
+                  meeting?.buyerStatus === 2) ||
+                (path === "/passed-meeting/supplier" &&
+                  meeting?.status === 5) ? (
                   <tr>
                     <td>
                       {path === "/passed-meeting/buyer"
                         ? meetingData[index]?.supplierName?.suppliername
-                        : path === "/passed-meeting/supplier"
-                        ? meetingData[index]?.buyerName?.buyername
-                        : null}
+                        : meetingData[index]?.buyerName?.buyername}
                     </td>
-
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
                       <div>
@@ -223,7 +223,6 @@ function Supplierpassedmeeting(props) {
                         })}
                       </div>
                     </td>
-
                     <td>
                       {meeting?.meetingTime2.map((date, index) => {
                         return date;
@@ -232,9 +231,9 @@ function Supplierpassedmeeting(props) {
                     <td>
                       <a
                         // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
-                        class="btn btn-success"
+                        className="btn btn-success"
                         onClick={() => {
-                          path == "/passed-meeting/buyer"
+                          path === "/passed-meeting/buyer"
                             ? navigate(
                                 "/product-view/" +
                                   meetingData[index].product_id +
@@ -267,11 +266,27 @@ function Supplierpassedmeeting(props) {
                       </a>
                     </td>
                     <td>
-                      {(
-                        path != "/passed-meeting/buyer"
-                          ? meeting?.remarks === null
-                          : meetingData[index].buyer_remark === null
-                      ) ? (
+                      {path !== "/passed-meeting/buyer" ? (
+                        !meeting?.remarks ? (
+                          <a
+                            onClick={() => handleViewRemark(meeting?.id)}
+                            className="btn22 btn btn-warning"
+                          >
+                            Add Remark
+                          </a>
+                        ) : (
+                          <a
+                            onClick={() =>
+                              navigate(
+                                `/view-remark/${meeting?.id}/${meeting?.id}`
+                              )
+                            }
+                            className="btn22 btn btn-warnings"
+                          >
+                            View Remarks
+                          </a>
+                        )
+                      ) : !meetingData[index]?.buyer_remark ? (
                         <a
                           onClick={() => handleViewRemark(meeting?.id)}
                           className="btn22 btn btn-warning"
@@ -291,7 +306,6 @@ function Supplierpassedmeeting(props) {
                         </a>
                       )}
                     </td>
-
                     <td>
                       <div className="button_wrap row">
                         <a href="" className="btn btn-secondary">
