@@ -120,7 +120,10 @@ function Product_showcase(props) {
     };
     fetch(api + "/api/v1/supp_productlist", requestOptions)
       .then((response) => response.json())
-      .then((result) => settheytrusted(result.data))
+      .then((result) => {
+        setcheck(false);
+        settheytrusted(result.data)
+      })
       .catch((error) => console.log("error", error));
   };
 
@@ -138,6 +141,7 @@ function Product_showcase(props) {
     fetch(api + "/api/company-detail", requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        setcheck(false);
         if (result?.success == false) {
           toast.error("No records have found ! Please Fill");
         } else {
@@ -152,7 +156,6 @@ function Product_showcase(props) {
     if (check) {
       getCompanyInfo();
       theytrusted_data();
-      setcheck(false);
     }
   }, [check]);
 
@@ -264,39 +267,36 @@ function Product_showcase(props) {
           <div class="column justify-end">
             {/* <!-- <button type="submit" class="btn-block btn btn-primary row align-item-center"><img src="images/plus-circle.svg" alt=""/>Add New Product</button> --> */}
             <a
+              style={check == true ? { opacity: "0.5" } : {}}
               // href="/add-new-product"
               onClick={() => {
-                if (
-                  companyinfo[0]?.timezone != "" &&
-                  companyinfo[0]?.timezone != null
-                ) {
-                  checkSubscription().then((response) => {
-                    console.log(
-                      response,
-                      "<<<<<<<,",
-                      response?.message?.subscription_status,
-                      response?.data.manage_type?.toLowerCase() == "shareduser"
-                    );
-                    if (response?.data?.subscription_status !== 0) {
-                      navigate("/add-new-product");
-                    } else if (
-                      response?.message?.subscription_status != 0 &&
-                      response?.data.manage_type?.toLowerCase() == "shareduser"
-                    ) {
-                      navigate("/add-new-product");
-                    } else {
-                      navigate("/company-subscription");
-                    }
-                  });
-                } else {
-                  setTimeout(() => {
-                    window.alert(
-                      "You did not fill the company information. Please fill the company information to add a product."
-                    );
-                    navigate("/company-Information-fill", {
-                      state: { company_info: 2 },
+                if (check == false) {
+                  if (
+                    companyinfo[0]?.timezone != "" &&
+                    companyinfo[0]?.timezone != null
+                  ) {
+                    checkSubscription().then((response) => {
+                      if (response?.data?.subscription_status !== 0) {
+                        navigate("/add-new-product");
+                      } else if (
+                        response?.message?.subscription_status != 0 &&
+                        response?.data.manage_type?.toLowerCase() == "shareduser"
+                      ) {
+                        navigate("/add-new-product");
+                      } else {
+                        navigate("/company-subscription");
+                      }
                     });
-                  }, 5000);
+                  } else {
+                    setTimeout(() => {
+                      window.alert(
+                        "You did not fill the company information. Please fill the company information to add a product."
+                      );
+                      navigate("/company-Information-fill", {
+                        state: { company_info: 2 },
+                      });
+                    }, 5000);
+                  }
                 }
               }}
               class="btn-block btn btn-primary row align-item-center"
