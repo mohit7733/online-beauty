@@ -14,14 +14,20 @@ function Supplierpassedmeeting(props) {
   const [searchdata, setsearchdata] = useState("");
 
   useEffect(() => {
-    setMeetingData([])
+    setMeetingData([]);
     axios
       .get(
         api +
-        "/api/v1/" +
-        (path == "/passed-meeting/buyer"
-          ? "buyermeetingreqlist?sortBy=" + shortby + "&buyerName=" + searchdata
-          : "supplier-complete-meeting?sortBy=" + shortby + "&buyerName=" + searchdata),
+          "/api/v1/" +
+          (path == "/passed-meeting/buyer"
+            ? "buyermeetingreqlist?sortBy=" +
+              shortby +
+              "&buyerName=" +
+              searchdata
+            : "supplier-complete-meeting?sortBy=" +
+              shortby +
+              "&buyerName=" +
+              searchdata),
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -34,7 +40,7 @@ function Supplierpassedmeeting(props) {
         setMeetingData(Object.values(response?.data?.data?.meetings));
         setmeetingData2(Object.values(response?.data?.data?.meetings));
         if (shortby == "A-Z") {
-          searchfilter()
+          searchfilter();
         }
       })
       .catch((error) => {
@@ -45,13 +51,17 @@ function Supplierpassedmeeting(props) {
 
   const searchfilter = () => {
     if (path != "/confirmed-meeting/buyer") {
-      const sortedData = [...meetingData].sort((a, b) => a.buyerName.buyername.localeCompare(b.buyerName.buyername));
-      setmeetingData(sortedData)
+      const sortedData = [...meetingData].sort((a, b) =>
+        a.buyerName.buyername.localeCompare(b.buyerName.buyername)
+      );
+      setmeetingData(sortedData);
     } else {
-      const sortedData = [...meetingData].sort((a, b) => a.supplierName.supliername.localeCompare(b.supplierName.supliername));
-      setmeetingData(sortedData)
+      const sortedData = [...meetingData].sort((a, b) =>
+        a.supplierName.supliername.localeCompare(b.supplierName.supliername)
+      );
+      setmeetingData(sortedData);
     }
-  }
+  };
   const data = meetingData?.map((detail) => {
     const supplierAvailable = detail?.supplier_available
       ? JSON.parse(detail.supplier_available)
@@ -83,6 +93,7 @@ function Supplierpassedmeeting(props) {
       supplierCityName: detail?.supplierCityName?.city_name,
       remarks: detail?.supplier_remark,
       buyerCityName: detail?.buyerCityName?.city_name,
+      buyerStatus: detail?.buyer_status,
       buyerCountryCode:
         detail?.buyerCountryCode?.countrycode !== "undefined"
           ? detail.buyerCountryCode.countrycode
@@ -94,15 +105,15 @@ function Supplierpassedmeeting(props) {
         detail?.supplierCountryCode?.countrycode != null
           ? detail?.supplierCountryCode?.countrycode
           : "Not Added",
-      meetingDates: detail?.supplier_available ? JSON.parse(detail?.supplier_available)?.map((date) => date.date) : [
-        "Not Added",
-      ],
-      meetingTime: detail?.supplier_available ? JSON.parse(detail?.supplier_available).map((time) => time.time) : [
-        "Not Added",
-      ],
-      meetingTime2: detail?.buyer_availaible_timezone ? JSON.parse(detail?.buyer_availaible_timezone).map((time) => time) : [
-        "Not Added",
-      ],
+      meetingDates: detail?.supplier_available
+        ? JSON.parse(detail?.supplier_available)?.map((date) => date.date)
+        : ["Not Added"],
+      meetingTime: detail?.supplier_available
+        ? JSON.parse(detail?.supplier_available).map((time) => time.time)
+        : ["Not Added"],
+      meetingTime2: detail?.buyer_availaible_timezone
+        ? JSON.parse(detail?.buyer_availaible_timezone).map((time) => time)
+        : ["Not Added"],
     };
   });
 
@@ -136,9 +147,18 @@ function Supplierpassedmeeting(props) {
         <div class="add_product_wrap row justify-content-between">
           <div class="column">
             <div class="search">
-              <input type="text" class="form-control" placeholder="Type here" onChange={e => setsearchdata(e.target.value)} />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Type here"
+                onChange={(e) => setsearchdata(e.target.value)}
+              />
             </div>
-            <button type="submit" class="btn btn-block btn-secondary" onClick={e => setshortby(shortby == " " ? "" : " ")}>
+            <button
+              type="submit"
+              class="btn btn-block btn-secondary"
+              onClick={(e) => setshortby(shortby == " " ? "" : " ")}
+            >
               Search
             </button>
           </div>
@@ -182,35 +202,32 @@ function Supplierpassedmeeting(props) {
             </thead>
             <tbody>
               {data?.map((meeting, index) =>
-                meeting?.status === 5 ? (
+                meeting?.buyerStatus === 2 ? (
                   <tr>
                     <td>
-                      {meetingData[index]?.buyername
-                        ? meetingData[index]?.buyername
-                        : meetingData[index]?.suppliername}
+                      {path === "/passed-meeting/buyer"
+                        ? meetingData[index]?.supplierName?.suppliername
+                        : path === "/passed-meeting/supplier"
+                        ? meetingData[index]?.buyerName?.buyername
+                        : null}
                     </td>
+
                     <td>{meeting?.buyerCountryCode}</td>
                     <td>
                       <div>
-                        {
-                          meeting?.meetingDates?.map((date, index) => {
-                            return date
-                          })
-                        } {
-                          meeting?.supplieravailabletime?.map((time, index) => {
-                            return time
-                          })
-                        }
+                        {meeting?.meetingDates?.map((date, index) => {
+                          return date;
+                        })}{" "}
+                        {meeting?.supplieravailabletime?.map((time, index) => {
+                          return time;
+                        })}
                       </div>
-
                     </td>
 
                     <td>
-                      {
-                        meeting?.meetingTime2.map((date, index) => {
-                          return date
-                        })
-                      }
+                      {meeting?.meetingTime2.map((date, index) => {
+                        return date;
+                      })}
                     </td>
                     <td>
                       <a
@@ -219,31 +236,31 @@ function Supplierpassedmeeting(props) {
                         onClick={() => {
                           path == "/passed-meeting/buyer"
                             ? navigate(
-                              "/product-view/" +
-                              meetingData[index].product_id +
-                              "/" +
-                              meetingData[index]?.product_name?.replace(
-                                /\s+/g,
-                                "-"
-                              ),
-                              {
-                                state: {
-                                  id: data.id,
-                                },
-                              }
-                            )
+                                "/product-view/" +
+                                  meetingData[index].product_id +
+                                  "/" +
+                                  meetingData[index]?.product_name?.replace(
+                                    /\s+/g,
+                                    "-"
+                                  ),
+                                {
+                                  state: {
+                                    id: data.id,
+                                  },
+                                }
+                              )
                             : navigate(
-                              `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                              {
-                                state: {
-                                  id: meeting?.id,
-                                  buyer_id: meeting?.buyer_id,
-                                  time: meeting?.meetingDates,
-                                  date: meeting?.meetingTime,
-                                  supplier_id: meeting?.supplier_id,
-                                },
-                              }
-                            );
+                                `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+                                {
+                                  state: {
+                                    id: meeting?.id,
+                                    buyer_id: meeting?.buyer_id,
+                                    time: meeting?.meetingDates,
+                                    date: meeting?.meetingTime,
+                                    supplier_id: meeting?.supplier_id,
+                                  },
+                                }
+                              );
                         }}
                       >
                         View More
@@ -281,14 +298,14 @@ function Supplierpassedmeeting(props) {
                           {meeting?.status === 4
                             ? "Supplier confirm Meeting"
                             : meeting?.status === 5
-                              ? "Completed"
-                              : meeting?.status === 1
-                                ? "In Progress"
-                                : meeting?.status === 2
-                                  ? "Supplier confirm Meeting. Payment Pending"
-                                  : meeting?.status === 3
-                                    ? "Refused"
-                                    : ""}
+                            ? "Completed"
+                            : meeting?.status === 1
+                            ? "In Progress"
+                            : meeting?.status === 2
+                            ? "Supplier confirm Meeting. Payment Pending"
+                            : meeting?.status === 3
+                            ? "Refused"
+                            : ""}
                         </a>
                       </div>
                     </td>

@@ -38,12 +38,13 @@ function Productview() {
     };
     fetch(
       api +
-      `/api/productlist?${categoryparams
-        ? `category=${categoryparams}`
-        : categorysearch
-          ? `category=${categorysearch?.replace(/\-+/g, ' ')}`
-          : "category="
-      }&sub_cat=${subcategoryparama}&made_in=${madeinparams}&any=${anyparams}`,
+        `/api/productlist?${
+          categoryparams
+            ? `category=${categoryparams}`
+            : categorysearch
+            ? `category=${categorysearch?.replace(/\-+/g, " ")}`
+            : "category="
+        }&sub_cat=${subcategoryparama}&made_in=${madeinparams}&any=${anyparams}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -96,7 +97,6 @@ function Productview() {
       .catch((error) => console.log("error", error));
   };
 
-
   useEffect(() => {
     if (check) {
       homeproduc_data();
@@ -111,7 +111,6 @@ function Productview() {
 
     categories.filter((itemId) => {
       if (itemId.category_name == e) {
-
         axios
           .get(`${api}/api/subcategory?category_id=${itemId?.id}`)
           .then((res) => {
@@ -291,11 +290,12 @@ function Productview() {
                         {resultshow == true
                           ? `${categoryparams ? `"${categoryparams}"` : ""}`
                           : categorysearch
-                            ? `${productData[0]?.category != undefined
-                              ? `"${productData[0]?.category}"`
-                              : ""
+                          ? `${
+                              productData[0]?.category != undefined
+                                ? `"${productData[0]?.category}"`
+                                : ""
                             }`
-                            : ""}
+                          : ""}
                       </>
                     ) : (
                       ""
@@ -365,7 +365,11 @@ function Productview() {
               {productData?.map((data, i) => {
                 if (i < pagination) {
                   return (
-                    <li className="row align-items-center" key={i} data-aos="fade-up">
+                    <li
+                      className="row align-items-center"
+                      key={i}
+                      data-aos="fade-up"
+                    >
                       <div
                         className="img-wrapper"
                         onClick={() => {
@@ -377,49 +381,94 @@ function Productview() {
                               localStorage.getItem("user_id") == data?.user_id
                             ) {
                               // navigate("/product-details/" + data.id);
-                              navigate("/product-view/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-").normalize('NFD').replace(/[\u0300-\u036f]/g, ''), {
-                                state: {
-                                  id: data.id,
+                              navigate(
+                                "/product-view/" +
+                                  data.id +
+                                  "/" +
+                                  data?.product_short_name
+                                    ?.replace(/\s+/g, "-")
+                                    .normalize("NFD")
+                                    .replace(/[\u0300-\u036f]/g, ""),
+                                {
+                                  state: {
+                                    id: data.id,
+                                  },
                                 }
-                              });
+                              );
                             } else if (
                               localStorage
                                 .getItem("user_type")
                                 ?.toLowerCase() == "supplier"
                             ) {
-                              navigate("/product-details/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-").normalize('NFD').replace(/[\u0300-\u036f]/g, ''), {
-                                state: {
-                                  id: data.id,
+                              navigate(
+                                "/product-details/" +
+                                  data.id +
+                                  "/" +
+                                  data?.product_short_name
+                                    ?.replace(/\s+/g, "-")
+                                    .normalize("NFD")
+                                    .replace(/[\u0300-\u036f]/g, ""),
+                                {
+                                  state: {
+                                    id: data.id,
+                                  },
                                 }
-                              });
+                              );
                             } else {
-                              navigate("/product-view/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-").normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, ''), {
-                                state: {
-                                  id: data.id,
-                                }
-                              });
+                              window.open(
+                                "/product-view/" +
+                                  data.id +
+                                  "/" +
+                                  data?.product_short_name
+                                    ?.replace(/\s+/g, "-")
+                                    .normalize("NFD")
+                                    .replace(/[\u0300-\u036f]/g, "")
+                                    .normalize("NFD")
+                                    .replace(/[\u0300-\u036f]/g, ""),
+                                "_blank"
+                              );
                             }
                           } else {
-                            navigate("/product-details/" + data.id + "/" + data?.product_short_name?.replace(/\s+/g, "-").normalize('NFD').replace(/[\u0300-\u036f]/g, ''), {
-                              state: {
-                                id: data.id,
-                              }
-                            });
+                            window.open(
+                              "/product-details/" +
+                                data.id +
+                                "/" +
+                                data?.product_short_name
+                                  ?.replace(/\s+/g, "-")
+                                  .normalize("NFD")
+                                  .replace(/[\u0300-\u036f]/g, ""),
+                              "_blank"
+                            );
                           }
                         }}
                       >
                         <div className="col_img">
                           <figure
                             style={{ height: "180px" }}
-                          //    style={ grid == false ? { height: "180px"   } :{height: "180px"}}
+                            //    style={ grid == false ? { height: "180px"   } :{height: "180px"}}
                           >
-                            {data.mediaFiles[Number(data?.thumb_index)]?.media_type == "image" ? (
-                              <img src={data.mediaFiles[Number(data?.thumb_index == "undefined" ? "0" : data?.thumb_index)]?.file_path} alt="" />
+                            {data.mediaFiles[Number(data?.thumb_index)]
+                              ?.media_type == "image" ? (
+                              <img
+                                src={
+                                  data.mediaFiles[
+                                    Number(
+                                      data?.thumb_index == "undefined"
+                                        ? "0"
+                                        : data?.thumb_index
+                                    )
+                                  ]?.file_path
+                                }
+                                alt=""
+                              />
                             ) : data.mediaFiles?.media_type == "video" ? (
                               <video src={data.mediaFiles?.file_path} alt="" />
                             ) : data.mediaFiles?.media_type == "doc" ? (
                               <img
-                                src={data.mediaFiles[Number(data?.thumb_index)]?.file_path}
+                                src={
+                                  data.mediaFiles[Number(data?.thumb_index)]
+                                    ?.file_path
+                                }
                                 alt="no image"
                               />
                             ) : (
@@ -430,14 +479,14 @@ function Productview() {
                         <div className="col_category">
                           <h4
                             className="handle_wrap"
-                          // style={
-                          //   data?.product_name?.length < 18
-                          //     ? { padding: "25.5px 9px" }
-                          //     : {}
-                          // }
+                            // style={
+                            //   data?.product_name?.length < 18
+                            //     ? { padding: "25.5px 9px" }
+                            //     : {}
+                            // }
                           >
                             {" "}
-                            {data?.product_name}
+                            {data?.product_short_name && data.product_short_name}
                           </h4>
                           <ul className="d-flex align-items-center">
                             <li className="made_inclass">
@@ -467,11 +516,11 @@ function Productview() {
               className="no-data-found"
               id="blank-data"
               style={{ display: "none" }}
-            //   style={
-            //     productData?.length == 0
-            //       ? { display: "none" }
-            //       : { display: "none" }
-            //   }
+              //   style={
+              //     productData?.length == 0
+              //       ? { display: "none" }
+              //       : { display: "none" }
+              //   }
             >
               <p>
                 No Product Found. Please click on 'Clear all' button to see all
@@ -482,68 +531,68 @@ function Productview() {
               <ul style={{ marginTop: "1rem" }}>
                 {productData.length > 0
                   ? [
-                    ...Array(
-                      parseInt(
-                        JSON.stringify(page)
-                          .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
-                          .split(".")[1]
-                      )
-                        ? parseInt(
+                      ...Array(
+                        parseInt(
                           JSON.stringify(page)
-                            .substr(
-                              JSON.stringify(page).lastIndexOf("\\") + 1
-                            )
-                            .split(".")[0]
-                        ) + 1
-                        : parseInt(
-                          JSON.stringify(page)
-                            .substr(
-                              JSON.stringify(page).lastIndexOf("\\") + 1
-                            )
-                            .split(".")[0]
+                            .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
+                            .split(".")[1]
                         )
-                    ),
-                  ].map((data, i) => {
-                    i += 1;
-                    return (
-
-                      <>
-                        {
-                          i == 1 ?
+                          ? parseInt(
+                              JSON.stringify(page)
+                                .substr(
+                                  JSON.stringify(page).lastIndexOf("\\") + 1
+                                )
+                                .split(".")[0]
+                            ) + 1
+                          : parseInt(
+                              JSON.stringify(page)
+                                .substr(
+                                  JSON.stringify(page).lastIndexOf("\\") + 1
+                                )
+                                .split(".")[0]
+                            )
+                      ),
+                    ].map((data, i) => {
+                      i += 1;
+                      return (
+                        <>
+                          {i == 1 ? (
                             <li
-                              className={pagination == i * 8 ? "remove_ho active" : productData?.length <= 8 ? "remove_ho " : ""}
+                              className={
+                                pagination == i * 8
+                                  ? "remove_ho active"
+                                  : productData?.length <= 8
+                                  ? "remove_ho "
+                                  : ""
+                              }
                               onClick={(e) => setpagination(i * 8)}
                             >
-
-                              <a >{i}</a>
-
-                            </li> :
+                              <a>{i}</a>
+                            </li>
+                          ) : (
                             <li
                               className={pagination == i * 8 ? " active" : " "}
                               onClick={(e) => setpagination(i * 8)}
                             >
-
-                              <a >{i}</a>
-
+                              <a>{i}</a>
                             </li>
-
-                        }
-                      </>
-                    );
-                  })
+                          )}
+                        </>
+                      );
+                    })
                   : ""}
-                {
-                  productData?.length > 8 ?
-                    <li
-                      className="hover_remove2 selected"
-                      onClick={(e) => setpagination(pagination + 8)}
-                    >
-                      <a >
-                        Next <img src="images/arrow-right.png" title="" alt="" />
-                      </a>
-                    </li> : ""
-
-                }
+                {productData?.length > 8 ? (
+                  <li
+                    className="hover_remove2 selected"
+                    onClick={(e) => setpagination(pagination + 8)}
+                  >
+                    <a>
+                      Next <img src="images/arrow-right.png" title="" alt="" />
+                    </a>
+                  </li>
+                ) : (
+                  ""
+                )}
               </ul>
             </div>
           </div>
@@ -637,7 +686,7 @@ function Productview() {
             </div>
           </div>
         </div>
-      </div >
+      </div>
     </>
   );
 }

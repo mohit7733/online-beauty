@@ -103,16 +103,16 @@ function Add_product(props) {
         console.error(error);
       });
   }, []);
-  useEffect(() => {
-    if (companydetail === false || setCompanyProfile === false) {
-      setTimeout(() => {
-        window.alert(
-          "You did not fill the company information. Please fill the company information and company profile to add new product."
-        );
-        navigate("/company-information-fill");
-      }, 1000);
-    }
-  }, [companydetail, compnayProfile]);
+  // useEffect(() => {
+  //   if (companydetail === false || compnayProfile === false) {
+  //     setTimeout(() => {
+  //       window.alert(
+  //         "You did not fill the company information. Please fill the company information and company profile to add new product."
+  //       );
+  //       navigate("/company-information-fill");
+  //     }, 1000);
+  //   }
+  // }, [companydetail, compnayProfile]);
   const logins_field2 = (e) => {
     switch (e.target.name) {
       case "p_name":

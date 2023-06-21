@@ -9,10 +9,19 @@ function Productdetails() {
   const [productData, setProductData] = useState([]);
   const [check, setcheck] = useState(true);
   const { id } = useParams();
-  const { state } = useLocation()
-  const slugdata = useParams()
+  const { state } = useLocation();
+  const slugdata = useParams();
+  let token = localStorage.getItem("token")
+  const path = window.location.pathname;
+  console.log(token ,path)
   console.log(productData);
   const navigate = useNavigate();
+  useEffect(() => {
+    if (token !== null && path.includes('/product-details')) {
+      const newPath = path.replace('/product-details', '/product-view');
+      navigate(newPath);
+    }
+  }, [token]);
   const getProductDetails = () => {
     var myHeaders = new Headers();
     myHeaders.append(
@@ -24,10 +33,16 @@ function Productdetails() {
       // headers: myHeaders,
       redirect: "follow",
     };
-    fetch(api + "/api/v1/products_details?product_id=" + slugdata?.id, requestOptions)
+    fetch(
+      api + "/api/v1/products_details?product_id=" + slugdata?.id,
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => setProductData(result.data))
-      .catch((error) => console.log("error", error));
+      .catch((error) => {
+        console.log("error", error);
+        navigate("/notfound");
+      });
   };
 
   useEffect(() => {
@@ -48,7 +63,8 @@ function Productdetails() {
 
   if (
     /^[\],:{}\s]*$/.test(
-      productData?.sub_cat?.replace(/\\["\\\/bfnrtu]/g, "@")
+      productData?.sub_cat
+        ?.replace(/\\["\\\/bfnrtu]/g, "@")
         .replace(
           /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
           "]"
@@ -56,13 +72,11 @@ function Productdetails() {
         .replace(/(?:^|:|,)(?:\s*\[)+/g, "")
     )
   ) {
-    var sub_categorries = JSON.parse(productData?.sub_cat)
+    var sub_categorries = JSON.parse(productData?.sub_cat);
     console.log(sub_categorries);
   }
 
   let url2 = productData?.category?.replace(/\s+/g, "-");
-
-
 
   return (
     <>
@@ -98,37 +112,58 @@ function Productdetails() {
                 <div className="slider-for">
                   {productData?.media_files ? (
                     <Slider {...settings}>
-                      {
-                        productData?.media_files.media_type === "image" ?
-
-                          <div>
-                            <figure>
-                              <img
-                                className="mainimg-display"
-                                src={productData?.media_files.file_path}
-                                alt=""
-                              />
-                            </figure>
-                          </div>
-                          : productData?.media_files.media_type === "doc" && productData?.media_files.file_path.substr(productData?.media_files.file_path.lastIndexOf('\\') + 1).split('.')[3] != "pdf" ?
-                            <div>
-                              <figure>
-                                <iframe
-                                  src={
-                                    "https://view.officeapps.live.com/op/embed.aspx?src=" +
-                                    productData?.media_files.file_path +
-                                    "&embedded=true"
-                                  }
-                                  style={{ height: "500px" }}
-                                ></iframe>
-                              </figure>
-                            </div>
-                            : productData?.media_files.file_path.substr(productData?.media_files.file_path.lastIndexOf('\\') + 1).split('.')[3] == "pdf" ? <div>
-                              <figure>
-                                <embed src={productData?.media_files.file_path + "#toolbar=1&scrollbar=0"} height="500px" width="100%" />
-                              </figure>
-                            </div> : ""
-                      }
+                      {productData?.media_files.media_type === "image" ? (
+                        <div>
+                          <figure>
+                            <img
+                              className="mainimg-display"
+                              src={productData?.media_files.file_path}
+                              alt=""
+                            />
+                          </figure>
+                        </div>
+                      ) : productData?.media_files.media_type === "doc" &&
+                        productData?.media_files.file_path
+                          .substr(
+                            productData?.media_files.file_path.lastIndexOf(
+                              "\\"
+                            ) + 1
+                          )
+                          .split(".")[3] != "pdf" ? (
+                        <div>
+                          <figure>
+                            <iframe
+                              src={
+                                "https://view.officeapps.live.com/op/embed.aspx?src=" +
+                                productData?.media_files.file_path +
+                                "&embedded=true"
+                              }
+                              style={{ height: "500px" }}
+                            ></iframe>
+                          </figure>
+                        </div>
+                      ) : productData?.media_files.file_path
+                          .substr(
+                            productData?.media_files.file_path.lastIndexOf(
+                              "\\"
+                            ) + 1
+                          )
+                          .split(".")[3] == "pdf" ? (
+                        <div>
+                          <figure>
+                            <embed
+                              src={
+                                productData?.media_files.file_path +
+                                "#toolbar=1&scrollbar=0"
+                              }
+                              height="500px"
+                              width="100%"
+                            />
+                          </figure>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </Slider>
                   ) : (
                     ""
@@ -137,24 +172,22 @@ function Productdetails() {
               </div>
               <div className="col_textpading col_text" data-aos="fade-left">
                 <div className="button">
-                  <button onClick={() => {
-                    navigate("/product-view/" + url2)
-                  }} className="btn_margin thiredbtn2 btn btn-secondary">
+                  <button
+                    onClick={() => {
+                      navigate("/product-view/" + url2);
+                    }}
+                    className="btn_margin thiredbtn2 btn btn-secondary"
+                  >
                     {productData?.category}
                   </button>
 
-                  {
-                    sub_categorries?.map((item) => {
-                      return (
-
-                        <button className="btn_margin thiredbtn btn btn-secondar btn-defaul">
-                          {item}
-                        </button>
-                      )
-
-                    })
-                  }
-
+                  {sub_categorries?.map((item) => {
+                    return (
+                      <button className="btn_margin thiredbtn btn btn-secondar btn-defaul">
+                        {item}
+                      </button>
+                    );
+                  })}
                 </div>
                 <h2>{productData?.product_short_name}</h2>
                 <p>{productData?.product_dec}</p>
@@ -163,13 +196,13 @@ function Productdetails() {
                 <div
                   style={
                     localStorage.getItem("user_type")?.toLowerCase() ==
-                      "supplier"
+                    "supplier"
                       ? { display: "none" }
                       : {}
                   }
                   className={
                     localStorage.getItem("user_type")?.toLowerCase() ==
-                      "supplier"
+                    "supplier"
                       ? "button_wrapperhide"
                       : "button-wrapper style2"
                   }

@@ -34,7 +34,8 @@ function Supplierpandingmeeting(props) {
   const [acceptId, setacceptId] = useState();
   const [shortby, setshortby] = useState("");
   const [searchdata, setsearchdata] = useState("");
-
+  const [notavailable, setnotavailable] = useState([]);
+  const path = window.location.pathname;
 
   // let acceptId = 0
   function showTimePicker(value) {
@@ -145,16 +146,23 @@ function Supplierpandingmeeting(props) {
   React.useEffect(() => {
     setmeetingDetails([]);
     axios
-      .get(api + "/api/v1/suppliermeetingreqlist?sortBy=" + shortby + "&buyerName=" + searchdata, {
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-      })
+      .get(
+        `${api}/api/v1/${
+          path.includes("/pending-meeting/supplier")
+            ? "suppliermeetingreqlist"
+            : "suppliermeetingreqlist"
+        }?sortBy=${shortby}&buyerName=${searchdata}`,
+        {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           // console.log(res.data?.data);
           setmeetingDetails2(Object.values(res.data?.data.meetings));
           setmeetingDetails(Object.values(res.data?.data.meetings));
           if (shortby == "A-Z") {
-            searchfilter()
+            searchfilter();
           }
         }
       })
@@ -164,11 +172,12 @@ function Supplierpandingmeeting(props) {
   }, [shortby]);
   console.log("clicked");
 
-
   const searchfilter = () => {
-    const sortedData = [...meetingDetails2].sort((a, b) => a.buyerName.buyername.localeCompare(b.buyerName.buyername));
-    setmeetingDetails(sortedData)
-  }
+    const sortedData = [...meetingDetails2].sort((a, b) =>
+      a.buyerName.buyername.localeCompare(b.buyerName.buyername)
+    );
+    setmeetingDetails(sortedData);
+  };
 
   useEffect(() => {
     supplierTime.length > 0 &&
@@ -226,40 +235,43 @@ function Supplierpandingmeeting(props) {
     return ans;
   };
 
-  const data = meetingDetails.map((detail) => ({
-    id: detail?.id,
-    supplier_id: detail?.supplier_id,
-    status: detail?.status,
-    meetingDateTimeStrings: detail.meetDateTime.map(
-      (time) => time.meet_date + " " + time.meet_time
-    ),
-    type: detail?.type,
-    supplier_Time_Zone: detail?.supplier_timezone,
-    buyer_Time_Zone: detail?.buyer_timezone,
-    supplierCityName: detail?.supplierCityName?.city_name,
-    buyerCityName: detail?.buyerCityName?.city_name,
-    buyerCountryCode:
-      detail?.buyerCountryCode?.countrycode !== "undefined"
-        ? detail.buyerCountryCode.countrycode
-        : "",
-    supplierCountryCode: detail?.supplierCountryCode?.countrycode,
-    buyer_id: detail.buyer_id,
-    buyerSlot: detail?.buyerSlot?.map((slot) => ({
-      date: JSON.parse(slot.supplier_available)[0].date,
-      time: JSON.parse(slot.supplier_available)[0].time,
-    })),
-    buyername: detail?.buyerName?.buyername,
-    countrycode:
-      detail?.supplierCountryCode?.countrycode != null
-        ? detail?.supplierCountryCode?.countrycode
-        : "Not Added",
-    meetingDates: detail.meetDateTime?.map((date) => date.supplier_timezone_date) || [
-      "Not Added",
-    ],
-    meetingTime: detail.meetDateTime?.map((time) => time.supplier_timezone_time) || [
-      "Not Added",
-    ],
-  }));
+  const data = meetingDetails?.map((detail) => {
+    const buyertimeDate = detail?.meetDateTime.map((meet) => {
+      return `${meet.meet_date} ${meet.meet_time}`;
+    });
+
+    const suppliertimeDate = detail?.meetDateTime.map((meet) => {
+      return `${meet.supplier_timezone_date} ${meet.supplier_timezone_time}`;
+    });
+    const buyerslots = detail?.buyerSlot.flatMap((slot) => {
+      const slotData = JSON.parse(slot.supplier_available);
+      return slotData.map((data) => `${data.date} ${data.time}`);
+    });
+
+    return {
+      id: detail?.id,
+      supplier_id: detail?.supplier_id,
+      status: detail?.status,
+      supplier_Time_Zone: detail?.supplier_timezone,
+      buyer_Time_Zone: detail?.buyer_timezone,
+      supplierCityName: detail?.supplierCityName?.city_name,
+      buyerCityName: detail?.buyerCityName?.city_name,
+      buyerCountryCode:
+        detail?.buyerCountryCode?.countrycode !== "undefined"
+          ? detail.buyerCountryCode.countrycode
+          : "",
+      supplierCountryCode: detail?.supplierCountryCode?.countrycode,
+      buyer_id: detail?.buyer_id,
+      buyername: detail?.buyerName?.buyername,
+      countrycode:
+        detail?.supplierCountryCode?.countrycode != null
+          ? detail?.supplierCountryCode?.countrycode
+          : "",
+      buyertimeDate,
+      suppliertimeDate,
+      buyerslots,
+    };
+  });
   console.log(data, "buyerslot");
 
   // accept meeting functionality
@@ -313,9 +325,18 @@ function Supplierpandingmeeting(props) {
         <div class="add_product_wrap row justify-content-between">
           <div class="column">
             <div class="search">
-              <input type="text" class="form-control" placeholder="Type here" onChange={e => setsearchdata(e.target.value)} />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Type here"
+                onChange={(e) => setsearchdata(e.target.value)}
+              />
             </div>
-            <button type="submit" class="btn btn-block btn-secondary" onClick={e => setshortby(shortby == " " ? "" : " ")}>
+            <button
+              type="submit"
+              class="btn btn-block btn-secondary"
+              onClick={(e) => setshortby(shortby == " " ? "" : " ")}
+            >
               Search
             </button>
           </div>
@@ -335,17 +356,24 @@ function Supplierpandingmeeting(props) {
           <table>
             <thead>
               <tr>
-                <th>Buyer Name</th>
-                <th>Country Codes</th>
-                <th>Meeting Date</th>
-                <th>Buyer Time</th>
-
                 <th>
-                  Meeting Time (
-                  {meetingDetails[0]?.supplierCountryCode?.countrycode}){" "}
+                  {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"} Name
                 </th>
-                {/* <th>Convert Time</th> */}
-                <th>Buyer Profile</th>
+                <th>Country Codes</th>
+                <th>Supplier Date / Time</th>
+                <th>
+                  Buyer Date / Time (
+                  {data !== undefined
+                    ? meetingDetails[0]?.buyerCountryCode.countrycode
+                    : ""}
+                  )
+                  {/* ({" "}
+                  {meetingData[0]?.supplierCountryCode?.countrycode}) */}
+                </th>
+                <th>
+                  {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
+                  Profile
+                </th>
                 {/* <th>Meeting Status</th> */}
                 <th>Meeting status</th>
                 <th>Edit Avaibility</th>
@@ -357,88 +385,22 @@ function Supplierpandingmeeting(props) {
                 <tr key={index}>
                   <td>{meeting?.buyername}</td>
                   <td>{meeting?.buyerCountryCode}</td>
-                  <td>
-                    {(() => {
-                      const buyerTimeZone = meeting?.buyer_Time_Zone;
-                      const supplierTimeZone = meeting?.supplier_Time_Zone;
-
-                      if (buyerTimeZone === null || supplierTimeZone === null) {
-                        // Handle the case when time zone information is missing
-                        return meeting?.meetingDates?.map((date, index) => (
-                          <div key={index}>{date}</div>
-                        ));
-                      }
-
-                      return meeting?.meetingDates?.map((date, index) => {
-                        const formattedDate = moment(date, "DD-MM-YYYY")
-                          .tz(supplierTimeZone)
-                          .format("DD-MM-YYYY");
-                        const convertedDate = moment(
-                          formattedDate,
-                          "DD-MM-YYYY"
-                        )
-                          .tz(buyerTimeZone)
-                          .format("DD-MM-YYYY");
-                        return <div key={index}>{convertedDate}</div>;
-                      });
-                    })()}
-                  </td>
 
                   <td>
-                    {meeting?.meetingTime?.map((time, index) => {
-                      const formattedTime = time;
-                      return (
-                        <div key={index}>
-                          {moment(time, "h:mm A").isValid()
-                            ? formattedTime
-                            : time}
-                        </div>
-                      );
-                    })}
+                    <div>
+                      {meeting?.suppliertimeDate?.map((date, index) => (
+                        <div key={index}>{date}</div>
+                      ))}
+                    </div>
                   </td>
                   <td>
-                    {(() => {
-                      // const buyerCountry = country?.data?.find(
-                      //   (c) => c?.code === meeting?.buyerCountryCode
-                      // );
-
-                      // const supplierCountry = country?.data?.find(
-                      //   (c) => c.code === meeting?.supplierCountryCode
-                      // );
-
-                      const buyerTimeZone = meeting?.buyer_Time_Zone;
-                      const supplierTimeZone = meeting?.supplier_Time_Zone;
-                      // console.log(supplierTimeZonexx`)
-
-                      const meetingDateTimeStrings =
-                        meeting?.meetingDateTimeStrings || [];
-
-                      return meetingDateTimeStrings.map((time, index) => {
-                        const buyerMeetingTime = moment.tz(
-                          time,
-                          "DD-MM-YYYY HH:mm A",
-                          buyerTimeZone
-                        );
-                        const timeDiffMinutes = moment
-                          .tz(buyerMeetingTime, buyerTimeZone)
-                          .diff(
-                            moment.tz(buyerMeetingTime, supplierTimeZone),
-                            "minutes"
-                          );
-                        const supplierMeetingTime = moment.tz(
-                          buyerMeetingTime
-                            .clone()
-                            .add(timeDiffMinutes, "minutes"),
-                          supplierTimeZone
-                        );
-                        const formattedSupplierMeetingTime =
-                          supplierMeetingTime.format("h:mm A");
-                        return (
-                          <div key={index}>{formattedSupplierMeetingTime}</div>
-                        );
-                      });
-                    })()}
+                    <div>
+                      {meeting?.buyertimeDate?.map((date, index) => (
+                        <div key={index}>{date}</div>
+                      ))}
+                    </div>
                   </td>
+
                   <td class="roles">
                     <a
                       // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
@@ -493,8 +455,14 @@ function Supplierpandingmeeting(props) {
                                 meeting?.status === 2
                               ) {
                                 handleAcceptClick(meeting?.id);
-                                setacceptTime(meeting?.meetingTime);
-                                setacceptDates(meeting?.meetingDates);
+                                setacceptTime(meeting?.suppliertimeDate);
+                                setnotavailable(meeting?.buyerslots);
+                                console.log(
+                                  meeting.suppliertimeDate,
+                                  "id select"
+                                );
+                                // setacceptDates(meeting?.meetingDates);
+                                // handlebuttonacceptclick(meeting?.id , meeting?.suppliertimeDate , meeting?.buyertimeDate)
                                 setacceptId(meeting?.id);
                               }
                               // else if (meeting?.status === 2) {
@@ -523,8 +491,69 @@ function Supplierpandingmeeting(props) {
                               }
                             })()}
                           </a>
-
                           {showModal && (
+                            <div className="modal">
+                              <div className="modal-content">
+                                <span
+                                  className="close"
+                                  onClick={handleCloseModal}
+                                >
+                                  &times;
+                                </span>
+                                <div>
+                                  <h3>Accept Meeting</h3>
+                                  {accepttime?.map((dateTime, index) => {
+                                    const [date, time] = dateTime.split(" ");
+                                    const isDisabled =
+                                      notavailable.includes(dateTime);
+
+                                    return (
+                                      <div key={index}>
+                                        <input
+                                          type="radio"
+                                          id={`date${index}`}
+                                          name="selectedDate"
+                                          value={dateTime}
+                                          onChange={() =>
+                                            setAcceptMeeting([
+                                              {
+                                                supplier_id: acceptId,
+                                                type: 0,
+                                                availability: [
+                                                  {
+                                                    date: date,
+                                                    time: time,
+                                                  },
+                                                ],
+                                              },
+                                            ])
+                                          }
+                                          disabled={isDisabled}
+                                        />
+                                        <label htmlFor={`date${index}`}>
+                                          {dateTime}
+                                          {isDisabled && (
+                                            <span style={{ color: "red" }}>
+                                              *Slot no longer available
+                                            </span>
+                                          )}
+                                        </label>
+                                      </div>
+                                    );
+                                  })}
+
+                                  <button
+                                    className="btn btn-secondary"
+                                    onClick={() => clickedAccept()}
+                                  >
+                                    Submit
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* {showModal && (
                             <div className="modal">
                               <div
                                 className="modal-content"
@@ -595,31 +624,11 @@ function Supplierpandingmeeting(props) {
                                 </div>
                               </div>
                             </div>
-                          )}
+                          )} */}
                         </div>
                       )}
                     </div>
                   </td>
-                  {/* <td class="roles">
-                    <a class="btn btn-success">
-                      {(() => {
-                        switch (meeting?.status) {
-                          case 1:
-                            return "In Progress";
-                          case 2:
-                            return "Supplier confirm Meeting. Payment Pending";
-                          case 3:
-                            return "Refused";
-                          case 4:
-                            return "Supplier confirm Meeting. Payment is Done";
-                          case 5:
-                            return "Completed";
-                          default:
-                            return "Unknown";
-                        }
-                      })()}
-                    </a>
-                  </td> */}
 
                   <td>
                     <a
@@ -634,10 +643,11 @@ function Supplierpandingmeeting(props) {
                           ]);
                         }
                       }}
-                      className={`btn ${meeting?.type === 1 || meeting?.status === 3
-                        ? "disabled"
-                        : ""
-                        }`}
+                      className={`btn ${
+                        meeting?.type === 1 || meeting?.status === 3
+                          ? "disabled"
+                          : ""
+                      }`}
                       style={{
                         cursor:
                           meeting?.type === 1 || meeting?.status === 3
@@ -720,8 +730,9 @@ function Supplierpandingmeeting(props) {
                 <button
                   onClick={confirmSlots}
                   // disabled={slots.length >= 5}
-                  className={`btn_confirm btn btn-primary ${slots.length >= 5 ? "disabled" : ""
-                    }`}
+                  className={`btn_confirm btn btn-primary ${
+                    slots.length >= 5 ? "disabled" : ""
+                  }`}
                   style={{
                     filter: slots.length >= 5 ? "grayscale(100%)" : "none",
                   }}
