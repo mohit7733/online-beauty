@@ -379,7 +379,7 @@ function Productresearchsection(props) {
     if (
       answerArray?.filter((item) => {
         return item?.mandatory != 0;
-      }).length == Mandetroy_quest?.length
+      }).length != Mandetroy_quest?.length
     ) {
       answerArray?.map((item) => {
         emptyans.push({ id: item?.questionId, answer: item?.answer });
@@ -399,7 +399,7 @@ function Productresearchsection(props) {
           // setDisableedit(false);
           // get_companyinfo();
           setTimeout(() => {
-            // window.location.reload();
+            window.location.reload();
           }, 1000);
         })
         .catch((error) => {
@@ -492,8 +492,10 @@ function Productresearchsection(props) {
         // console.log(result.data , "<<<<<,");
         result.data?.map((item) => {
           if (item?.mandatory != 0) {
-            emptyans_id.push(item?.id);
-            Mandetroy_quest.push(item);
+            if (result.data.filter((data) => data?.mandatory != 0).length > Mandetroy_quest.length) {
+              emptyans_id.push(item?.id);
+              Mandetroy_quest.push(item);
+            }
           }
           if (item?.mandatory == 0) {
             nonmedId.push(item?.id);
@@ -1404,13 +1406,11 @@ function Productresearchsection(props) {
                     contact.ps_name != "" &&
                     contact.country != "" &&
                     contact.Description != "" &&
-                    contact.product_file != ""
+                    contact.product_file[0]
                     // contact.sector_name != ""
                   ) {
                     add_company_profile();
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 3000);
+
                   } else {
                     check_data?.map((data) => {
                       logins_field(data.name);
