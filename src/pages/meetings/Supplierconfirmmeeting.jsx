@@ -276,7 +276,12 @@ function Supplierconfirmmeeting(props) {
                         ? meeting.buyername
                         : meetingData[index]?.supplierName.suppliername}
                     </td>
-                    <td>{meeting?.buyerCountryCode}</td>
+                    <td>
+                      {" "}
+                      {path == "/confirmed-meeting/buyer"
+                        ? meeting?.supplierCountryCode
+                        : meeting?.buyerCountryCode}
+                    </td>
                     <td>
                       <div>
                         {meeting?.meetingDates?.map((date, index) => {
