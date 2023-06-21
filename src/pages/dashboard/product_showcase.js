@@ -150,8 +150,8 @@ function Product_showcase(props) {
   }
   useEffect(() => {
     if (check) {
-      theytrusted_data();
       getCompanyInfo();
+      theytrusted_data();
       setcheck(false);
     }
   }, [check]);
@@ -235,10 +235,10 @@ function Product_showcase(props) {
                 {user_type == "both"
                   ? "Supplier"
                   : user_type == "buyer"
-                  ? "Buyer"
-                  : user_type == "supplier"
-                  ? "Supplier"
-                  : ""}
+                    ? "Buyer"
+                    : user_type == "supplier"
+                      ? "Supplier"
+                      : ""}
               </a>
             </li>
             <li>
@@ -378,11 +378,11 @@ function Product_showcase(props) {
                         src={deleteicon}
                         style={{ opacity: "0.6" }}
                         alt=""
-                        // onClick={(e) => {
-                        //   setdeleteid(data.id);
-                        //   setalertshow(true);
-                        // }}
-                        // onClick={(e) => deletedata(data.id)}
+                      // onClick={(e) => {
+                      //   setdeleteid(data.id);
+                      //   setalertshow(true);
+                      // }}
+                      // onClick={(e) => deletedata(data.id)}
                       />
                     </td>
                   </tr>
