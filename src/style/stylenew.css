@@ -7082,6 +7082,10 @@ table thead tr th {
   text-align: left;
 }
 
+.table_form.billingTable th {
+  min-width: 150px;
+}
+
 table thead tr th:first-child,
 table tbody tr td:first-child {
   padding-left: 15px;
