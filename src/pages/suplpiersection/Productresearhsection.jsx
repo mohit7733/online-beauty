@@ -379,7 +379,7 @@ function Productresearchsection(props) {
     if (
       answerArray?.filter((item) => {
         return item?.mandatory != 0;
-      }).length != Mandetroy_quest?.length
+      }).length == Mandetroy_quest?.length
     ) {
       answerArray?.map((item) => {
         emptyans.push({ id: item?.questionId, answer: item?.answer });
@@ -492,10 +492,8 @@ function Productresearchsection(props) {
         // console.log(result.data , "<<<<<,");
         result.data?.map((item) => {
           if (item?.mandatory != 0) {
-            if (result.data.filter((data) => data?.mandatory != 0).length > Mandetroy_quest.length) {
-              emptyans_id.push(item?.id);
-              Mandetroy_quest.push(item);
-            }
+            emptyans_id.push(item?.id);
+            Mandetroy_quest.push(item);
           }
           if (item?.mandatory == 0) {
             nonmedId.push(item?.id);
@@ -784,7 +782,7 @@ function Productresearchsection(props) {
                 <p class="limit">{contact.Description?.length + "/" + "250"}</p>
               </div>
               {console.log(contact)}
-              {question?.map((quest, index) => {
+              {question && question?.map((quest, index) => {
                 // console.log(quest);
                 return (
                   <div className="radio_section" key={index}>
@@ -1406,7 +1404,7 @@ function Productresearchsection(props) {
                     contact.ps_name != "" &&
                     contact.country != "" &&
                     contact.Description != "" &&
-                    contact.product_file[0]
+                    contact.product_file != ""
                     // contact.sector_name != ""
                   ) {
                     add_company_profile();
