@@ -3,20 +3,22 @@
     background-color: rgba(0, 0, 0, 0.5);
     height: 100vh;
     width: 100vw;
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
     z-index: 1000;
 }
+
 .modal-wrapper {
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 1001;
 }
 
-.modal-content, .modal-wrapper {
+.modal-content,
+.modal-wrapper {
     left: 0;
     position: fixed;
     right: 0;
@@ -30,7 +32,7 @@
     height: auto;
     margin: auto;
     padding: 30px;
-    top: 15%;
+    top: 0;
     width: 55vw;
 }
 
@@ -38,8 +40,8 @@
 .modal-header {
     background-color: #19A0DD;
     border-radius: 25px 25px 0 0;
-    padding:25px;
+    padding: 25px;
     text-align: center;
-    color:#fff;
+    color: #fff;
     margin-bottom: 10px;
 }
