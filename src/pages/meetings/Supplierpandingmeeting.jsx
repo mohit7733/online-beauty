@@ -412,8 +412,8 @@ function Supplierpandingmeeting(props) {
                             state: {
                               id: meeting?.id,
                               buyer_id: meeting?.buyer_id,
-                              time: meeting?.meetingDates,
-                              date: meeting?.meetingTime,
+                              time: meeting?.suppliertimeDate,
+                              date: meeting?.suppliertimeDate,
                               supplier_id: meeting?.supplier_id,
                               meeting_id: meeting?.id,
                               amount: subscriptions[0]?.price,
