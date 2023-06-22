@@ -70,9 +70,9 @@ function Pandingmeeting() {
     };
     fetch(
       api +
-        "/api/company-profile?id=" +
-        state.buyer_id +
-        `&meeting_id=${state.id}`,
+      "/api/company-profile?id=" +
+      state.buyer_id +
+      `&meeting_id=${state.id}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -91,11 +91,11 @@ function Pandingmeeting() {
           setTimeout(() => {
             setthumb(
               result.data?.media_files[
-                Number(
-                  result.data?.company?.thumb_index == "undefined"
-                    ? "0"
-                    : result.data?.company?.thumb_index
-                )
+              Number(
+                result.data?.company?.thumb_index == "undefined"
+                  ? "0"
+                  : result.data?.company?.thumb_index
+              )
               ]
             );
             result.data?.media_files.map((item, i) => {
@@ -400,7 +400,7 @@ function Pandingmeeting() {
             <div className="breadcrumbs" data-aos="fade-down">
               <div className="head">
                 {pathname ==
-                `/profile-view/${localStorage.getItem("user_id")}` ? (
+                  `/profile-view/${localStorage.getItem("user_id")}` ? (
                   <ul>
                     <li>
                       <a href="/dashboard">Dashboard </a>
@@ -616,17 +616,17 @@ function Pandingmeeting() {
                     <div className="button-wrapper m-lft">
                       {(productData?.meeting_status?.status === 1 ||
                         productData?.meeting_status?.status === 2) && (
-                        <a
-                          href="#"
-                          className="btn btn-primary"
-                          onClick={() => handleRefuseMeeting()}
-                        >
-                          <span>
-                            <img src={thumbsdown} alt="" />
-                          </span>
-                          I Refuse A Meeting
-                        </a>
-                      )}
+                          <a
+                            href="#"
+                            className="btn btn-primary"
+                            onClick={() => handleRefuseMeeting()}
+                          >
+                            <span>
+                              <img src={thumbsdown} alt="" />
+                            </span>
+                            I Refuse A Meeting
+                          </a>
+                        )}
                       <a
                         className="btn btn-secondary"
                         onClick={() => {
@@ -768,8 +768,8 @@ function Pandingmeeting() {
                     productData?.productownerstatus == true
                       ? { display: "contents" }
                       : productData?.requeststatus == 1
-                      ? { display: "contents" }
-                      : { display: "contents" }
+                        ? { display: "contents" }
+                        : { display: "contents" }
                   }
                 >
                   <div className="profile-list profile-brand">
@@ -777,48 +777,50 @@ function Pandingmeeting() {
                     <div className="row justify-content-between">
                       <div className="col_left last-contnt">
                         {productData.questions?.map((item) => {
-                          if (item?.type.toLowerCase() == "checkbox") {
-                            try {
-                              if (
-                                /^[\],:{}\s]*$/.test(
-                                  item?.answer
-                                    .replace(/\\["\\\/bfnrtu]/g, "@")
-                                    .replace(
-                                      /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
-                                      "]"
-                                    )
-                                    .replace(/(?:^|:|,)(?:\s*\[)+/g, "")
-                                )
-                              ) {
-                                var ans = JSON.parse(item?.answer);
+                          if (item?.answer != "null") {
+                            if (item?.type.toLowerCase() == "checkbox") {
+                              try {
+                                if (
+                                  /^[\],:{}\s]*$/.test(
+                                    item?.answer
+                                      .replace(/\\["\\\/bfnrtu]/g, "@")
+                                      .replace(
+                                        /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
+                                        "]"
+                                      )
+                                      .replace(/(?:^|:|,)(?:\s*\[)+/g, "")
+                                  )
+                                ) {
+                                  var ans = JSON.parse(item?.answer);
+                                }
+                              } catch (error) {
+                                console.log(error);
                               }
-                            } catch (error) {
-                              console.log(error);
                             }
-                          }
-                          return (
-                            <ul>
-                              <li>
-                                <h6>{item?.question}</h6>
-                              </li>
-                              <li>
-                                <div
-                                  dangerouslySetInnerHTML={{
-                                    __html:
-                                      item?.type.toLowerCase() == "checkbox"
-                                        ? item?.answer?.replace(
+                            return (
+                              <ul>
+                                <li>
+                                  <h6>{item?.question}</h6>
+                                </li>
+                                <li>
+                                  <div
+                                    dangerouslySetInnerHTML={{
+                                      __html:
+                                        item?.type.toLowerCase() == "checkbox"
+                                          ? item?.answer?.replace(
                                             /[\\\n["{}:\]']+/g,
                                             " "
                                           )
-                                        : item?.answer?.replace(
+                                          : item?.answer?.replace(
                                             /[\\\n[{}:\]]+/g,
                                             "<br>"
                                           ),
-                                  }}
-                                />
-                              </li>
-                            </ul>
-                          );
+                                    }}
+                                  />
+                                </li>
+                              </ul>
+                            );
+                          }
                         })}
                       </div>
                     </div>

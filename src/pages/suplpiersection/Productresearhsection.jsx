@@ -234,12 +234,21 @@ function Productresearchsection(props) {
           )
         );
       }
+      setnonmedId(
+        nonmedId?.filter(
+          (item) => item == id
+        ).length == 0
+          ? nonmedId
+          : nonmedId?.filter(
+            (item) => item != id
+          )
+      );
     }
   };
 
   useEffect(() => {
-    console.log(options, "<<<<<<<,");
-  }, [options]);
+    console.log(options, contact, "<<<<<<<,");
+  }, [options, contact]);
 
   useEffect(() => {
     setDisableedit(false);
@@ -254,7 +263,6 @@ function Productresearchsection(props) {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
       .then((res) => {
-        console.log(res?.data, res?.data?.data?.company, "<<<,,");
 
         if (res?.data?.data?.company != null) {
           setTimeout(() => {
@@ -264,10 +272,10 @@ function Productresearchsection(props) {
 
         if (res?.data?.success == true) {
           setTimeout(() => {
-            contact.p_name = res?.data?.data.company?.company_name;
-            contact.ps_name = res?.data?.data.company?.company_short_name;
-            contact.country = res?.data?.data.company?.country;
-            contact.Description = res?.data?.data.company?.company_dec;
+            contact.p_name = res?.data?.data.company?.company_name != undefined ? res?.data?.data.company?.company_name : "";
+            contact.ps_name = res?.data?.data.company?.company_short_name != undefined ? res?.data?.data.company?.company_short_name : "";
+            contact.country = res?.data?.data.company?.country != undefined ? res?.data?.data.company?.country : "";
+            contact.Description = res?.data?.data.company?.company_dec != undefined ? res?.data?.data.company?.company_dec : "";
             contact.thumb_index = res?.data?.thumb_index != null && res?.data?.thumb_index != "null" ? parseInt(res?.data?.thumb_index) : 0;
             // contact.sector_name = res?.data?.data.company?.sector;
 
@@ -327,27 +335,23 @@ function Productresearchsection(props) {
     });
 
     answerArray?.map((question, index) => {
-      if (
-        nonmedId?.filter((item) => {
-          return item == question?.questionId;
-        })?.length == 0
-      ) {
-        console.log(
+
+      if (0 == index) {
+        if (
           nonmedId?.filter((item) => {
             return item == question?.questionId;
-          }),
-          "<<<<<"
-        );
-
-        nonmedId.map((itemid, index2) => {
-          formdata.append(`company_question[${index2}][id]`, itemid);
-          formdata.append(`company_question[${index2}][answer]`, null);
-        });
+          })?.length == 0
+        ) {
+          nonmedId.map((itemid, index2) => {
+            formdata.append(`company_question[${index2}][id]`, itemid);
+            formdata.append(`company_question[${index2}][answer]`, null);
+          });
+        }
       }
 
-      formdata.append(`company_question[${index}][id]`, question?.questionId);
+      formdata.append(`company_question[${(nonmedId.length + index)}][id]`, question?.questionId);
       formdata.append(
-        `company_question[${index}][answer]`,
+        `company_question[${(nonmedId.length + index)}][answer]`,
         options?.filter((item) => {
           return item?.id == question?.questionId;
         })[0]?.id == question?.questionId
@@ -379,7 +383,7 @@ function Productresearchsection(props) {
     if (
       answerArray?.filter((item) => {
         return item?.mandatory != 0;
-      }).length == Mandetroy_quest?.length
+      }).length != Mandetroy_quest?.length
     ) {
       answerArray?.map((item) => {
         emptyans.push({ id: item?.questionId, answer: item?.answer });
@@ -415,8 +419,6 @@ function Productresearchsection(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // console.log(contact?.category);
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -492,11 +494,15 @@ function Productresearchsection(props) {
         // console.log(result.data , "<<<<<,");
         result.data?.map((item) => {
           if (item?.mandatory != 0) {
-            emptyans_id.push(item?.id);
-            Mandetroy_quest.push(item);
+            if (result.data.filter((data) => data?.mandatory != 0).length > Mandetroy_quest.length) {
+              emptyans_id.push(item?.id);
+              Mandetroy_quest.push(item);
+            }
           }
           if (item?.mandatory == 0) {
-            nonmedId.push(item?.id);
+            if (result.data.filter((data) => data?.mandatory == 0).length > nonmedId.length) {
+              nonmedId.push(item?.id);
+            }
           }
         });
       })
@@ -524,12 +530,14 @@ function Productresearchsection(props) {
     console.log(answerArray?.length);
   }, [answerArray?.length]);
 
+
   useEffect(() => {
     if (check) {
       question_data();
       setcheck(false);
     }
-  }, [check, subcategory]);
+
+  }, [check, subcategory, answerArray]);
 
   useEffect(() => {
     get_companyinfo();
@@ -541,13 +549,12 @@ function Productresearchsection(props) {
       answerArray.filter((data) => data.questionId == id)[0].answer =
         e.target.value;
     } else {
-      answerArray.push({
+      setanswerArray([...answerArray, {
         answer: e.target.value,
         questionId: id,
-        mandatory: mandatory,
-      });
+        mandatory: mandatory == null ? 1 : mandatory,
+      }]);
     }
-
     answerArray?.map((item) => {
       // console.log(item, "<<<<<<<");
       if (item?.answer == "") {
@@ -561,7 +568,16 @@ function Productresearchsection(props) {
         setemptyans_id(emptyans_id?.filter((id) => id != item?.questionId));
       }
     });
-
+    console.log(answerArray, mandatory, e.target.value, nonmedId, "KKKKDDDDDDDDDDDDDDDKKK");
+    setnonmedId(
+      nonmedId?.filter(
+        (item) => item == id
+      ).length == 0
+        ? nonmedId
+        : nonmedId?.filter(
+          (item) => item != id
+        )
+    );
     // console.log(
     //   answerArray?.filter((item) => {
     //     return item?.mandatory != 0;
@@ -715,7 +731,7 @@ function Productresearchsection(props) {
                       disableedit ? "disabled2 custom-select " : "custom-select"
                     }
                     style={
-                      errorfield?.country == ""
+                      errorfield && errorfield.country == ""
                         ? {}
                         : { borderBottom: "1px solid red" }
                     }
@@ -725,6 +741,7 @@ function Productresearchsection(props) {
                       disabled={disableedit}
                       value={contact?.country}
                       onChange={(e) => logins_field2(e)}
+
                     >
                       <option>Country *</option>
                       {country.data.map((data, i) => {
@@ -774,14 +791,14 @@ function Productresearchsection(props) {
                   disabled={disableedit}
                   onChange={(e) => logins_field2(e)}
                   style={
-                    errorfield?.Description == ""
+                    errorfield && errorfield.Description == ""
                       ? {}
                       : { borderBottom: "1px solid red" }
                   }
                 ></textarea>
                 <p class="limit">{contact.Description?.length + "/" + "250"}</p>
               </div>
-              {console.log(contact)}
+              {console.log(question, contact?.questions)}
               {question && question?.map((quest, index) => {
                 // console.log(quest);
                 return (
@@ -810,15 +827,10 @@ function Productresearchsection(props) {
                               e,
                               quest.id,
                               quest?.type,
-                              quest?.mandatory
+                              quest.mandatory
                             );
 
-                            setnonmedId(
-                              nonmedId?.filter((item) => item == quest.id)
-                                .length == 0
-                                ? nonmedId
-                                : nonmedId?.filter((item) => item != quest.id)
-                            );
+
                             // console.log(nonmedId , "<<<<<<<<<nonmedId");
                           }}
                           defaultValue={
@@ -858,15 +870,10 @@ function Productresearchsection(props) {
                                 e,
                                 quest.id,
                                 quest?.type,
-                                quest?.mandatory
+                                quest.mandatory
                               );
 
-                              setnonmedId(
-                                nonmedId?.filter((item) => item == quest.id)
-                                  .length == 0
-                                  ? nonmedId
-                                  : nonmedId?.filter((item) => item != quest.id)
-                              );
+
                             }}
                             disabled={disableedit}
                             className=""
@@ -919,7 +926,7 @@ function Productresearchsection(props) {
                                   )
                                 ) {
                                   var ans = JSON.parse(
-                                    contact?.questions?.filter(
+                                    contact?.questions && contact?.questions?.filter(
                                       (data) =>
                                         data?.company_question_id == quest?.id
                                     )[0]?.answer
@@ -969,18 +976,24 @@ function Productresearchsection(props) {
                                               e,
                                               quest.id,
                                               quest?.type,
-                                              quest?.mandatory
+                                              quest.mandatory
                                             );
 
-                                            setnonmedId(
-                                              nonmedId?.filter(
-                                                (item) => item == quest.id
-                                              ).length == 0
-                                                ? nonmedId
-                                                : nonmedId?.filter(
-                                                  (item) => item != quest.id
-                                                )
+
+                                          }}
+                                          onChange={(e) => {
+                                            handlequestion2(
+                                              e,
+                                              quest.id,
+                                              quest?.type
                                             );
+                                            handlequestion(
+                                              e,
+                                              quest.id,
+                                              quest?.type,
+                                              quest.mandatory
+                                            );
+
                                           }}
                                         />
                                       ) : (
@@ -1015,15 +1028,22 @@ function Productresearchsection(props) {
                                               quest.id,
                                               quest?.type
                                             );
-                                            setnonmedId(
-                                              nonmedId?.filter(
-                                                (item) => item == quest.id
-                                              ).length == 0
-                                                ? nonmedId
-                                                : nonmedId?.filter(
-                                                  (item) => item != quest.id
-                                                )
+
+                                          }}
+                                          onChange={(e) => {
+                                            handlequestion2(
+                                              e,
+                                              quest.id,
+                                              quest?.type
                                             );
+                                            handlequestion(
+                                              e,
+                                              quest.id,
+                                              quest?.type,
+                                              quest.mandatory
+                                            );
+
+
                                           }}
                                           checked={
                                             ans
@@ -1064,15 +1084,22 @@ function Productresearchsection(props) {
                                           quest.id,
                                           quest?.type
                                         );
-                                        setnonmedId(
-                                          nonmedId?.filter(
-                                            (item) => item == quest.id
-                                          ).length == 0
-                                            ? nonmedId
-                                            : nonmedId?.filter(
-                                              (item) => item != quest.id
-                                            )
+
+                                      }}
+                                      onChange={(e) => {
+                                        handlequestion2(
+                                          e,
+                                          quest.id,
+                                          quest?.type
                                         );
+                                        handlequestion(
+                                          e,
+                                          quest.id,
+                                          quest?.type,
+                                          quest.mandatory
+                                        );
+
+
                                       }}
                                       defaultChecked={
                                         ans
@@ -1359,8 +1386,8 @@ function Productresearchsection(props) {
                   if (
                     contact.p_name != "" &&
                     contact.ps_name != "" &&
-                    contact.country != "" &&
-                    contact.Description != "" &&
+                    contact.country != "" && contact.country != undefined &&
+                    contact.Description != "" && contact.Description != undefined &&
                     // contact.product_file != "" &&
                     contact.sector_name != ""
                     // contact.Guarantee != "" &&
@@ -1402,13 +1429,12 @@ function Productresearchsection(props) {
                   if (
                     contact.p_name != "" &&
                     contact.ps_name != "" &&
-                    contact.country != "" &&
-                    contact.Description != "" &&
-                    contact.product_file != ""
+                    contact.country != "" && contact.country != undefined &&
+                    contact.Description != "" && contact.Description != undefined &&
+                    contact.product_file[0]
                     // contact.sector_name != ""
                   ) {
                     add_company_profile();
-
                   } else {
                     check_data?.map((data) => {
                       logins_field(data.name);
