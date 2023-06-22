@@ -167,7 +167,7 @@ function Supplierconfirmmeeting(props) {
               alt="warning"
             />
             <br />
-            <p> is the meeting done?</p>
+            <p> Is the meeting done?</p>
 
             <div>
               <button

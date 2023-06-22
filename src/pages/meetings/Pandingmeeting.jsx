@@ -284,8 +284,6 @@ function Pandingmeeting() {
         },
       })
       .then((response) => {
-        // if(response.status == 200){
-
         toast.success("Availability added successfully");
         navigate("/payment", {
           state: {
@@ -296,8 +294,6 @@ function Pandingmeeting() {
           },
         });
         setShowModal(false);
-
-        // }
         console.log(response, "<<<<<<<");
       })
       .catch((error) => {
@@ -311,19 +307,22 @@ function Pandingmeeting() {
     const { value } = event.target;
     const dateIndex = parseInt(value);
 
-    const selectedTime = state?.time?.[dateIndex];
-    const selectedDate = moment(state?.date?.[dateIndex], "HH:mm").format(
-      "h:mm A"
+    const selectedDateTime = state?.time?.[dateIndex];
+    const selectedDate = moment(selectedDateTime, "DD-MM-YYYY hh:mm A").format(
+      "DD-MM-YYYY"
+    );
+    const selectedTime = moment(selectedDateTime, "DD-MM-YYYY hh:mm A").format(
+      "hh:mm A"
     );
 
     setAcceptMeeting([
       {
-        supplier_id: state?.id,
+        supplier_id: state?.supplier_id,
         type: 0,
         availability: [
           {
-            date: selectedTime,
-            time: selectedDate,
+            date: selectedDate,
+            time: selectedTime,
           },
         ],
       },
@@ -360,11 +359,10 @@ function Pandingmeeting() {
             <div>
               <h3>Accept Meeting</h3>
               <ul>
-                {state?.date?.map((time, index) => {
-                  const date = moment(
-                    state?.time?.[index],
-                    "DD-MM-YYYY"
-                  ).format("DD-MM-YYYY");
+                {state?.date?.map((dateTime, index) => {
+                  const splitDateTime = dateTime.split(" ");
+                  const date = splitDateTime.slice(0, -1).join(" ");
+                  const time = splitDateTime.slice(-1)[0];
 
                   return (
                     <li key={index}>
@@ -372,8 +370,8 @@ function Pandingmeeting() {
                         type="radio"
                         id={`date${index}`}
                         name="selectedDate"
-                        value={index} // Set the value to the index
-                        onChange={handleDateChange} // Call the handleDateChange function
+                        value={index}
+                        onChange={handleDateChange}
                       />
                       <label htmlFor={`date${index}`}>
                         {date} - {time}
