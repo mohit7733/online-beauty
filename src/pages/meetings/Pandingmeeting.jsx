@@ -774,7 +774,7 @@ function Pandingmeeting() {
                     <h2>Company (Questions & Answers)</h2>
                     <div className="row justify-content-between">
                       <div className="col_left last-contnt">
-                        {productData.questions?.map((item) => {
+                        {productData?.questions?.sort((a, b) => (a.company_question_id > b.company_question_id) ? 1 : -1)?.map((item) => {
                           if (item?.answer != "null") {
                             if (item?.type.toLowerCase() == "checkbox") {
                               try {
