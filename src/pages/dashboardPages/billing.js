@@ -91,7 +91,7 @@ function Billing() {
                             <span>{index + 1}.</span>
                           </td>
                           <td>{item?.title}</td>
-                          <td>${item?.amount}</td>
+                          <td>€{item?.amount}</td>
                           <td>{item?.subtitle}</td>
                           <td>{item.productName?.product_name ?? ""}</td>
                           <td>

@@ -62,7 +62,7 @@ function Supplierpandingmeeting(props) {
 
   const confirmSlots = () => {
     if (slots.length >= 5) {
-      toast.error("you can't select more than 5 availabilites ");
+      toast.error("You can't select more than 5 availabilities");
       setTimeout(() => {
         setSdate("");
         setSTime("");
@@ -503,7 +503,13 @@ function Supplierpandingmeeting(props) {
                                 <div>
                                   <h3>Accept Meeting</h3>
                                   {accepttime?.map((dateTime, index) => {
-                                    const [date, time] = dateTime.split(" ");
+                                    const splitDateTime = dateTime.split(" ");
+                                    const date = splitDateTime
+                                      .slice(0, -1)
+                                      .join(" ");
+                                    const time = splitDateTime
+                                      .slice(-2)
+                                      .join(" ");
                                     const isDisabled =
                                       notavailable.includes(dateTime);
 
@@ -521,7 +527,7 @@ function Supplierpandingmeeting(props) {
                                                 type: 0,
                                                 availability: [
                                                   {
-                                                    date: date,
+                                                    date: date.split(" ")[0],
                                                     time: time,
                                                   },
                                                 ],
