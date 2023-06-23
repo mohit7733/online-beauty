@@ -122,7 +122,7 @@ function Product_showcase(props) {
       .then((response) => response.json())
       .then((result) => {
         setcheck(false);
-        settheytrusted(result.data)
+        settheytrusted(result.data);
       })
       .catch((error) => console.log("error", error));
   };
@@ -238,10 +238,10 @@ function Product_showcase(props) {
                 {user_type == "both"
                   ? "Supplier"
                   : user_type == "buyer"
-                    ? "Buyer"
-                    : user_type == "supplier"
-                      ? "Supplier"
-                      : ""}
+                  ? "Buyer"
+                  : user_type == "supplier"
+                  ? "Supplier"
+                  : ""}
               </a>
             </li>
             <li>
@@ -266,44 +266,49 @@ function Product_showcase(props) {
           {console.log(companyinfo)}
           <div class="column justify-end">
             {/* <!-- <button type="submit" class="btn-block btn btn-primary row align-item-center"><img src="images/plus-circle.svg" alt=""/>Add New Product</button> --> */}
+
             <a
-              style={check == true ? { opacity: "0.5" } : {}}
+              style={
+                check || companyinfo.length === 0 ? { opacity: "0.5" } : {}
+              }
               // href="/add-new-product"
               onClick={() => {
-                if (check == false) {
-                  if (
-                    companyinfo[0]?.timezone != "" &&
-                    companyinfo[0]?.timezone != null
-                  ) {
-                    checkSubscription().then((response) => {
-                      if (response?.data?.subscription_status !== 0) {
-                        navigate("/add-new-product");
-                      } else if (
-                        response?.message?.subscription_status != 0 &&
-                        response?.data.manage_type?.toLowerCase() == "shareduser"
-                      ) {
-                        navigate("/add-new-product");
-                      } else {
-                        navigate("/company-subscription");
-                      }
+                // if (!check) {
+                if (
+                  companyinfo[0]?.timezone != "" &&
+                  companyinfo[0]?.timezone != null
+                ) {
+                  checkSubscription().then((response) => {
+                    if (response?.data?.subscription_status !== 0) {
+                      navigate("/add-new-product");
+                    } else if (
+                      response?.message?.subscription_status != 0 &&
+                      response?.data.manage_type?.toLowerCase() == "shareduser"
+                    ) {
+                      navigate("/add-new-product");
+                    } else {
+                      navigate("/company-subscription");
+                    }
+                  });
+                } else {
+                  console.log("clicked");
+                  setTimeout(() => {
+                    window.alert(
+                      "You did not fill the company information. Please fill the company information to add a product."
+                    );
+                    navigate("/company-Information-fill", {
+                      state: { company_info: 2 },
                     });
-                  } else {
-                    setTimeout(() => {
-                      window.alert(
-                        "You did not fill the company information. Please fill the company information to add a product."
-                      );
-                      navigate("/company-Information-fill", {
-                        state: { company_info: 2 },
-                      });
-                    }, 5000);
-                  }
+                  }, 1000);
                 }
+                // }
               }}
               class="btn-block btn btn-primary row align-item-center"
             >
               <img src={pluscircle} alt="" />
               Add New Product
             </a>
+
             <div class="custom-select">
               <p className="sortbyclass" style={{ paddingTop: "7px" }}>
                 Sorted by
@@ -378,11 +383,11 @@ function Product_showcase(props) {
                         src={deleteicon}
                         style={{ opacity: "0.6" }}
                         alt=""
-                      // onClick={(e) => {
-                      //   setdeleteid(data.id);
-                      //   setalertshow(true);
-                      // }}
-                      // onClick={(e) => deletedata(data.id)}
+                        // onClick={(e) => {
+                        //   setdeleteid(data.id);
+                        //   setalertshow(true);
+                        // }}
+                        // onClick={(e) => deletedata(data.id)}
                       />
                     </td>
                   </tr>
