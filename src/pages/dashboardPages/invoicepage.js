@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import { country } from "../dashboard/country";
-// import "./invoice.css";
+import "./invoice.css";
 import Logo from "./Invoice_logo.jpg";
 function Invoicepage() {
   const componentRef = useRef();
