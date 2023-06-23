@@ -274,34 +274,33 @@ function Product_showcase(props) {
               // href="/add-new-product"
               onClick={() => {
                 // if (!check) {
-                  if (
-                    companyinfo[0]?.timezone != "" &&
-                    companyinfo[0]?.timezone != null
-                  ) {
-                    checkSubscription().then((response) => {
-                      if (response?.data?.subscription_status !== 0) {
-                        navigate("/add-new-product");
-                      } else if (
-                        response?.message?.subscription_status != 0 &&
-                        response?.data.manage_type?.toLowerCase() ==
-                          "shareduser"
-                      ) {
-                        navigate("/add-new-product");
-                      } else {
-                        navigate("/company-subscription");
-                      }
+                if (
+                  companyinfo[0]?.timezone != "" &&
+                  companyinfo[0]?.timezone != null
+                ) {
+                  checkSubscription().then((response) => {
+                    if (response?.data?.subscription_status !== 0) {
+                      navigate("/add-new-product");
+                    } else if (
+                      response?.message?.subscription_status != 0 &&
+                      response?.data.manage_type?.toLowerCase() == "shareduser"
+                    ) {
+                      navigate("/add-new-product");
+                    } else {
+                      navigate("/company-subscription");
+                    }
+                  });
+                } else {
+                  console.log("clicked");
+                  setTimeout(() => {
+                    window.alert(
+                      "You did not fill the company information. Please fill the company information to add a product."
+                    );
+                    navigate("/company-Information-fill", {
+                      state: { company_info: 2 },
                     });
-                  } else {
-                    console.log("clicked");
-                    setTimeout(() => {
-                      window.alert(
-                        "You did not fill the company information. Please fill the company information to add a product."
-                      );
-                      navigate("/company-Information-fill", {
-                        state: { company_info: 2 },
-                      });
-                    }, 1000);
-                  }
+                  }, 1000);
+                }
                 // }
               }}
               class="btn-block btn btn-primary row align-item-center"
