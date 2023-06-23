@@ -1,0 +1,180 @@
+     * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         -webkit-box-sizing: border-box;
+         font-family: 'Open Sans', sans-serif;
+     }
+
+     body {
+         background-color: #ccc;
+     }
+
+     .mainDiv {
+         width: 800px;
+         margin: 10px auto;
+         padding: 20px 40px;
+         background-color: #fff;
+         border: solid 1px #afacac;
+     }
+
+     table {
+         width: 100%;
+         max-width: 100%;
+     }
+
+     .table_1 td {
+         height: 40px;
+     }
+
+     .table_1 p {
+         margin: 0;
+         padding: 0;
+         font-family: 'Open Sans', sans-serif;
+         font-size: 28px;
+         font-weight: 600;
+         line-height: 1.25em;
+         color: #000;
+         text-align: left;
+     }
+
+     .table_2 td:first-child {
+         width: 140px;
+     }
+
+     .t-rt {
+         text-align: right !important;
+         color: #808080 !important;
+     }
+
+     .table_2 p {
+         margin: 0;
+         padding: 0;
+         font-family: 'Open Sans', sans-serif;
+         font-size: 15px;
+         font-weight: 500;
+         line-height: 1.25em;
+         color: #000;
+         text-align: left;
+     }
+
+     p.m_rt {
+         margin-left: -15px;
+     }
+
+     .ht {
+         height: 25px;
+     }
+
+     .ht_40 {
+         height: 40px;
+     }
+
+     .ht_60 {
+         height: 60px;
+     }
+
+     .table_3 td {
+         vertical-align: top;
+     }
+
+     .table_3 td p:nth-of-type(1) {
+         padding: 0;
+         font-family: 'Open Sans', sans-serif;
+         font-size: 15px;
+         font-weight: 600;
+         line-height: 1.25em;
+         color: #000;
+         text-align: left;
+     }
+
+     .table_3 td p,
+     .table_3 td p a {
+         margin-bottom: 4px;
+         padding: 0;
+         font-family: 'Open Sans', sans-serif;
+         font-size: 14px;
+         font-weight: 500;
+         line-height: 1.25em;
+         color: #000;
+         text-align: left;
+         text-decoration: none;
+     }
+
+     .table_3 .css {
+         padding: 0;
+         font-family: 'Open Sans', sans-serif;
+         font-size: 14px;
+         font-weight: 500;
+         line-height: 1.25em;
+         color: #000;
+         text-align: left;
+     }
+
+     table.table_4 td:first-of-type {
+         height: 40px;
+     }
+
+     table.table_4 .tr_1 th {
+         margin: 0;
+         margin-top: 15px;
+         padding: 0;
+         font-family: 'Open Sans', sans-serif;
+         font-size: 13px;
+         font-weight: 500;
+         line-height: 1.25em;
+         color: #000;
+         text-align: left;
+         border-bottom: solid 1px #000;
+         padding-bottom: 10px;
+     }
+
+     .tr_2 th {
+         margin: 0;
+         padding-top: 10px;
+         font-family: 'Open Sans', sans-serif;
+         font-size: 13px;
+         font-weight: 500;
+         line-height: 1.25em;
+         color: #000;
+         text-align: left;
+     }
+
+     .tr_2 p {
+         margin: 0;
+         padding: 0;
+         font-family: 'Open Sans', sans-serif;
+         font-size: 13px;
+         font-weight: 500;
+         line-height: 1.25em;
+         color: #000;
+         text-align: left;
+     }
+
+     .css_2 {
+         margin: 0;
+         padding-top: 10px;
+         padding-bottom: 10px;
+         font-family: 'Open Sans', sans-serif;
+         font-size: 13px;
+         font-weight: 500;
+         line-height: 1.25em;
+         color: #000;
+         text-align: left;
+         border-top: solid 1px #000;
+     }
+    .mainLogo{
+        width: 140px;
+    }
+    .oneText p{
+        margin-top: 7px;
+    }
+    .oneText p a{
+        font-family: 'Open Sans', sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.25em;
+        color: #000;
+        text-align: left;
+        text-decoration: none;
+    }
