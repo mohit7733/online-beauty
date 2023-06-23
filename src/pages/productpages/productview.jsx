@@ -38,13 +38,12 @@ function Productview() {
     };
     fetch(
       api +
-        `/api/productlist?${
-          categoryparams
-            ? `category=${categoryparams}`
-            : categorysearch
-            ? `category=${categorysearch?.replace(/\-+/g, " ")}`
-            : "category="
-        }&sub_cat=${subcategoryparama}&made_in=${madeinparams}&any=${anyparams}`,
+      `/api/productlist?${categoryparams
+        ? `category=${categoryparams}`
+        : categorysearch
+          ? `category=${categorysearch?.replace(/\-+/g, " ")}`
+          : "category="
+      }&sub_cat=${subcategoryparama}&made_in=${madeinparams}&any=${anyparams}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -290,12 +289,11 @@ function Productview() {
                         {resultshow == true
                           ? `${categoryparams ? `"${categoryparams}"` : ""}`
                           : categorysearch
-                          ? `${
-                              productData[0]?.category != undefined
-                                ? `"${productData[0]?.category}"`
-                                : ""
+                            ? `${productData[0]?.category != undefined
+                              ? `"${productData[0]?.category}"`
+                              : ""
                             }`
-                          : ""}
+                            : ""}
                       </>
                     ) : (
                       ""
@@ -383,12 +381,12 @@ function Productview() {
                               // navigate("/product-details/" + data.id);
                               navigate(
                                 "/product-view/" +
-                                  data.id +
-                                  "/" +
-                                  data?.product_short_name
-                                    ?.replace(/\s+/g, "-")
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, ""),
+                                data.id +
+                                "/" +
+                                data?.product_short_name
+                                  ?.replace(/\s+/g, "-")
+                                  .normalize("NFD")
+                                  .replace(/[\u0300-\u036f]/g, ""),
                                 {
                                   state: {
                                     id: data.id,
@@ -402,12 +400,12 @@ function Productview() {
                             ) {
                               navigate(
                                 "/product-details/" +
-                                  data.id +
-                                  "/" +
-                                  data?.product_short_name
-                                    ?.replace(/\s+/g, "-")
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, ""),
+                                data.id +
+                                "/" +
+                                data?.product_short_name
+                                  ?.replace(/\s+/g, "-")
+                                  .normalize("NFD")
+                                  .replace(/[\u0300-\u036f]/g, ""),
                                 {
                                   state: {
                                     id: data.id,
@@ -417,26 +415,26 @@ function Productview() {
                             } else {
                               window.open(
                                 "/product-view/" +
-                                  data.id +
-                                  "/" +
-                                  data?.product_short_name
-                                    ?.replace(/\s+/g, "-")
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, "")
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, ""),
+                                data.id +
+                                "/" +
+                                data?.product_short_name
+                                  ?.replace(/\s+/g, "-")
+                                  .normalize("NFD")
+                                  .replace(/[\u0300-\u036f]/g, "")
+                                  .normalize("NFD")
+                                  .replace(/[\u0300-\u036f]/g, ""),
                                 "_blank"
                               );
                             }
                           } else {
                             window.open(
                               "/product-details/" +
-                                data.id +
-                                "/" +
-                                data?.product_short_name
-                                  ?.replace(/\s+/g, "-")
-                                  .normalize("NFD")
-                                  .replace(/[\u0300-\u036f]/g, ""),
+                              data.id +
+                              "/" +
+                              data?.product_short_name
+                                ?.replace(/\s+/g, "-")
+                                .normalize("NFD")
+                                .replace(/[\u0300-\u036f]/g, ""),
                               "_blank"
                             );
                           }
@@ -445,7 +443,7 @@ function Productview() {
                         <div className="col_img">
                           <figure
                             style={{ height: "180px" }}
-                            //    style={ grid == false ? { height: "180px"   } :{height: "180px"}}
+                          //    style={ grid == false ? { height: "180px"   } :{height: "180px"}}
                           >
                             {data.mediaFiles[Number(data?.thumb_index)]
                               ?.media_type == "image" ? (
@@ -479,11 +477,11 @@ function Productview() {
                         <div className="col_category">
                           <h4
                             className="handle_wrap"
-                            // style={
-                            //   data?.product_name?.length < 18
-                            //     ? { padding: "25.5px 9px" }
-                            //     : {}
-                            // }
+                          // style={
+                          //   data?.product_name?.length < 18
+                          //     ? { padding: "25.5px 9px" }
+                          //     : {}
+                          // }
                           >
                             {" "}
                             {data?.product_short_name && data.product_short_name}
@@ -516,11 +514,11 @@ function Productview() {
               className="no-data-found"
               id="blank-data"
               style={{ display: "none" }}
-              //   style={
-              //     productData?.length == 0
-              //       ? { display: "none" }
-              //       : { display: "none" }
-              //   }
+            //   style={
+            //     productData?.length == 0
+            //       ? { display: "none" }
+            //       : { display: "none" }
+            //   }
             >
               <p>
                 No Product Found. Please click on 'Clear all' button to see all
@@ -531,29 +529,31 @@ function Productview() {
               <ul style={{ marginTop: "1rem" }}>
                 {productData.length > 0
                   ? [
-                      ...Array(
-                        parseInt(
+                    ...Array(
+                      parseInt(
+                        JSON.stringify(page)
+                          .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
+                          .split(".")[1]
+                      )
+                        ? parseInt(
                           JSON.stringify(page)
-                            .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
-                            .split(".")[1]
-                        )
-                          ? parseInt(
-                              JSON.stringify(page)
-                                .substr(
-                                  JSON.stringify(page).lastIndexOf("\\") + 1
-                                )
-                                .split(".")[0]
-                            ) + 1
-                          : parseInt(
-                              JSON.stringify(page)
-                                .substr(
-                                  JSON.stringify(page).lastIndexOf("\\") + 1
-                                )
-                                .split(".")[0]
+                            .substr(
+                              JSON.stringify(page).lastIndexOf("\\") + 1
                             )
-                      ),
-                    ].map((data, i) => {
-                      i += 1;
+                            .split(".")[0]
+                        ) + 1
+                        : parseInt(
+                          JSON.stringify(page)
+                            .substr(
+                              JSON.stringify(page).lastIndexOf("\\") + 1
+                            )
+                            .split(".")[0]
+                        )
+                    ),
+                  ].map((data, i) => {
+                    i += 1;
+                    { console.log(pagination) }
+                    if ((i - 3) < (pagination / 8) && (i + 3) > (pagination / 8)) {
                       return (
                         <>
                           {i == 1 ? (
@@ -562,8 +562,8 @@ function Productview() {
                                 pagination == i * 8
                                   ? "remove_ho active"
                                   : productData?.length <= 8
-                                  ? "remove_ho "
-                                  : ""
+                                    ? "remove_ho "
+                                    : ""
                               }
                               onClick={(e) => setpagination(i * 8)}
                             >
@@ -579,7 +579,8 @@ function Productview() {
                           )}
                         </>
                       );
-                    })
+                    }
+                  })
                   : ""}
                 {productData?.length > 8 ? (
                   <li

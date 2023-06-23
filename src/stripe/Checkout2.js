@@ -251,7 +251,7 @@ export const CheckoutForm2 = (props) => {
       "Cookie",
       "onlinebeauty_session=" + localStorage.getItem("token")
     );
-    var vat_amount = vat !== "" ? amount * 0.2 : "N/A";
+    var vat_amount = vat !== "" ? final_amount_show - amount : "N/A";
 
     var raw = JSON.stringify({
       plan_type: props.plan,
@@ -263,8 +263,8 @@ export const CheckoutForm2 = (props) => {
       subscription_plan_id: state.subscription_plan_id,
       address_line: billingdata?.address?.line1,
       meeting_id: state?.meeting_id,
-      vat_number: vat !== "" ? vat : "N/A" ,
-      vat_amount: vat_amount,
+      vat_number: vat !== "" ? vat : "N/A",
+      vat_amount: (final_amount_show - amount),
       // total_amount : 200 
     });
 
@@ -371,7 +371,8 @@ export const CheckoutForm2 = (props) => {
       });
   }, []);
 
-  console.log(amount , "vat details")
+  console.log(amount,final_amount_show - amount,
+    "vat details")
   return (
     <>
       <ToastContainer
@@ -673,7 +674,7 @@ export const CheckoutForm2 = (props) => {
                     className="col-sm-12 paddCss"
                     style={{ padding: "6px 10px" }}
                   >
-                    <CardCvcElement className="form-control payformd" />
+                    <CardCvcElement className="form-control payformd" placeholder="CVV"/>
                   </div>
                 </div>
               </div>
