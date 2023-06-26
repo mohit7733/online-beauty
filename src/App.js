@@ -73,9 +73,6 @@ import NotFound404 from "./pages/notfound/NotFound";
 
 // import Forgot_password from './pages/middel/forgot_password'
 function App() {
-
-
-
   return (
     <>
       <ToastContainer
@@ -101,8 +98,14 @@ function App() {
             path="/add-new-product"
             element={<Private_route element={<Add_product />} />}
           />
-          <Route path="/add-new-user" element={<Private_route element={<Supplier_addUser />} />} />
-          <Route path="/add-new-user-edit/:id" element={<Private_route element={<Supplier_addUser />} />} />
+          <Route
+            path="/add-new-user"
+            element={<Private_route element={<Supplier_addUser />} />}
+          />
+          <Route
+            path="/add-new-user-edit/:id"
+            element={<Private_route element={<Supplier_addUser />} />}
+          />
           <Route path="/contract" element={<Contract />} />
           {/* <Route path='/dashboard' element={<Productbuyer2 />} /> */}
           <Route
@@ -145,7 +148,10 @@ function App() {
             path="/product-after-meeting"
             element={<Productaftermeeting />}
           />
-          <Route path="/profile-view/:id" element={<Private_route element={<Pandingmeeting />} />} />
+          <Route
+            path="/profile-view/:id"
+            element={<Private_route element={<Pandingmeeting />} />}
+          />
           <Route
             path="/buyer-profile/pending-meeting/:id"
             element={<Pandingmeeting />}
@@ -162,7 +168,10 @@ function App() {
             path="/product-view/:categorysearch2/:sub_category"
             element={<Productview />}
           />
-          <Route path="/product-details/:id/:name" element={<Productdetails />} />
+          <Route
+            path="/product-details/:id/:name"
+            element={<Productdetails />}
+          />
           <Route path="/blog-detail/:id" element={<Blog_detail />} />
           <Route path="/our-videos" element={<Our_videos />} />
           <Route path="/forgot-password" element={<Forgetpassword />} />

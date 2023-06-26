@@ -235,7 +235,7 @@ function Invoicepage() {
                     <td></td>
                     <td class="css_2">Remaining due €</td>
                     <td class="css_2"></td>
-                    <td class="css_2">£ {billingdata?.amount}.00</td>
+                    <td class="css_2">£ 00.00</td>
                   </tr>
                   <tr>
                     <td class="ht_60px"></td>

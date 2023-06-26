@@ -51,7 +51,7 @@ function ProductDetailView(props) {
       })
       .then((res) => {
         // Handle the successful response here
-        console.log(res.data.data, "this is data");
+        // console.log(res.data.data, "this is data");
         if (res?.data?.data.length === 0) {
           setCompanydetail(false);
         }
@@ -69,7 +69,7 @@ function ProductDetailView(props) {
       })
       .then((res) => {
         // Handle the successful response here
-        console.log(res.data.data.company, "this is data of company profile");
+        // console.log(res.data.data.company, "this is data of company profile");
         if (res?.data?.data?.company === null) {
           setCompanyProfile(false);
         }
@@ -122,7 +122,7 @@ function ProductDetailView(props) {
   const addtofavvrate = () => {
     var myHeaders = new Headers();
     var formvalues = new FormData();
-    console.log("api hit");
+    // console.log("api hit");
     myHeaders.append(
       "Authorization",
       "Bearer " + localStorage.getItem("token")
@@ -270,6 +270,7 @@ function ProductDetailView(props) {
       // console.log(slots);
     }
   };
+  console.log(sDate, sTime);
 
   useEffect(() => {
     getProductDetails();
@@ -737,11 +738,6 @@ function ProductDetailView(props) {
                       localStorage.getItem("user_type").toLowerCase() ===
                         "supplier" ? null : (
                         <>
-                          {console.log(
-                            companydetail,
-                            compnayProfile,
-                            ">>>>>>>>>>>>><<<<<<<<<<<<<"
-                          )}
                           <button
                             className="hoverRemovebtn-primary btn btn-primary"
                             onClick={() => {

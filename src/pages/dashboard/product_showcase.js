@@ -268,6 +268,10 @@ function Product_showcase(props) {
             {/* <!-- <button type="submit" class="btn-block btn btn-primary row align-item-center"><img src="images/plus-circle.svg" alt=""/>Add New Product</button> --> */}
 
             <a
+             disabled={
+              companyinfo[0]?.timezone === "" ||
+              companyinfo[0]?.timezone === null
+            }
               style={
                 check || companyinfo.length === 0 ? { opacity: "0.5" } : {}
               }
@@ -304,6 +308,7 @@ function Product_showcase(props) {
                 // }
               }}
               class="btn-block btn btn-primary row align-item-center"
+             
             >
               <img src={pluscircle} alt="" />
               Add New Product
