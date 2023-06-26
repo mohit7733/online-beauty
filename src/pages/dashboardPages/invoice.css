@@ -159,18 +159,21 @@ table.table_4 .tr_1 th {
     text-align: left;
     border-top: solid 1px #000;
 }
-.mainLogo{
-   width: 140px;
+
+.mainLogo {
+    width: 140px;
 }
-.oneText p{
-   margin-top: 7px;
+
+.oneText p {
+    margin-top: 7px;
 }
-.oneText p a{
-   font-family: 'Open Sans', sans-serif;
-   font-size: 15px;
-   font-weight: 500;
-   line-height: 1.25em;
-   color: #000;
-   text-align: left;
-   text-decoration: none;
+
+.oneText p a {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.25em;
+    color: #000;
+    text-align: left;
+    text-decoration: none;
 }
