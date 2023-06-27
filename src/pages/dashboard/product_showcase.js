@@ -268,10 +268,10 @@ function Product_showcase(props) {
             {/* <!-- <button type="submit" class="btn-block btn btn-primary row align-item-center"><img src="images/plus-circle.svg" alt=""/>Add New Product</button> --> */}
 
             <a
-             disabled={
-              companyinfo[0]?.timezone === "" ||
-              companyinfo[0]?.timezone === null
-            }
+              disabled={
+                companyinfo[0]?.timezone === "" ||
+                companyinfo[0]?.timezone === null
+              }
               style={
                 check || companyinfo.length === 0 ? { opacity: "0.5" } : {}
               }
@@ -295,20 +295,21 @@ function Product_showcase(props) {
                     }
                   });
                 } else {
-                  console.log("clicked");
-                  setTimeout(() => {
-                    window.alert(
-                      "You did not fill the company information. Please fill the company information to add a product."
-                    );
-                    navigate("/company-Information-fill", {
-                      state: { company_info: 2 },
-                    });
-                  }, 1000);
+                  if (companyinfo.length > 0) {
+                    console.log("clicked");
+                    setTimeout(() => {
+                      window.alert(
+                        "You did not fill in the company information. Please fill in the company information to add a product."
+                      );
+                      navigate("/company-information-fill", {
+                        state: { company_info: 2 },
+                      });
+                    }, 1000);
+                  }
                 }
                 // }
               }}
               class="btn-block btn btn-primary row align-item-center"
-             
             >
               <img src={pluscircle} alt="" />
               Add New Product
