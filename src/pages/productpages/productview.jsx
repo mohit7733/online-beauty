@@ -177,6 +177,7 @@ function Productview() {
                 action=""
                 method="POST"
                 enctype="multipart/form-data"
+                onSubmit={(e) => e.preventDefault()}
               >
                 <div className="column">
                   <div className="custom-select">
@@ -248,6 +249,12 @@ function Productview() {
                       type="text"
                       value={anyparams}
                       onChange={(e) => setanyparams(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          homeproduc_data();
+                          setresultshow(true);
+                        }
+                      }}
                       className="form-control"
                       placeholder="Type here keywords"
                     />
