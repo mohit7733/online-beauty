@@ -13,9 +13,11 @@ function Productdetails() {
   const slugdata = useParams();
   let token = localStorage.getItem("token");
   const path = window.location.pathname;
-  console.log(token, path);
-  console.log(productData);
+  // console.log(token, path);
+  // console.log(productData, "data");
   const navigate = useNavigate();
+  console.log(localStorage.getItem("user_id"), "userid from local");
+  console.log(productData?.supplier_id, "product from local");
   useEffect(() => {
     if (
       token !== null &&
@@ -25,7 +27,14 @@ function Productdetails() {
       const newPath = path.replace("/product-details", "/product-view");
       navigate(newPath);
     }
-  }, [token]);
+    if (
+      token !== null &&
+      localStorage.getItem("user_id") == productData?.supplier_id
+    ) {
+      const newPath = path.replace("/product-details", "/product-view");
+      navigate(newPath);
+    }
+  }, [token, productData]);
   const getProductDetails = () => {
     var myHeaders = new Headers();
     myHeaders.append(
@@ -77,7 +86,7 @@ function Productdetails() {
     )
   ) {
     var sub_categorries = JSON.parse(productData?.sub_cat);
-    console.log(sub_categorries);
+    // console.log(sub_categorries);
   }
 
   let url2 = productData?.category?.replace(/\s+/g, "-");
@@ -195,7 +204,7 @@ function Productdetails() {
                 </div>
                 <h2>{productData?.product_short_name}</h2>
                 <p>{productData?.product_dec}</p>
-                {console.log(localStorage.getItem("user_type")?.toLowerCase())}
+                {/* {console.log(localStorage.getItem("user_type")?.toLowerCase())} */}
 
                 <div
                   style={
