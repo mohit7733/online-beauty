@@ -32,9 +32,9 @@ function Home_product() {
             className="heading row justify-content-between align-items-center"
             data-aos="fade-up"
           >
-            <h2>Product Category</h2>
+            <h2>Select a Product Category</h2>
             <a href="/product-view" className="btn-link">
-              View All
+              View All Products
             </a>
           </div>
           <div className="row text-center">

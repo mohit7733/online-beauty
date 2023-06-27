@@ -181,7 +181,7 @@ function App() {
           />
           <Route path="/how-does-it-work" element={<How_it_work />} />
           <Route path="/they-trusted-us" element={<Theytrustedus />} />
-          <Route path="/buyer" element={<Theytrustedus />} />
+          <Route path="/buyers-at-a-glance" element={<Theytrustedus />} />
           <Route path="/contact-us" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route
