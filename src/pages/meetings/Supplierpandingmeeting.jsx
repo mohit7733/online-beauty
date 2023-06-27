@@ -251,6 +251,7 @@ function Supplierpandingmeeting(props) {
       buyer_Time_Zone: detail?.buyer_timezone,
       supplierCityName: detail?.supplierCityName?.city_name,
       buyerCityName: detail?.buyerCityName?.city_name,
+      type: detail?.type,
       buyerCountryCode:
         detail?.buyerCountryCode?.countrycode !== "undefined"
           ? detail.buyerCountryCode.countrycode
@@ -644,16 +645,9 @@ function Supplierpandingmeeting(props) {
                           ]);
                         }
                       }}
-                      className={`btn ${
-                        meeting?.type === 1 || meeting?.status === 3
-                          ? "disabled"
-                          : ""
-                      }`}
+                      className={`btn ${meeting?.type === 1 ? "disabled" : ""}`}
                       style={{
-                        cursor:
-                          meeting?.type === 1 || meeting?.status === 3
-                            ? "not-allowed"
-                            : "pointer",
+                        cursor: meeting?.type === 1 ? "not-allowed" : "pointer",
                       }}
                     >
                       <img
@@ -662,9 +656,7 @@ function Supplierpandingmeeting(props) {
                         alt=""
                         style={{
                           filter:
-                            meeting?.type === 1 || meeting?.status === 3
-                              ? "grayscale(100%)"
-                              : "none",
+                            meeting?.type === 1 ? "grayscale(100%)" : "none",
                         }}
                       />
                     </a>
