@@ -57,10 +57,10 @@ function Header() {
                     <Link to="/how-does-it-work">How it works</Link>
                   </li>
                   <li>
-                    <Link to="/buyer">Buyers</Link>
+                    <Link to="/buyers-at-a-glance">Buyers at a glance</Link>
                   </li>
-                  <li>
-                    <Link to="/product-view">Products</Link>
+                  <li> 
+                    <Link to="/product-view">Showcased Products</Link>
                   </li>
                   <li
                     className="
@@ -68,7 +68,7 @@ function Header() {
                   dropdown"
                   >
                     <Link to="#">
-                      Resources{" "}
+                      Content Library{" "}
                       <span>
                         <i className="fa fa-angle-down" aria-hidden="true"></i>
                       </span>

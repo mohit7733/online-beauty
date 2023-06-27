@@ -11,7 +11,7 @@ function Home() {
         <>
             <Slider_home />
             <Home_product />
-            <Feature_post />
+            {/* <Feature_post /> */}
             <Testmonial />
             <Clients />
             {/* <CalendlyComponent /> */}

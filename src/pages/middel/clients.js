@@ -22,13 +22,14 @@ function Clients() {
             setcheck(false)
         }
     }, [check])
+    console.log(theytrusted , "they trusted data")
     return (
         <>
             <div className="section client-section">
                 <div className="container">
                     <div className="heading row justify-content-between align-items-center" data-aos="fade-up">
-                        <h2>They Trusted Us</h2>
-                        <a href="/they-trusted-us" className="btn-link">View More</a>
+                        <h2>Buyers Who Trusted Us</h2>
+                        <a href="/they-trusted-us" className="btn-link">View All Buyers</a>
                     </div>
                     <div className="row grid-5">
                         {
