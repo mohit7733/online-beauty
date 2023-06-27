@@ -304,12 +304,8 @@ function ProductDetailView(props) {
   }
 
   const removeSlot = (item) => {
-    const index = slots.findIndex((slot) => slot.id === item.id);
-    if (index !== -1) {
-      const newSlots = [...slots];
-      newSlots.splice(index, 1);
-      setSlots(newSlots);
-    }
+    const newSlots = slots.filter((slot) => slot !== item);
+    setSlots(newSlots);
   };
 
   if (slots.length > 5) {
