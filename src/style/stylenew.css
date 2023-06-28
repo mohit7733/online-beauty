@@ -8775,7 +8775,9 @@ a.error_icon i {
   transition: all 0.5s ease-in-out;
   padding: 36px 0;
 }
-
+.buyers_wrapper .grid-col h5 {
+  text-align: center;
+}
 .buyers_wrapper .pagination {
   padding: 0 0 56px;
 }
