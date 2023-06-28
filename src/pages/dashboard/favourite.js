@@ -83,6 +83,7 @@ export default function Favourite(props) {
         }
       });
   };
+  console.log()
 
   return (
     <div className={(props.sidebar ? "active " : " ") + "router-body"}>
@@ -181,13 +182,16 @@ export default function Favourite(props) {
                       className="col_img"
                       onClick={() => {
                         navigate(
-                          "/buyer-favourite-product/favourite-list/" +
-                          item?.product_short_name?.replace(/\s+/g, "-"),
+                          "/product-view/" +
+                            item.product_id +
+                            "/" +
+                            item?.product_short_name
+                              ?.replace(/\s+/g, "-")
+                              .normalize("NFD")
+                              .replace(/[\u0300-\u036f]/g, ""),
                           {
                             state: {
-                              id: item.product_id,
-                              buyer_list: true
-
+                              id: item.id,
                             },
                           }
                         );
@@ -215,12 +219,16 @@ export default function Favourite(props) {
                           style={{ cursor: "pointer" }}
                           onClick={() => {
                             navigate(
-                              "/buyer-favourite-product/favourite-list/" +
-                              item?.product_short_name?.replace(/\s+/g, "-"),
+                              "/product-view/" +
+                                item.product_id +
+                                "/" +
+                                item?.product_short_name
+                                  ?.replace(/\s+/g, "-")
+                                  .normalize("NFD")
+                                  .replace(/[\u0300-\u036f]/g, ""),
                               {
                                 state: {
-                                  id: item.product_id,
-                                  buyer_list: true
+                                  id: item.id,
                                 },
                               }
                             );
