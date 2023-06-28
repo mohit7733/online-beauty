@@ -183,12 +183,12 @@ export default function Favourite(props) {
                       onClick={() => {
                         navigate(
                           "/product-view/" +
-                            item.product_id +
-                            "/" +
-                            item?.product_short_name
-                              ?.replace(/\s+/g, "-")
-                              .normalize("NFD")
-                              .replace(/[\u0300-\u036f]/g, ""),
+                          item.product_id +
+                          "/" +
+                          item?.product_short_name
+                            ?.replace(/\s+/g, "-")
+                            .normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, ""),
                           {
                             state: {
                               id: item.id,
@@ -220,12 +220,12 @@ export default function Favourite(props) {
                           onClick={() => {
                             navigate(
                               "/product-view/" +
-                                item.product_id +
-                                "/" +
-                                item?.product_short_name
-                                  ?.replace(/\s+/g, "-")
-                                  .normalize("NFD")
-                                  .replace(/[\u0300-\u036f]/g, ""),
+                              item.product_id +
+                              "/" +
+                              item?.product_short_name
+                                ?.replace(/\s+/g, "-")
+                                .normalize("NFD")
+                                .replace(/[\u0300-\u036f]/g, ""),
                               {
                                 state: {
                                   id: item.id,
