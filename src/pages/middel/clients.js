@@ -43,6 +43,7 @@ function Clients() {
                   <div className="column">
                     <img src={logos?.logo} title="" alt="" />
                   </div>
+                  <h5>{logos?.country}</h5>
                 </div>
               );
             })}
