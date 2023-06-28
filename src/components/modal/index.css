@@ -25,6 +25,8 @@
 }
 
 
+
+
 .modal-content {
     background-color: #fff;
     border-radius: 25px;
@@ -32,7 +34,9 @@
     height: auto;
     margin: auto;
     padding: 30px;
-    top: 0;
+    top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
     width: 55vw;
 }
 
