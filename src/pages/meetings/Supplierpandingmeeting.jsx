@@ -56,38 +56,29 @@ function Supplierpandingmeeting(props) {
   };
 
   const confirmSlots = () => {
-    if (slots.length >= 5) {
+    const isAlreadySelected = slots.some((slot) => {
+      return slot.sDate === sDate && slot.sTime === sTime;
+    });
+
+    if (isAlreadySelected) {
+      toast.error("The date and time have already been selected");
+      setSdate("");
+      setSTime("");
+      setApiDateFormat("");
+    } else if (slots.length >= 5) {
       toast.error("You can't select more than 5 availabilities");
-      setTimeout(() => {
+      if (sDate !== "") {
         setSdate("");
         setSTime("");
-      }, 2000);
+        setApiDateFormat("");
+      }
     } else {
       const mergedSlots = [
         ...slots,
         { sDate: sDate, sTime: sTime, apiDate: apiDateFormat },
       ];
-
-      setSupplierTime((prevState) => {
-        const updatedAvailability = [...prevState[0].availability];
-        if (updatedAvailability.length < 5) {
-          updatedAvailability.push({
-            date: momenttime(sDate, "MMM DD").format("YYYY-MM-DD"),
-            time: sTime,
-          });
-        }
-
-        return [
-          {
-            type: 1,
-            supplier_id: prevState[0].supplier_id,
-            availability: updatedAvailability,
-          },
-        ];
-      });
-
       setSlots(mergedSlots);
-      setSdate("");
+      // setSdate("");
       setSTime("");
       setApiDateFormat("");
     }

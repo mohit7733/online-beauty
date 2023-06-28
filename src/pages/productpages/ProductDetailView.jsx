@@ -253,23 +253,35 @@ function ProductDetailView(props) {
     }
   }
   const confirmSlots = () => {
-    if (slots.length >= 5) {
-      toast.error("you can't select more than 5 availabilites ");
+    const isAlreadySelected = slots.some((slot) => {
+      return slot.sDate === sDate && slot.sTime === sTime;
+    });
+  
+    if (isAlreadySelected) {
+      toast.error("The date and time have already been selected");
       setSdate("");
       setSTime("");
+      setApiDateFormat("");
+    } else if (slots.length >= 5) {
+      toast.error("You can't select more than 5 availabilities");
+      if (sDate !== "") {
+        setSdate("");
+        setSTime("");
+        setApiDateFormat("");
+      }
     } else {
       const mergedSlots = [
         ...slots,
         { sDate: sDate, sTime: sTime, apiDate: apiDateFormat },
       ];
-      // console.log(mergedSlots);
       setSlots(mergedSlots);
-      setSdate("");
+      // setSdate("");
       setSTime("");
       setApiDateFormat("");
-      // console.log(slots);
     }
   };
+  
+
   console.log(sDate, sTime);
 
   useEffect(() => {

@@ -371,7 +371,7 @@ export const CheckoutForm2 = (props) => {
       });
   }, []);
 
-  console.log(amount,final_amount_show - amount,
+  console.log(amount, final_amount_show - amount,
     "vat details")
   return (
     <>
@@ -674,7 +674,7 @@ export const CheckoutForm2 = (props) => {
                     className="col-sm-12 paddCss"
                     style={{ padding: "6px 10px" }}
                   >
-                    <CardCvcElement className="form-control payformd" placeholder="CVV"/>
+                    <CardCvcElement className="form-control payformd" placeholder="CVV" />
                   </div>
                 </div>
               </div>
@@ -723,8 +723,9 @@ export const CheckoutForm2 = (props) => {
                 </div>
 
                 <h6>
-                  (-*VAT, EU without a valid VAT to pay 20% while non-EU and EU
-                  with a valid VAT are exempted.)
+                  (* For companies based in France VAT of 20% will automatically apply
+                  For companies based in European Union VAT 20% will apply if you do not have a valid VAT number
+                  For companies based outside European Union, no VAT will be charged)
                 </h6>
               </div>
               <div

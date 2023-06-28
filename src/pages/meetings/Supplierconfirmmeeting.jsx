@@ -262,7 +262,7 @@ function Supplierconfirmmeeting(props) {
                 <th>
                   {path == "/confirmed-meeting/buyer" ? "Supplier" : ""} Profile
                 </th>
-                <th>Meeting Status</th>
+                <th>Requested Meetings</th>
                 {/* <th>Passed meeting</th> */}
                 {/* <th>ICS</th> */}
               </tr>
