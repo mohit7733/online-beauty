@@ -119,7 +119,7 @@ function View_remarkBoth() {
                 ></textarea>
               </div>
               <div className="btn_wrapper row">
-                <a id="back" href="" className="btn btn-secondary">
+                <a id="back" className="btn btn-secondary" onClick={() => navigate('/passed-meeting/supplier')}>
                   Back
                 </a>
                 <a

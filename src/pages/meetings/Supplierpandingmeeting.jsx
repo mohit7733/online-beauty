@@ -742,17 +742,14 @@ function Supplierpandingmeeting(props) {
         <button
           className="btn btn-secondary"
           style={{ display: "block", margin: "0 auto" }}
-          onClick={
-            () => {
-              setclick(true);
-              setSlots([]);
-              setModalState(false);
-            }
-            // requestMeeting(
-            //   productData.product?.id,
-            //   productData.product?.supplier_id
-            // )
-          }
+          onClick={() => {
+            setclick(true);
+            setSlots([]);
+            setModalState(false);
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          }}
         >
           Request Appointment
           {/* {sDate !== "" ? "on " + sDate + " at " + sTime : null} */}
