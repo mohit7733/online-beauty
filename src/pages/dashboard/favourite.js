@@ -12,7 +12,7 @@ export default function Favourite(props) {
   const navigate = useNavigate();
 
   const page = favrite?.length / 8;
-// console.log(page ,pagination ,favrite?.length);
+  // console.log(page ,pagination ,favrite?.length);
 
   const handlesearch = () => {
     setfavrite(
@@ -142,21 +142,25 @@ export default function Favourite(props) {
           >
             Search
           </button>
+          <button onClick={() => navigate('/product-view')}>
+            View all products
+          </button>
+
           {
             favrite?.length == 0 ?
-          <button
-            type="button"
-            onClick={() => {
-              favurate_data();
-                setsearchvalue("");
-                // console.log("sdfsa clicked");
+              <button
+                type="button"
+                onClick={() => {
+                  favurate_data();
+                  setsearchvalue("");
+                  // console.log("sdfsa clicked");
 
-            }}
-            style={{marginLeft:"5px"}}
-            className="btn btn-block btn-primary"
-          >
-            All Clear
-          </button> :""
+                }}
+                style={{ marginLeft: "5px" }}
+                className="btn btn-block btn-primary"
+              >
+                All Clear
+              </button> : ""
 
           }
         </div>
@@ -178,11 +182,11 @@ export default function Favourite(props) {
                       onClick={() => {
                         navigate(
                           "/buyer-favourite-product/favourite-list/" +
-                            item?.product_short_name?.replace(/\s+/g, "-"),
+                          item?.product_short_name?.replace(/\s+/g, "-"),
                           {
                             state: {
                               id: item.product_id,
-                              buyer_list : true
+                              buyer_list: true
 
                             },
                           }
@@ -212,11 +216,11 @@ export default function Favourite(props) {
                           onClick={() => {
                             navigate(
                               "/buyer-favourite-product/favourite-list/" +
-                                item?.product_short_name?.replace(/\s+/g, "-"),
+                              item?.product_short_name?.replace(/\s+/g, "-"),
                               {
                                 state: {
                                   id: item.product_id,
-                                  buyer_list : true
+                                  buyer_list: true
                                 },
                               }
                             );
@@ -313,15 +317,15 @@ export default function Favourite(props) {
                     .split(".")[1]
                 )
                   ? parseInt(
-                      JSON.stringify(page)
-                        .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
-                        .split(".")[0]
-                    ) + 1
+                    JSON.stringify(page)
+                      .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
+                      .split(".")[0]
+                  ) + 1
                   : parseInt(
-                      JSON.stringify(page)
-                        .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
-                        .split(".")[0]
-                    )
+                    JSON.stringify(page)
+                      .substr(JSON.stringify(page).lastIndexOf("\\") + 1)
+                      .split(".")[0]
+                  )
               ),
             ].map((data, i) => {
               i += 1;
@@ -333,15 +337,15 @@ export default function Favourite(props) {
                         pagination == i * 8
                           ? "remove_ho active"
                           : favrite?.length <= 8
-                          ? "remove_ho "
-                          : ""
+                            ? "remove_ho "
+                            : ""
                       }
                       onClick={(e) => {
-                        if(i != pagination){
+                        if (i != pagination) {
                           console.log(i, "<<<<<<<<");
-                          setpagination(i *8)
+                          setpagination(i * 8)
 
-                        }else {
+                        } else {
                           setpagination(i * 8)
                         }
 

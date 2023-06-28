@@ -21,14 +21,15 @@ export default function Left_menu(props) {
   const [submenu, setsubmenu] = useState(false);
   const [submenu2, setsubmenu2] = useState(false);
   const [submenu3, setsubmenu3] = useState(false);
+  const [submenu4, setsubmenu4] = useState(false)
   const [openMeeting, setopenMeeting] = useState(false);
   const [openMeeting2, setopenMeeting2] = useState(false);
   const [companyData, setCompanyData] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(openMeeting, props.sidebar);
+    // console.log(openMeeting, props.sidebar);
   }, [openMeeting, openMeeting2]);
-  console.log(props.requeststatus, "meeting status from the props");
+  // console.log(props.requeststatus, "meeting status from the props");
   useEffect(() => {
     const fetchData = () => {
       axios
@@ -93,7 +94,7 @@ export default function Left_menu(props) {
               <i className="fa fa-angle-left" aria-hidden="true"></i>
             </div>
             {localStorage.getItem("user_type") == "Supplier" ||
-            localStorage.getItem("user_type") == "Both" ? (
+              localStorage.getItem("user_type") == "Both" ? (
               <>
                 <h4
                   onClick={() => {
@@ -132,18 +133,18 @@ export default function Left_menu(props) {
                       submenu == true && props?.sidebar != true
                         ? "backdrop"
                         : openMeeting2 === true && props.sidebar === true
-                        ? "bgdrop"
-                        :   pathname == "/pending-meeting/supplier" || pathname == "/confirmed-meeting/supplier" ||
-                        pathname ==
-                          "/passed-meeting/supplier"
-                      ? " active_list"
-                      : ""
+                          ? "bgdrop"
+                          : pathname == "/pending-meeting/supplier" || pathname == "/confirmed-meeting/supplier" ||
+                            pathname ==
+                            "/passed-meeting/supplier"
+                            ? " active_list"
+                            : ""
 
 
                     }
 
 
-                    
+
                   >
                     <a
                       className="menu_submenu supplier"
@@ -183,7 +184,7 @@ export default function Left_menu(props) {
                             ? " active_list"
                             : ""
                         }
-                        style={{marginTop : "2px"}}
+                        style={{ marginTop: "2px" }}
                       >
                         <a
                           href="/pending-meeting/supplier"
@@ -227,7 +228,7 @@ export default function Left_menu(props) {
               ""
             )}
             {localStorage.getItem("user_type") == "Buyer" ||
-            localStorage.getItem("user_type") == "Both" ? (
+              localStorage.getItem("user_type") == "Both" ? (
               <>
                 <h4
                   onClick={() => {
@@ -254,9 +255,9 @@ export default function Left_menu(props) {
                           ? " active_list"
                           : pathname == "/buyer-company-profile" ||
                             pathname ==
-                              `/profile-view/${localStorage.getItem("user_id")}`
-                          ? " active_list"
-                          : ""
+                            `/profile-view/${localStorage.getItem("user_id")}`
+                            ? " active_list"
+                            : ""
                       }
                       onClick={() => {
                         setsubmenu3(!submenu3);
@@ -283,7 +284,7 @@ export default function Left_menu(props) {
                         style={{ marginTop: "2px" }}
                         className={
                           pathname ==
-                          `/profile-view/${localStorage.getItem("user_id")}`
+                            `/profile-view/${localStorage.getItem("user_id")}`
                             ? " active_list"
                             : ""
                         }
@@ -326,15 +327,15 @@ export default function Left_menu(props) {
                       openMeeting === true && props.sidebar === true
                         ? "bgdrop"
                         : submenu2 && props.sidebar != true
-                        ? "backdrop"
-                        : ""
+                          ? "backdrop"
+                          : ""
                     }
                   >
                     <a
                       className="menu_submenu buyer"
                       style={
                         pathname == "/buyer-favourite-product" &&
-                        openMeeting != true
+                          openMeeting != true
                           ? { backgroundColor: "#69c6dd" }
                           : {}
                       }
@@ -372,15 +373,7 @@ export default function Left_menu(props) {
                       <li>
                         <a href="/product-view">View All Products</a>
                       </li>
-                      <li
-                        className={
-                          pathname == "/buyer-favourite-product"
-                            ? " active_list"
-                            : ""
-                        }
-                      >
-                        <a href="/buyer-favourite-product">Favourite List</a>
-                      </li>
+                     
                       <li>
                         <a
                           href="/confirmed-meeting/buyer"
@@ -394,6 +387,15 @@ export default function Left_menu(props) {
                       </li>
                     </ul>
                   </li>
+                  <li
+                        className={
+                          pathname == "/buyer-favourite-product"
+                            ? " active_list"
+                            : ""
+                        }
+                      >
+                        <a href="/buyer-favourite-product">Favourite List</a>
+                      </li>
                   <li className="border">
                     <a href="/contact-us">
                       <img src={contactimag} alt="" />
@@ -633,7 +635,7 @@ export default function Left_menu(props) {
             ? "bg-light supplier-meetings dropdown-container"
             : "bg-light buyer-meetings dropdown-container"
         }
-        // tabIndex="-1"
+      // tabIndex="-1"
       >
         <h4>
           My Meetings

@@ -425,20 +425,6 @@ function Supplierpandingmeeting(props) {
                   </td>
                   <td>
                     <div class="button_wrap row">
-                      <a
-                        onClick={(e) => {
-                          console.log(meeting.id);
-                          setDeleteId(meeting.id);
-                        }}
-                        className="btn btn-primary"
-                        style={{
-                          display:
-                            meeting?.status === 3 ? "none" : "inline-block",
-                        }}
-                      >
-                        Refuse
-                      </a>
-
                       {accept == true ? (
                         <a class="btn btn-secondary">Payment Pending</a>
                       ) : (
@@ -486,6 +472,19 @@ function Supplierpandingmeeting(props) {
                                   return "";
                               }
                             })()}
+                          </a>
+                          <a
+                            onClick={(e) => {
+                              console.log(meeting.id);
+                              setDeleteId(meeting.id);
+                            }}
+                            className="btn btn-primary"
+                            style={{
+                              display:
+                                meeting?.status === 3 ? "none" : "inline-block",
+                            }}
+                          >
+                            Refuse
                           </a>
                           {showModal && (
                             <div className="modal">
