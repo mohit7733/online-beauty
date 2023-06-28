@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { api } from "../../pages/base_url";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
 function EditRemark(props) {
-  const naviagate = useNavigate()
+  const navigate = useNavigate();
   const { usertype } = useParams();
   const path = window.location.pathname;
   const remarkid = path.substring(path.lastIndexOf("/") + 1);
-  const type_user = localStorage.getItem("user_type")
+  const type_user = localStorage.getItem("user_type");
   const [formdata, setFormData] = useState({
     title: "",
     description: "",
@@ -18,7 +19,11 @@ function EditRemark(props) {
 
   useEffect(() => {
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = `${api}/api/v1/` + (type_user == "Buyer" ? `buyer-view-remark?id=${remarkid}` : `supplier-view-remark?id=${remarkid}`);
+    const apiUrl =
+      `${api}/api/v1/` +
+      (type_user == "Buyer"
+        ? `buyer-view-remark?id=${remarkid}`
+        : `supplier-view-remark?id=${remarkid}`);
 
     axios
       .get(apiUrl, {
@@ -30,7 +35,9 @@ function EditRemark(props) {
         const { data } = response?.data;
         const { remark } = data;
 
-        const supplierRemark = JSON.parse((type_user != "Buyer" ? remark?.supplier_remark : remark?.buyer_remark));
+        const supplierRemark = JSON.parse(
+          type_user != "Buyer" ? remark?.supplier_remark : remark?.buyer_remark
+        );
         const title = supplierRemark?.title;
         const description = supplierRemark?.description;
 
@@ -52,7 +59,9 @@ function EditRemark(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = `${api}/api/v1/` + (type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
+    const apiUrl =
+      `${api}/api/v1/` +
+      (type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
 
     const requestData = new FormData();
     requestData.append("id", formdata.id);
@@ -70,11 +79,13 @@ function EditRemark(props) {
         toast.success("Remark Edited Successfully");
         console.log(response.data);
         setTimeout(() => {
-          naviagate("/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier"));
+          naviagate(
+            "/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier")
+          );
         }, 3000);
       })
       .catch((error) => {
-        toast.error('something went wrong !')
+        toast.error("something went wrong !");
         console.error(error);
       });
   };
@@ -139,7 +150,13 @@ function EditRemark(props) {
             <button type="submit" className="btn btn-secondary">
               Resubmit
             </button>
-            <a href="" className="btn btn-primary">
+            <a
+              href=""
+              className="btn btn-primary"
+              onClick={() => {
+                navigate('/passed-meeting/supplier')
+              }}
+            >
               Cancel
             </a>
           </div>

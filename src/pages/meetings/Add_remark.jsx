@@ -14,7 +14,7 @@ function Add_remark(props) {
     description: "",
   });
 
-  const type_user = localStorage.getItem("user_type")
+  const type_user = localStorage.getItem("user_type");
   console.log(type_user);
   useEffect(() => {
     const path = window.location.pathname;
@@ -32,7 +32,10 @@ function Add_remark(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl = api + "/api/v1/" + (type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
+    const apiUrl =
+      api +
+      "/api/v1/" +
+      (type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
 
     const requestData = new FormData();
     requestData.append("id", formData.id);
@@ -50,7 +53,9 @@ function Add_remark(props) {
         toast.success("Remark Added Successfully");
         console.log(response.data);
         setTimeout(() => {
-          navigate("/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier"));
+          navigate(
+            "/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier")
+          );
         }, 3000);
       })
       .catch((error) => {
@@ -114,7 +119,14 @@ function Add_remark(props) {
               Submit
             </a>
 
-            <a id="cancel" href="" className="btn btn-primary">
+            <a
+              id="cancel"
+              href=""
+              className="btn btn-primary"
+              onClick={() => {
+                navigate("/passed-meeting/supplier");
+              }}
+            >
               Cancel
             </a>
           </div>

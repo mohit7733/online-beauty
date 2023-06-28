@@ -69,6 +69,8 @@ function Theytrustedus() {
                                             <div className="column">
                                                 <img src={api + "/assets/cms/" + logos.logo} title="" alt="" />
                                             </div>
+                                            <h5>{logos.country}</h5>
+
                                         </div>
                                     )
                                 }
@@ -113,18 +115,18 @@ function Theytrustedus() {
                                 );
                             })
                             : ""}
-                            {
-                                theytrusted?.logos?.length <= 25 ? "" :
-                                
-                        <li
-                            className="selected"
-                            onClick={(e) => setpagination(pagination + 25)}
-                        >
-                            <a>
-                                Next <img src="images/arrow-right.png" title="" alt="" />
-                            </a>
-                        </li>
-                            }
+                        {
+                            theytrusted?.logos?.length <= 25 ? "" :
+
+                                <li
+                                    className="selected"
+                                    onClick={(e) => setpagination(pagination + 25)}
+                                >
+                                    <a>
+                                        Next <img src="images/arrow-right.png" title="" alt="" />
+                                    </a>
+                                </li>
+                        }
                     </ul>
                 </div>
             </div>
