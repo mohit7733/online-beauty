@@ -10031,6 +10031,10 @@ iframe {
 .product_supplier .col_text .button-wrapper {
   display: flex;
 }
+.button-wrapper.m-lft {
+  justify-content: flex-start;
+  margin-top: 20px;
+}
 
 .product_supplier .col_text .button-wrapper span {
   padding-right: 15px;
