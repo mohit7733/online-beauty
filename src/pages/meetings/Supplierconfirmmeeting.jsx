@@ -54,7 +54,7 @@ function Supplierconfirmmeeting(props) {
         console.error(error);
       });
   }, [shortby]);
-
+  console.log(path, "this is path");
   const searchfilter = () => {
     if (path != "/confirmed-meeting/buyer") {
       const sortedData = [...meetingData].sort((a, b) =>
@@ -196,7 +196,7 @@ function Supplierconfirmmeeting(props) {
               <a href="#"> Dashboard </a>
             </li>
             <li>
-              <a href="#"> Supplier </a>
+              <a href="#"> {path.endsWith("/buyer") ? "Buyer" : "Supplier"} </a>
             </li>
             <li>
               <a href="#">
@@ -205,7 +205,11 @@ function Supplierconfirmmeeting(props) {
             </li>
             <li>
               <a href="#">
-                <span> Confirmed Meetings </span>
+                <span>
+                  {path?.includes("/buyer")
+                    ? "Requested Meetings"
+                    : "Confirmed Meetings"}
+                </span>
               </a>
             </li>
           </ul>
@@ -249,9 +253,16 @@ function Supplierconfirmmeeting(props) {
                   Name
                 </th>
                 <th>Country Codes</th>
-                <th>Supplier Date / Time</th>
                 <th>
-                  Buyer Date / Time (
+                  {path != "/confirmed-meeting/buyer"
+                    ? " Buyer Date / Time"
+                    : "Supplier Date / Time"}
+                </th>
+                <th>
+                  {path == "/confirmed-meeting/buyer"
+                    ? " Buyer Date / Time"
+                    : "Supplier Date / Time"}{" "}
+                  (
                   {data !== undefined
                     ? meetingData[0]?.buyerCountryCode.countrycode
                     : ""}
@@ -262,19 +273,19 @@ function Supplierconfirmmeeting(props) {
                 <th>
                   {path == "/confirmed-meeting/buyer" ? "Supplier" : ""} Profile
                 </th>
-                <th>Requested Meetings</th>
+                <th>Meeting Status</th>
                 {/* <th>Passed meeting</th> */}
                 {/* <th>ICS</th> */}
               </tr>
             </thead>
             <tbody>
               {data?.map((meeting, index) =>
-                meeting?.status === 4 ? (
+                [1, 2, 3, 4].includes(meeting?.status) ? (
                   <tr key={index}>
                     <td>
                       {path != "/confirmed-meeting/buyer"
                         ? meeting.buyername
-                        : meetingData[index]?.supplierName.suppliername}
+                        : meetingData[index]?.supplierName?.suppliername}
                     </td>
                     <td>
                       {" "}
@@ -282,22 +293,48 @@ function Supplierconfirmmeeting(props) {
                         ? meeting?.supplierCountryCode
                         : meeting?.buyerCountryCode}
                     </td>
-                    <td>
-                      <div>
-                        {meeting?.meetingDates?.map((date, index) => {
-                          return date;
-                        })}{" "}
-                        {meeting?.supplieravailabletime?.map((time, index) => {
-                          return time;
-                        })}
-                      </div>
-                    </td>
 
-                    <td>
-                      {meeting?.meetingTime2.map((date, index) => {
-                        return date;
-                      })}
-                    </td>
+                    {path === "/confirmed-meeting/buyer" ? (
+                      <>
+                        <td>
+                          <div>
+                            {meeting?.meetingDates?.map((date, index) => {
+                              return date;
+                            })}{" "}
+                            {meeting?.supplieravailabletime?.map(
+                              (time, index) => {
+                                return time;
+                              }
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          {meeting?.meetingTime2.map((date, index) => {
+                            return date;
+                          })}
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td>
+                          {meeting?.meetingTime2.map((date, index) => {
+                            return date;
+                          })}
+                        </td>
+                        <td>
+                          <div>
+                            {meeting?.meetingDates?.map((date, index) => {
+                              return date;
+                            })}{" "}
+                            {meeting?.supplieravailabletime?.map(
+                              (time, index) => {
+                                return time;
+                              }
+                            )}
+                          </div>
+                        </td>
+                      </>
+                    )}
 
                     <td className="roles">
                       <a
@@ -351,15 +388,15 @@ function Supplierconfirmmeeting(props) {
                         >
                           {meeting?.status === 4
                             ? "Meeting Done ?"
-                            : // : meeting?.status === 5
-                              // ? "Completed"
-                              // : meeting?.status === 1
-                              // ? "In Progress"
-                              // : meeting?.status === 2
-                              // ? "Supplier confirm Meeting. Payment Pending"
-                              // : meeting?.status === 3
-                              // ? "Refused"
-                              ""}
+                            : meeting?.status === 5
+                            ? "Completed"
+                            : meeting?.status === 1
+                            ? "In Progress"
+                            : meeting?.status === 2
+                            ? "Supplier confirm Meeting. Payment Pending"
+                            : meeting?.status === 3
+                            ? "Refused"
+                            : ""}
                         </a>
                       </div>
                     </td>

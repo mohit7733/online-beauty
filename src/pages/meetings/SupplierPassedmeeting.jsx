@@ -182,9 +182,17 @@ function Supplierpassedmeeting(props) {
                   {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"} Name
                 </th>
                 <th>Country Codes</th>
-                <th>Supplier Date / Time</th>
                 <th>
-                  Buyer Date / Time (
+                  {" "}
+                  {path != "/passed-meeting/buyer"
+                    ? " Buyer Date / Time"
+                    : "Supplier Date / Time"}{" "}
+                </th>
+                <th>
+                  {path == "/passed-meeting/buyer"
+                    ? " Buyer Date / Time"
+                    : "Supplier Date / Time"}
+                  (
                   {data !== undefined
                     ? meetingData[0]?.buyerCountryCode.countrycode
                     : ""}
@@ -213,21 +221,49 @@ function Supplierpassedmeeting(props) {
                         : meetingData[index]?.buyerName?.buyername}
                     </td>
                     <td>{meeting?.buyerCountryCode}</td>
-                    <td>
-                      <div>
-                        {meeting?.meetingDates?.map((date, index) => {
-                          return date;
-                        })}{" "}
-                        {meeting?.supplieravailabletime?.map((time, index) => {
-                          return time;
-                        })}
-                      </div>
-                    </td>
-                    <td>
-                      {meeting?.meetingTime2.map((date, index) => {
-                        return date;
-                      })}
-                    </td>
+
+                    {path === "/passed-meeting/buyer" ? (
+                      <>
+                        <td>
+                          <div>
+                            {meeting?.meetingDates?.map((date, index) => {
+                              return date;
+                            })}{" "}
+                            {meeting?.supplieravailabletime?.map(
+                              (time, index) => {
+                                return time;
+                              }
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          {meeting?.meetingTime2.map((date, index) => {
+                            return date;
+                          })}
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td>
+                          {meeting?.meetingTime2.map((date, index) => {
+                            return date;
+                          })}
+                        </td>
+                        <td>
+                          <div>
+                            {meeting?.meetingDates?.map((date, index) => {
+                              return date;
+                            })}{" "}
+                            {meeting?.supplieravailabletime?.map(
+                              (time, index) => {
+                                return time;
+                              }
+                            )}
+                          </div>
+                        </td>
+                      </>
+                    )}
+
                     <td>
                       <a
                         // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}

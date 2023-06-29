@@ -15,6 +15,7 @@ import instagram from "../../assets/images/INSTA 3.svg";
 import linkedin from "../../assets/images/LINKEDIN 3.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { api } from "../base_url";
+import FavoriteImage from '../favourite.svg'
 import axios from "axios";
 
 export default function Left_menu(props) {
@@ -370,10 +371,10 @@ export default function Left_menu(props) {
                         submenu2 ? { display: "block" } : { display: "none" }
                       }
                     >
-                      <li>
+                      {/* <li>
                         <a href="/product-view">View All Products</a>
-                      </li>
-                     
+                      </li> */}
+
                       <li>
                         <a
                           href="/confirmed-meeting/buyer"
@@ -388,14 +389,15 @@ export default function Left_menu(props) {
                     </ul>
                   </li>
                   <li
-                        className={
-                          pathname == "/buyer-favourite-product"
-                            ? " active_list"
-                            : ""
-                        }
-                      >
-                        <a href="/buyer-favourite-product">Favourite List</a>
-                      </li>
+                    className={
+                      pathname == "/buyer-favourite-product"
+                        ? " active_list"
+                        : ""
+                    }
+                  >
+                    <a href="/buyer-favourite-product">
+                    <img src={FavoriteImage} alt="" />Favourite List</a>
+                  </li>
                   <li className="border">
                     <a href="/contact-us">
                       <img src={contactimag} alt="" />
@@ -650,12 +652,12 @@ export default function Left_menu(props) {
           ></i>
         </h4>
         <div className="dropdown-item-div">
-          <a className="dropdown-item" href="/product-view">
+          {/* <a className="dropdown-item" href="/product-view">
             View All Products
-          </a>
-          <a className="dropdown-item" href="/buyer-favourite-product">
+          </a> */}
+          {/* <a className="dropdown-item" href="/buyer-favourite-product">
             Favourite List
-          </a>
+          </a> */}
           <a className="dropdown-item" href="/confirmed-meeting/buyer">
             Confirmed Meetings
           </a>

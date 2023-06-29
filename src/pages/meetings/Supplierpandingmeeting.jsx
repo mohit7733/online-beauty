@@ -347,7 +347,6 @@ function Supplierpandingmeeting(props) {
                   {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"} Name
                 </th>
                 <th>Country Codes</th>
-                <th>Supplier Date / Time</th>
                 <th>
                   Buyer Date / Time (
                   {data !== undefined
@@ -357,6 +356,8 @@ function Supplierpandingmeeting(props) {
                   {/* ({" "}
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>
+                <th>Supplier Date / Time</th>
+
                 <th>
                   {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
                   Profile
@@ -371,15 +372,13 @@ function Supplierpandingmeeting(props) {
               {data.map((meeting, index) => (
                 <tr key={index}>
                   <td>{meeting?.buyername}</td>
-                  <td>{meeting?.buyerCountryCode}</td>
-
                   <td>
-                    <div>
-                      {meeting?.suppliertimeDate?.map((date, index) => (
-                        <div key={index}>{date}</div>
-                      ))}
-                    </div>
+                    {path == "/passed-meeting/buyer"
+                      ? meeting?.supplierCountryCode
+                      : meeting?.buyerCountryCode}
+                    {/* {meeting?.buyerCountryCode} */}
                   </td>
+
                   <td>
                     <div>
                       {meeting?.buyertimeDate?.map((date, index) => (
@@ -387,7 +386,13 @@ function Supplierpandingmeeting(props) {
                       ))}
                     </div>
                   </td>
-
+                  <td>
+                    <div>
+                      {meeting?.suppliertimeDate?.map((date, index) => (
+                        <div key={index}>{date}</div>
+                      ))}
+                    </div>
+                  </td>
                   <td class="roles">
                     <a
                       // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
