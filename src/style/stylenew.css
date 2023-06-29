@@ -7120,7 +7120,12 @@ table thead tr td input {
   display: flex;
   padding: 40px 0 55px;
 }
-
+.favorite_wrapper .main .add_product_wrap .column {
+  width: 100% !important;
+}
+.favorite_wrapper .main .add_product_wrap .column .btn-primary {
+  margin-left: 20px;
+}
 .product_showcase .main .column .row.align-item-center img {
   padding-right: 10px;
   margin: 0 0 0 3px;

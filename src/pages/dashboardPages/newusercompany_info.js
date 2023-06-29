@@ -26,7 +26,7 @@ function Company_informationNew(props) {
   const [timeZone, setTimeZone] = useState([]);
   const [selectedTimeZone, setSeclectedTimeZone] = useState("");
   const [compnay_profile, setCompany_profile] = useState();
-  console.log(state?.company_info, "this is state");
+  // console.log(state?.company_info, "this is state");
 
   useEffect(() => {
     setCompany_profile(state?.company_info);
@@ -122,9 +122,14 @@ function Company_informationNew(props) {
   //   console.log(SaveAdd ,contact_code2);
   // },[SaveAdd])
 
-  const filtercode = country?.data?.filter((item) => {
-    return item.country == cInfo.country;
+  const filtercode = timeZone?.filter((item) => {
+    const timeZoneSplit = item?.split('/');
+    const country = timeZoneSplit ? timeZoneSplit[timeZoneSplit.length - 1] : '';
+    console.log(timeZoneSplit, "timezone is split")
+
+    return country.toLowerCase().includes(cInfo.country.toLowerCase());
   });
+
 
   useEffect(() => {
     setcounrtcode(filtercode[0]?.code);
@@ -132,7 +137,7 @@ function Company_informationNew(props) {
 
   function addCompanyInfo(event) {
     var formvalues = new FormData();
-    console.log("clicked");
+    // console.log("clicked");
     //formvalues = {...formvalues , ...cInfo};
     for (let key in cInfo) {
       formvalues.append(key, cInfo[key]);
@@ -162,7 +167,7 @@ function Company_informationNew(props) {
     fetch(api + "/api/company-information", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         if (result?.success == false) {
           toast.error("Please Select Profile and Brand Image !");
         }
@@ -211,7 +216,7 @@ function Company_informationNew(props) {
         console.log("error", error);
       });
   }
-  console.log(finalCheckTimeZone, selectedTimeZone);
+  // console.log(finalCheckTimeZone, selectedTimeZone);
   useEffect(() => {
     if (props.pageType !== "new") {
       //   getCompanyInfo();
@@ -278,10 +283,10 @@ function Company_informationNew(props) {
     // setcontact({ ...contact, [e.target.name]: e.target.value });
   };
   const checktimezonefunction = () => {
-    console.log("clicked");
-    console.log(selectedTimeZone);
+    // console.log("clicked");
+    // console.log(selectedTimeZone);
     if (selectedTimeZone === "") {
-      console.log("worked");
+      // console.log("worked");
       window.scrollTo(0, 0);
       setFinalCheckTimeZone(false);
     }
@@ -404,7 +409,7 @@ function Company_informationNew(props) {
             <div className="form-section">
               <form
                 onSubmit={(e) => {
-                  console.log("clicked");
+                  // console.log("clicked");
                   // e.preventDefault();
                   addCompanyInfo(e);
                 }}

@@ -301,7 +301,7 @@ function Pandingmeeting() {
         // handle error
       });
   };
-  console.log(state, "productdata is here");
+  console.log(state?.meeting_id, "productdata is here");
   // handlechange
   const handleDateChange = (event) => {
     const { value } = event.target;
@@ -317,7 +317,7 @@ function Pandingmeeting() {
 
     setAcceptMeeting([
       {
-        supplier_id: state?.supplier_id,
+        supplier_id: state?.meeting_id,
         type: 0,
         availability: [
           {

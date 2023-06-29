@@ -371,9 +371,9 @@ export default function Left_menu(props) {
                         submenu2 ? { display: "block" } : { display: "none" }
                       }
                     >
-                      <li>
+                      {/* <li>
                         <a href="/product-view">View All Products</a>
-                      </li>
+                      </li> */}
 
                       <li>
                         <a
@@ -652,12 +652,12 @@ export default function Left_menu(props) {
           ></i>
         </h4>
         <div className="dropdown-item-div">
-          <a className="dropdown-item" href="/product-view">
+          {/* <a className="dropdown-item" href="/product-view">
             View All Products
-          </a>
-          <a className="dropdown-item" href="/buyer-favourite-product">
+          </a> */}
+          {/* <a className="dropdown-item" href="/buyer-favourite-product">
             Favourite List
-          </a>
+          </a> */}
           <a className="dropdown-item" href="/confirmed-meeting/buyer">
             Confirmed Meetings
           </a>

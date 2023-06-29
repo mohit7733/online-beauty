@@ -143,7 +143,7 @@ export default function Favourite(props) {
           >
             Search
           </button>
-          <button onClick={() => navigate('/product-view')}>
+          <button class="btn btn-primary" onClick={() => navigate('/product-view')}>
             View all products
           </button>
 
