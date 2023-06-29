@@ -286,6 +286,7 @@ function Supplierpassedmeeting(props) {
                                 {
                                   state: {
                                     id: data.id,
+                                    path : path
                                   },
                                 }
                               )
@@ -294,6 +295,7 @@ function Supplierpassedmeeting(props) {
                                 {
                                   state: {
                                     id: meeting?.id,
+                                    path : path , 
                                     buyer_id: meeting?.buyer_id,
                                     time: meeting?.meetingDates,
                                     date: meeting?.meetingTime,

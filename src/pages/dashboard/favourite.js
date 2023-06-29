@@ -98,11 +98,11 @@ export default function Favourite(props) {
               {/* {localStorage.getItem("user_type") == "Both" ? props.supplier  : localStorage.getItem("user_type")  }  */}
             </a>
           </li>
-          <li>
+          {/* <li>
             <a href="#">
               <span> My Meetings </span>
             </a>
-          </li>
+          </li> */}
           <li>
             <a href="#">
               <span> Favourites List </span>
@@ -144,7 +144,7 @@ export default function Favourite(props) {
             Search
           </button>
           <button class="btn btn-primary" onClick={() => navigate('/product-view')}>
-            View all products
+            clear all
           </button>
 
           {

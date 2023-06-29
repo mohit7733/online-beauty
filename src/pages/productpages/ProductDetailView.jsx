@@ -256,7 +256,7 @@ function ProductDetailView(props) {
     const isAlreadySelected = slots.some((slot) => {
       return slot.sDate === sDate && slot.sTime === sTime;
     });
-  
+
     if (isAlreadySelected) {
       toast.error("The date and time have already been selected");
       setSdate("");
@@ -280,7 +280,6 @@ function ProductDetailView(props) {
       setApiDateFormat("");
     }
   };
-  
 
   console.log(sDate, sTime);
 
@@ -1124,8 +1123,8 @@ function ProductDetailView(props) {
           ) : null}
         </div>
         <button
-          className="btn btn-secondary"
-          style={{ display: "block", margin: "0 auto" }}
+          className="btn btn-secondary appointment-btn"
+          style={{ display: "block" }}
           onClick={() =>
             requestMeeting(
               productData.product?.id,

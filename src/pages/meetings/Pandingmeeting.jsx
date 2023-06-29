@@ -40,7 +40,6 @@ function Pandingmeeting() {
 
   // set hide button
   const [hideButtons, setHideButtons] = useState(false);
-
   useEffect(() => {
     const pathname = window.location.pathname;
     console.log(pathname);
@@ -70,9 +69,9 @@ function Pandingmeeting() {
     };
     fetch(
       api +
-      "/api/company-profile?id=" +
-      state.buyer_id +
-      `&meeting_id=${state.id}`,
+        "/api/company-profile?id=" +
+        state.buyer_id +
+        `&meeting_id=${state.id}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -91,11 +90,11 @@ function Pandingmeeting() {
           setTimeout(() => {
             setthumb(
               result.data?.media_files[
-              Number(
-                result.data?.company?.thumb_index == "undefined"
-                  ? "0"
-                  : result.data?.company?.thumb_index
-              )
+                Number(
+                  result.data?.company?.thumb_index == "undefined"
+                    ? "0"
+                    : result.data?.company?.thumb_index
+                )
               ]
             );
             result.data?.media_files.map((item, i) => {
@@ -129,6 +128,7 @@ function Pandingmeeting() {
         }
       });
   };
+  console.log(state, "this is state");
 
   const handleRefuseMeeting = () => {
     axios
@@ -398,7 +398,7 @@ function Pandingmeeting() {
             <div className="breadcrumbs" data-aos="fade-down">
               <div className="head">
                 {pathname ==
-                  `/profile-view/${localStorage.getItem("user_id")}` ? (
+                `/profile-view/${localStorage.getItem("user_id")}` ? (
                   <ul>
                     <li>
                       <a href="/dashboard">Dashboard </a>
@@ -430,10 +430,18 @@ function Pandingmeeting() {
                       </a>
                     </li>
                     <li>
-                      <a href="/pending-meeting/supplier">
-                        <span> Pending Meetings </span>
+                      <a
+                        href={`/${state?.path
+                          ?.split("/")[1]
+                          ?.replace(/-/g, "")}/supplier`}
+                      >
+                        <span>
+                          {state?.path?.split("/")[1]?.replace(/-/g, " ") ||
+                            "Pending Meetings"}
+                        </span>
                       </a>
                     </li>
+
                     <li>
                       <a href="/">
                         <span> {productData?.company?.company_name}</span>
@@ -614,17 +622,17 @@ function Pandingmeeting() {
                     <div className="button-wrapper m-lft">
                       {(productData?.meeting_status?.status === 1 ||
                         productData?.meeting_status?.status === 2) && (
-                          <a
-                            href="#"
-                            className="btn btn-primary"
-                            onClick={() => handleRefuseMeeting()}
-                          >
-                            <span>
-                              <img src={thumbsdown} alt="" />
-                            </span>
-                            I Refuse A Meeting
-                          </a>
-                        )}
+                        <a
+                          href="#"
+                          className="btn btn-primary"
+                          onClick={() => handleRefuseMeeting()}
+                        >
+                          <span>
+                            <img src={thumbsdown} alt="" />
+                          </span>
+                          I Refuse A Meeting
+                        </a>
+                      )}
                       <a
                         className="btn btn-secondary"
                         onClick={() => {
@@ -766,60 +774,66 @@ function Pandingmeeting() {
                     productData?.productownerstatus == true
                       ? { display: "contents" }
                       : productData?.requeststatus == 1
-                        ? { display: "contents" }
-                        : { display: "contents" }
+                      ? { display: "contents" }
+                      : { display: "contents" }
                   }
                 >
                   <div className="profile-list profile-brand">
                     <h2>Company (Questions & Answers)</h2>
                     <div className="row justify-content-between">
                       <div className="col_left last-contnt">
-                        {productData?.questions?.sort((a, b) => (a.company_question_id > b.company_question_id) ? 1 : -1)?.map((item) => {
-                          if (item?.answer != "null") {
-                            if (item?.type.toLowerCase() == "checkbox") {
-                              try {
-                                if (
-                                  /^[\],:{}\s]*$/.test(
-                                    item?.answer
-                                      .replace(/\\["\\\/bfnrtu]/g, "@")
-                                      .replace(
-                                        /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
-                                        "]"
-                                      )
-                                      .replace(/(?:^|:|,)(?:\s*\[)+/g, "")
-                                  )
-                                ) {
-                                  var ans = JSON.parse(item?.answer);
+                        {productData?.questions
+                          ?.sort((a, b) =>
+                            a.company_question_id > b.company_question_id
+                              ? 1
+                              : -1
+                          )
+                          ?.map((item) => {
+                            if (item?.answer != "null") {
+                              if (item?.type.toLowerCase() == "checkbox") {
+                                try {
+                                  if (
+                                    /^[\],:{}\s]*$/.test(
+                                      item?.answer
+                                        .replace(/\\["\\\/bfnrtu]/g, "@")
+                                        .replace(
+                                          /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
+                                          "]"
+                                        )
+                                        .replace(/(?:^|:|,)(?:\s*\[)+/g, "")
+                                    )
+                                  ) {
+                                    var ans = JSON.parse(item?.answer);
+                                  }
+                                } catch (error) {
+                                  console.log(error);
                                 }
-                              } catch (error) {
-                                console.log(error);
                               }
+                              return (
+                                <ul>
+                                  <li>
+                                    <h6>{item?.question}</h6>
+                                  </li>
+                                  <li>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          item?.type.toLowerCase() == "checkbox"
+                                            ? item?.answer?.replace(
+                                                /[\\\n["{}:\]']+/g,
+                                                " "
+                                              )
+                                            : item?.answer?.replace(
+                                                /[\\\n[{}:\]]+/g,
+                                                "<br>"
+                                              ),
+                                      }}
+                                    />
+                                  </li>
+                                </ul>
+                              );
                             }
-                            return (
-                              <ul>
-                                <li>
-                                  <h6>{item?.question}</h6>
-                                </li>
-                                <li>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html:
-                                        item?.type.toLowerCase() == "checkbox"
-                                          ? item?.answer?.replace(
-                                            /[\\\n["{}:\]']+/g,
-                                            " "
-                                          )
-                                          : item?.answer?.replace(
-                                            /[\\\n[{}:\]]+/g,
-                                            "<br>"
-                                          ),
-                                    }}
-                                  />
-                                </li>
-                              </ul>
-                            );
-                          }
-                        })}
+                          })}
                       </div>
                     </div>
                   </div>
@@ -891,7 +905,8 @@ function Pandingmeeting() {
           ) : null}
         </div>
         <button
-          className="btn btn-secondary"
+          // class="btn btn-secondary appointment-btn" style="display: block;/ margin: 0px auto;
+          className="btn btn-secondary appointment-btn "
           onClick={() =>
             requestMeeting(
               productData.product?.id,
