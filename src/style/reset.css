@@ -18,7 +18,7 @@ body {
 }
 
 
-.Meeting_wrap .table_form .btn-secondary:hover{
+.Meeting_wrap .table_form .btn-secondary:hover {
   background-color: #19A0DD;
   cursor: default !important;
 }
@@ -264,6 +264,12 @@ p {
   border: solid 1px transparent;
 }
 
+.appointment-btn:hover {
+  background: #fff;
+  color: #19a0dd;
+  border-color: #19a0dd;
+}
+
 .btn-secondary:hover::after {
   background-color: #E30613;
   color: #fff;
@@ -340,9 +346,11 @@ p {
   background: transparent;
 }
 
-.custom-select select option[value=""],select:invalid {
+.custom-select select option[value=""],
+select:invalid {
   color: #999999;
 }
+
 /* 
 .custom-select select option:hover {
   color: #999999 !important;

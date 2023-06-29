@@ -6793,8 +6793,8 @@ iframe {
 } */
 
 .supplier_pending_wrap table .btn-primary {
-  margin-right: 12px;
   height: 32px;
+  margin-left: 12px;
 }
 
 

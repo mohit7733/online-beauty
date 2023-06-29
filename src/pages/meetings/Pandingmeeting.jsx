@@ -891,7 +891,8 @@ function Pandingmeeting() {
           ) : null}
         </div>
         <button
-          className="btn btn-secondary"
+        // class="btn btn-secondary appointment-btn" style="display: block;/ margin: 0px auto; 
+          className="btn btn-secondary appointment-btn "
           onClick={() =>
             requestMeeting(
               productData.product?.id,
