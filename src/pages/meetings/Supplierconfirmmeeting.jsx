@@ -353,6 +353,7 @@ function Supplierconfirmmeeting(props) {
                                 {
                                   state: {
                                     id: data.id,
+                                    path : path
                                   },
                                 }
                               )
@@ -361,6 +362,7 @@ function Supplierconfirmmeeting(props) {
                                 {
                                   state: {
                                     id: meeting?.id,
+                                    path : path ,
                                     buyer_id: meeting?.buyer_id,
                                     time: meeting?.meetingDates,
                                     date: meeting?.meetingTime,
