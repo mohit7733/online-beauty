@@ -6670,7 +6670,7 @@ iframe {
 }
 
 .button-wrapper {
-  justify-content: space-around;
+  justify-content: start;
 }
 
 .slick-dots li button:before {
@@ -6794,7 +6794,7 @@ iframe {
 
 .supplier_pending_wrap table .btn-primary {
   height: 32px;
-  margin-left: 12px;
+  margin-left: 12px !important;
 }
 
 
