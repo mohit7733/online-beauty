@@ -220,7 +220,12 @@ function Supplierpassedmeeting(props) {
                         ? meetingData[index]?.supplierName?.suppliername
                         : meetingData[index]?.buyerName?.buyername}
                     </td>
-                    <td>{meeting?.buyerCountryCode}</td>
+                    <td>
+                      {" "}
+                      {path === "/passed-meeting/buyer"
+                        ? meeting?.supplierCountryCode
+                        : meeting?.buyerCountryCode}
+                    </td>
 
                     {path === "/passed-meeting/buyer" ? (
                       <>
