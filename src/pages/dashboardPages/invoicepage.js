@@ -199,8 +199,8 @@ function Invoicepage() {
                       </p>
                     </td>
                     <td>1</td>
-                    <td>£{billingdata?.amount}.00</td>
-                    <td>£ {billingdata?.amount}.00</td>
+                    <td> {billingdata?.amount}.00</td>
+                    <td>  {billingdata?.amount}.00</td>
                   </tr>
                   <tr>
                     <td class="ht_40"></td>
@@ -210,32 +210,32 @@ function Invoicepage() {
                     <td class="css_2">Sub total before VAT €</td>
                     <td class="css_2"></td>
                     <td class="css_2">
-                      £ {billingdata?.amount - billingdata?.vatamt}.00
+                      {billingdata?.amount - billingdata?.vatamt}.00
                     </td>
                   </tr>
                   <tr>
                     <td></td>
                     <td class="css_2">VAT €</td>
                     <td class="css_2"></td>
-                    <td class="css_2">£ {billingdata?.vatamt}.00</td>
+                    <td class="css_2">  {billingdata?.vatamt}.00</td>
                   </tr>
                   <tr>
                     <td></td>
                     <td class="css_2">Total including VAT €</td>
                     <td class="css_2"></td>
-                    <td class="css_2">£ {billingdata?.amount}.00</td>
+                    <td class="css_2">  {billingdata?.amount}.00</td>
                   </tr>
                   <tr>
                     <td></td>
                     <td class="css_2">Amount Paid €</td>
                     <td class="css_2"></td>
-                    <td class="css_2">£ {billingdata?.amount}.00</td>
+                    <td class="css_2">  {billingdata?.amount}.00</td>
                   </tr>
                   <tr>
                     <td></td>
                     <td class="css_2">Remaining due €</td>
                     <td class="css_2"></td>
-                    <td class="css_2">£ 00.00</td>
+                    <td class="css_2">  00.00</td>
                   </tr>
                   <tr>
                     <td class="ht_60px"></td>

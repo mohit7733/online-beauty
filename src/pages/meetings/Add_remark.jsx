@@ -1,72 +1,72 @@
 import React, { useState, useEffect } from "react";
 import EditRemark from "./EditRemark";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { api } from "../base_url";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 function Add_remark(props) {
   const location = useLocation();
-  const state = location.state;
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    id,
-    title: "",
-    description: "",
-  });
+	const { id } = useParams();
+	const navigate = useNavigate();
+	const { state } = useLocation();
+	const [formData, setFormData] = useState({
+		id,
+		title: "",
+		description: "",
+	});
   console.log(state);
-  const type_user = localStorage.getItem("user_type");
-  console.log(type_user);
-  useEffect(() => {
-    const path = window.location.pathname;
-    const id = path.substring(path.lastIndexOf("/") + 1);
-    setFormData((prevFormData) => ({ ...prevFormData, id }));
-  }, []);
+	const type_user = localStorage.getItem("user_type");
+	console.log(type_user);
+	useEffect(() => {
+		const path = window.location.pathname;
+		const id = path.substring(path.lastIndexOf("/") + 1);
+		setFormData((prevFormData) => ({ ...prevFormData, id }));
+	}, []);
 
-  const handleInputChange = (e) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [e.target.name]: e.target.value,
-    }));
-  };
+	const handleInputChange = (e) => {
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			[e.target.name]: e.target.value,
+		}));
+	};
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const token = "Bearer " + localStorage.getItem("token");
-    const apiUrl =
-      api +
-      "/api/v1/" +
-      (type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const token = "Bearer " + localStorage.getItem("token");
+		const apiUrl =
+			api +
+			"/api/v1/" +
+			(type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
 
-    const requestData = new FormData();
-    requestData.append("id", formData.id);
-    requestData.append("title", formData.title);
-    requestData.append("description", formData.description);
+		const requestData = new FormData();
+		requestData.append("id", formData.id);
+		requestData.append("title", formData.title);
+		requestData.append("description", formData.description);
 
-    axios
-      .post(apiUrl, requestData, {
-        headers: {
-          Authorization: token,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        toast.success("Remark Added Successfully");
-        console.log(response.data);
-        setTimeout(() => {
-          navigate(
-            "/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier")
-          );
-        }, 3000);
-      })
-      .catch((error) => {
-        toast.error("Something Went Wrong !");
-        console.error(error);
-      });
-  };
+		axios
+			.post(apiUrl, requestData, {
+				headers: {
+					Authorization: token,
+					"Content-Type": "multipart/form-data",
+				},
+			})
+			.then((response) => {
+				toast.success("Remark Added Successfully");
+				console.log(response.data);
+				setTimeout(() => {
+					navigate(
+						"/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier")
+					);
+				}, 3000);
+			})
+			.catch((error) => {
+				toast.error("Something Went Wrong !");
+				console.error(error);
+			});
+	};
 
   return (
     <>
