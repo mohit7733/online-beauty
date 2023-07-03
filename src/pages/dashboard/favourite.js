@@ -146,8 +146,6 @@ export default function Favourite(props) {
             Search
           </button>
 
-          {
-            favrite?.length != 0 ?
               <button
                 type="button"
                 onClick={() => {
@@ -158,7 +156,7 @@ export default function Favourite(props) {
             className="btn btn-block btn-primary"
           >
             Clear all
-          </button>: ""}
+          </button>
 
 
           <button class="btn btn-primary" onClick={() => navigate('/product-view')}>

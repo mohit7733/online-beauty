@@ -115,6 +115,7 @@ function Supplierconfirmmeeting(props) {
 		return {
 			id: detail?.id,
 			supplier_id: detail?.supplier_id,
+			buyer_status : detail?.buyer_status , 
 			status: detail?.status,
 			meetingDateTimeStrings: [
 				`${supplierAvailableDates[0]} ${supplierAvailableTimes[0]}`,
@@ -274,7 +275,7 @@ function Supplierconfirmmeeting(props) {
 						</thead>
 						<tbody>
 							{data?.map((meeting, index) =>
-								[1, 2, 3, 4].includes(meeting?.status) ? (
+								[1, 2, 3 , 4].includes(meeting?.buyer_status) ? (
 									<tr key={index}>
 										<td>
 											{path != "/confirmed-meeting/buyer"

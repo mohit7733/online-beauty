@@ -614,18 +614,7 @@ function Pandingmeeting() {
 									<p>{productData?.company?.company_dec}</p>
 									{hideButtons !== true ? (
 										<div className="button-wrapper m-lft">
-											{(productData?.meeting_status?.status === 1 ||
-												productData?.meeting_status?.status === 2) && (
-												<a
-													href="#"
-													className="btn btn-primary"
-													onClick={() => handleRefuseMeeting()}>
-													<span>
-														<img src={thumbsdown} alt="" />
-													</span>
-													I Refuse A Meeting
-												</a>
-											)}
+											
 											<a
 												className="btn btn-secondary"
 												onClick={() => {
@@ -745,6 +734,18 @@ function Pandingmeeting() {
 													}
 												})()}
 											</a>
+											{(productData?.meeting_status?.status === 1 ||
+												productData?.meeting_status?.status === 2) && (
+												<a
+													href="#"
+													className="btn btn-primary"
+													onClick={() => handleRefuseMeeting()}>
+													<span>
+														<img src={thumbsdown} alt="" />
+													</span>
+													I Refuse A Meeting
+												</a>
+											)}
 										</div>
 									) : null}
 								</div>
