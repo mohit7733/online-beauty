@@ -120,6 +120,7 @@ function Supplierpassedmeeting(props) {
 		navigate(`/add-remark/${id}`, {
 			state: {
 				usertype: path === "/passed-meeting/buyer" ? "Buyer" : "Supplier",
+				path: path,
 			},
 		});
 	};
@@ -134,19 +135,22 @@ function Supplierpassedmeeting(props) {
 						</li>
 						<li>
 							<a href="/">
-								{" "}
-								{path == "/passed-meeting/buyer" ? "Buyer" : "Supplier"}{" "}
+								{path == "/passed-meeting/buyer" ? "Buyer" : "Supplier"}
 							</a>
 						</li>
 						<li>
-							<a href="/pending-meeting/supplier">
+							<a
+								href={`/passed-meeting${
+									path === "/passed-meeting/buyer" ? "/buyer" : "/supplier"
+								}`}
+							>
 								<span> My Meetings</span>
 							</a>
 						</li>
 						<li>
-							<a href="#">
-								<span> Passed Meetings </span>
-							</a>
+							<span style={{ cursor: "pointer", paddingLeft: "5px" }}>
+								Passed Meetings
+							</span>
 						</li>
 					</ul>
 				</div>
@@ -330,6 +334,7 @@ function Supplierpassedmeeting(props) {
 																`/view-remark/${meeting?.id}/${meeting?.id}`,
 																{
 																	state: {
+																		path: path,
 																		usertype:
 																			path === "/passed-meeting/buyer"
 																				? "Buyer"
