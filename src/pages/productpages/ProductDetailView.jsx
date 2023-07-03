@@ -40,6 +40,7 @@ function ProductDetailView(props) {
   const [modalState, setModalState] = useState(false);
   const [companydetail, setCompanydetail] = useState(true);
   const [compnayProfile, setCompanyProfile] = useState(true);
+  const [dateError, setDateError] = useState("");
   // check company detail
 
   useEffect(() => {
@@ -79,7 +80,7 @@ function ProductDetailView(props) {
         console.error(error);
       });
   }, []);
-  // console.log(companydetail, compnayProfile);
+  console.log(companydetail, compnayProfile);
   const getProductDetails = () => {
     var myHeaders = new Headers();
     myHeaders.append(
@@ -244,7 +245,8 @@ function ProductDetailView(props) {
 
   function showTimePicker(value) {
     if (slots.length >= 5) {
-      toast.error("You can't select more than 5 availabilities");
+      setDateError("You can't select more than 5 availabilities");
+      setTimeout(() => setDateError(""), 2000);
     } else {
       const dm = moment(value).format("MMM D");
       setApiDateFormat(moment(value).format("DD-MM-YYYY"));
@@ -258,17 +260,19 @@ function ProductDetailView(props) {
     });
 
     if (isAlreadySelected) {
-      toast.error("The date and time have already been selected");
+      setDateError("The date and time have already been selected");
       setSdate("");
       setSTime("");
       setApiDateFormat("");
+      setTimeout(() => setDateError(""), 2000);
     } else if (slots.length >= 5) {
-      toast.error("You can't select more than 5 availabilities");
+      setDateError("You can't select more than 5 availabilities");
       if (sDate !== "") {
         setSdate("");
         setSTime("");
         setApiDateFormat("");
       }
+      setTimeout(() => setDateError(""), 2000);
     } else {
       const mergedSlots = [
         ...slots,
@@ -277,15 +281,12 @@ function ProductDetailView(props) {
       setSlots(mergedSlots);
       // setSdate("");
       setSTime("");
-      // setApiDateFormat("");
+      setApiDateFormat("");
     }
   };
-  useEffect(() => {
-    if (slots.length >= 5) {
-      setSdate("");
-    }
-  }, [slots]);
-  // console.log(slots, "set time slots");
+
+  console.log(sDate, sTime);
+
   useEffect(() => {
     getProductDetails();
     window.scrollTo(0, 0);
@@ -323,7 +324,8 @@ function ProductDetailView(props) {
   };
 
   if (slots.length > 5) {
-    toast.error("you can't select more than 5 ");
+    setDateError("You can't select more than 5 availabilities");
+    setTimeout(() => setDateError(""), 2000);
   }
 
   // const {state} = useLocation()
@@ -474,7 +476,9 @@ function ProductDetailView(props) {
                                       item.file_path +
                                       "&embedded=true"
                                     }
-                                    style={{ height: "500px" }}
+                                    style={{
+                                      height: "500px",
+                                    }}
                                   ></iframe>
                                 </figure>
                               </div>
@@ -577,7 +581,9 @@ function ProductDetailView(props) {
                           <figure
                             style={
                               productData.product?.youtube_link === "null"
-                                ? { display: "none" }
+                                ? {
+                                    display: "none",
+                                  }
                                 : {}
                             }
                             className={select == 100 ? "active" : ""}
@@ -664,8 +670,12 @@ function ProductDetailView(props) {
                                   className="pocilybtn"
                                   style={
                                     showpolicy == true
-                                      ? { display: "block" }
-                                      : { display: "none" }
+                                      ? {
+                                          display: "block",
+                                        }
+                                      : {
+                                          display: "none",
+                                        }
                                   }
                                 >
                                   <p>{productData.product?.price_policy}</p>
@@ -760,7 +770,9 @@ function ProductDetailView(props) {
                                     "You did not fill the company information. Please fill the company information and company profile to request a meeting."
                                   );
                                   navigate("/company-information-fill", {
-                                    state: { company_info: 2 },
+                                    state: {
+                                      company_info: 2,
+                                    },
                                   });
                                 }, 5000);
                                 return null;
@@ -770,7 +782,9 @@ function ProductDetailView(props) {
                                     "You did not fill the company information. Please fill the company information and company profile to request a meeting."
                                   );
                                   navigate("/buyer-company-profile", {
-                                    state: { company_info: 2 },
+                                    state: {
+                                      company_info: 2,
+                                    },
                                   });
                                 }, 5000);
                                 return null;
@@ -1037,7 +1051,9 @@ function ProductDetailView(props) {
                       </button>
                     ) : (
                       <button
-                        style={{ cursor: "default ! important" }}
+                        style={{
+                          cursor: "default ! important",
+                        }}
                         className="hoverRemovebtn3 btn "
                         disabled={true}
                       >
@@ -1125,19 +1141,30 @@ function ProductDetailView(props) {
             </>
           ) : null}
         </div>
-        <button
-          className="btn btn-secondary appointment-btn"
-          style={{ display: "block" }}
-          onClick={() =>
-            requestMeeting(
-              productData.product?.id,
-              productData.product?.supplier_id
-            )
-          }
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          Request Appointment
-          {/* {sDate !== "" ? "on " + sDate + " at " + sTime : null} */}
-        </button>
+          <div>
+            {dateError && <span className="errorMessage">{dateError}</span>}
+          </div>
+          <button
+            className="btn btn-secondary appointment-btn"
+            style={{ display: "block" }}
+            onClick={() =>
+              requestMeeting(
+                productData.product?.id,
+                productData.product?.supplier_id
+              )
+            }
+          >
+            Request Appointment
+            {/* {sDate !== "" ? "on " + sDate + " at " + sTime : null} */}
+          </button>
+        </div>
       </Modal>
       <ToastContainer
         position="top-center"

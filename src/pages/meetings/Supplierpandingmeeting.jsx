@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";import { toast } from "react-toastify";
 import editicon from "../../assets/images/edit (1).svg";
 // modal view import
 import { useNavigate } from "react-router-dom";
@@ -15,546 +14,546 @@ import deleteicon from "../../assets/images/delete3.png";
 import AcceptMeeting from "./AcceptMeeting";
 // import { countryContinent } from "country-continents";
 function Supplierpandingmeeting(props) {
-  const [accept, setaccept] = useState(false);
-  const [disabledState, setDisabledState] = useState(false);
-  const [modalState, setModalState] = useState(false);
-  const [sDate, setSdate] = useState("");
-  const [sTime, setSTime] = useState("");
-  const [showTP, setShowTP] = useState();
-  const [slots, setSlots] = useState([]);
-  const [apiDateFormat, setApiDateFormat] = useState("");
-  const [meetingDetails, setmeetingDetails] = useState([]);
-  const [meetingDetails2, setmeetingDetails2] = useState([]);
-  const [deleteId, setDeleteId] = useState();
-  const [supplierTime, setSupplierTime] = useState([]);
-  const [click, setclick] = useState(false);
-  const [meetingAccept, setAcceptMeeting] = useState([]);
-  const [acceptdate, setacceptDates] = useState([]);
-  const [accepttime, setacceptTime] = useState([]);
-  const [acceptId, setacceptId] = useState();
-  const [shortby, setshortby] = useState("");
-  const [searchdata, setsearchdata] = useState("");
-  const [notavailable, setnotavailable] = useState([]);
-  const path = window.location.pathname;
+	const [accept, setaccept] = useState(false);
+	const [disabledState, setDisabledState] = useState(false);
+	const [modalState, setModalState] = useState(false);
+	const [sDate, setSdate] = useState("");
+	const [sTime, setSTime] = useState("");
+	const [showTP, setShowTP] = useState();
+	const [slots, setSlots] = useState([]);
+	const [apiDateFormat, setApiDateFormat] = useState("");
+	const [meetingDetails, setmeetingDetails] = useState([]);
+	const [meetingDetails2, setmeetingDetails2] = useState([]);
+	const [deleteId, setDeleteId] = useState();
+	const [supplierTime, setSupplierTime] = useState([]);
+	const [click, setclick] = useState(false);
+	const [meetingAccept, setAcceptMeeting] = useState([]);
+	const [acceptdate, setacceptDates] = useState([]);
+	const [accepttime, setacceptTime] = useState([]);
+	const [acceptId, setacceptId] = useState();
+	const [shortby, setshortby] = useState("");
+	const [searchdata, setsearchdata] = useState("");
+	const [notavailable, setnotavailable] = useState([]);
+	const path = window.location.pathname;
 
-  // let acceptId = 0
-  function showTimePicker(value) {
-    if (slots.length >= 5) {
-      toast.error("You can't select more than 5 availabilities");
-    } else {
-      const dm = moment(value).format("MMM D");
-      setApiDateFormat(moment(value).format("DD-MM-YYYY"));
-      setShowTP(true);
-      setSdate(dm);
-    }
-  }
-  const navigate = useNavigate();
-  // fetching the data
-  const removeSlot = (item) => {
-    const newSlots = slots.filter((slot) => slot !== item);
-    setSlots(newSlots);
-  };
+	// let acceptId = 0
+	function showTimePicker(value) {
+		if (slots.length >= 5) {
+			toast.error("You can't select more than 5 availabilities");
+		} else {
+			const dm = moment(value).format("MMM D");
+			setApiDateFormat(moment(value).format("DD-MM-YYYY"));
+			setShowTP(true);
+			setSdate(dm);
+		}
+	}
+	const navigate = useNavigate();
+	// fetching the data
+	const removeSlot = (item) => {
+		const newSlots = slots.filter((slot) => slot !== item);
+		setSlots(newSlots);
+	};
 
-  const confirmSlots = () => {
-    const isAlreadySelected = slots.some((slot) => {
-      return slot.sDate === sDate && slot.sTime === sTime;
-    });
+	const confirmSlots = () => {
+		const isAlreadySelected = slots.some((slot) => {
+			return slot.sDate === sDate && slot.sTime === sTime;
+		});
 
-    if (isAlreadySelected) {
-      toast.error("The date and time have already been selected");
-      setSdate("");
-      setSTime("");
-      setApiDateFormat("");
-    } else if (slots.length >= 5) {
-      toast.error("You can't select more than 5 availabilities");
-      if (sDate !== "") {
-        setSdate("");
-        setSTime("");
-        setApiDateFormat("");
-      }
-    } else {
-      const mergedSlots = [
-        ...slots,
-        { sDate: sDate, sTime: sTime, apiDate: apiDateFormat },
-      ];
-      setSlots(mergedSlots);
-      // setSdate("");
-      setSTime("");
-      // setApiDateFormat("");
-    }
-  };
-  useEffect(() => {
-    if (slots.length >= 5) {
-      setSdate("");
-    }
-  }, [slots]);
-  console.log(slots.length);
+		if (isAlreadySelected) {
+			toast.error("The date and time have already been selected");
+			setSdate("");
+			setSTime("");
+			setApiDateFormat("");
+		} else if (slots.length >= 5) {
+			toast.error("You can't select more than 5 availabilities");
+			if (sDate !== "") {
+				setSdate("");
+				setSTime("");
+				setApiDateFormat("");
+			}
+		} else {
+			const mergedSlots = [
+				...slots,
+				{ sDate: sDate, sTime: sTime, apiDate: apiDateFormat },
+			];
+			setSlots(mergedSlots);
+			// setSdate("");
+			setSTime("");
+			// setApiDateFormat("");
+		}
+	};
+	useEffect(() => {
+		if (slots.length >= 5) {
+			setSdate("");
+		}
+	}, [slots]);
+	console.log(slots.length);
 
-  useEffect(() => {
-    if (slots.length >= 5) {
-      setDisabledState(true);
-      setSdate("");
-      setSTime("");
-      console.log("now you are not able to click");
-    }
-  }, [slots]);
-  // get meeting subscription details
-  const [subscriptions, setSubscriptions] = useState([]);
-  const getSubscriptions = () => {
-    var myHeaders = new Headers();
-    var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-    fetch(`${api}/api/meetingsubscription`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result.data[0].type, "tan");
+	useEffect(() => {
+		if (slots.length >= 5) {
+			setDisabledState(true);
+			setSdate("");
+			setSTime("");
+			console.log("now you are not able to click");
+		}
+	}, [slots]);
+	// get meeting subscription details
+	const [subscriptions, setSubscriptions] = useState([]);
+	const getSubscriptions = () => {
+		var myHeaders = new Headers();
+		var requestOptions = {
+			method: "GET",
+			headers: myHeaders,
+			redirect: "follow",
+		};
+		fetch(`${api}/api/meetingsubscription`, requestOptions)
+			.then((response) => response.json())
+			.then((result) => {
+				console.log(result.data[0].type, "tan");
 
-        const meetingSubscriptions = result.data.filter(
-          (subscription) => subscription.type === "Meeting"
-        );
+				const meetingSubscriptions = result.data.filter(
+					(subscription) => subscription.type === "Meeting"
+				);
 
-        setSubscriptions(meetingSubscriptions);
-      })
-      .catch((error) => console.log("error", error));
-  };
+				setSubscriptions(meetingSubscriptions);
+			})
+			.catch((error) => console.log("error", error));
+	};
 
-  useEffect(() => {
-    getSubscriptions();
-  }, []);
+	useEffect(() => {
+		getSubscriptions();
+	}, []);
 
-  console.log(
-    {
-      amount: subscriptions[0]?.price,
-      plan: subscriptions[0]?.days,
-      subscription_plan_id: subscriptions[0]?.id,
-    },
-    "subscriptions"
-  );
-  React.useEffect(() => {
-    setmeetingDetails([]);
-    axios
-      .get(
-        `${api}/api/v1/${
-          path.includes("/pending-meeting/supplier")
-            ? "suppliermeetingreqlist"
-            : "suppliermeetingreqlist"
-        }?sortBy=${shortby}&buyerName=${searchdata}`,
-        {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          // console.log(res.data?.data);
-          setmeetingDetails2(Object.values(res.data?.data.meetings));
-          setmeetingDetails(Object.values(res.data?.data.meetings));
-          if (shortby == "A-Z") {
-            searchfilter();
-          }
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [shortby]);
-  console.log("clicked");
+	console.log(
+		{
+			amount: subscriptions[0]?.price,
+			plan: subscriptions[0]?.days,
+			subscription_plan_id: subscriptions[0]?.id,
+		},
+		"subscriptions"
+	);
+	React.useEffect(() => {
+		setmeetingDetails([]);
+		axios
+			.get(
+				`${api}/api/v1/${
+					path.includes("/pending-meeting/supplier")
+						? "suppliermeetingreqlist"
+						: "suppliermeetingreqlist"
+				}?sortBy=${shortby}&buyerName=${searchdata}`,
+				{
+					headers: {
+						Authorization: "Bearer " + localStorage.getItem("token"),
+					},
+				}
+			)
+			.then((res) => {
+				if (res.status === 200) {
+					// console.log(res.data?.data);
+					setmeetingDetails2(Object.values(res.data?.data.meetings));
+					setmeetingDetails(Object.values(res.data?.data.meetings));
+					if (shortby == "A-Z") {
+						searchfilter();
+					}
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, [shortby]);
+	console.log("clicked");
 
-  const searchfilter = () => {
-    const sortedData = [...meetingDetails2].sort((a, b) =>
-      a.buyerName.buyername.localeCompare(b.buyerName.buyername)
-    );
-    setmeetingDetails(sortedData);
-  };
+	const searchfilter = () => {
+		const sortedData = [...meetingDetails2].sort((a, b) =>
+			a.buyerName.buyername.localeCompare(b.buyerName.buyername)
+		);
+		setmeetingDetails(sortedData);
+	};
 
-  useEffect(() => {
-    supplierTime.length > 0 &&
-      axios
-        .post(api + "/api/v1/supplier-meeting-avaiblity", supplierTime, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          toast.success("Availability added successfully");
-          console.log(response);
-        })
-        .catch((error) => {
-          toast.error("Something Went Wrong !");
-          // handle error
-        });
-  }, [click]);
+	useEffect(() => {
+		supplierTime.length > 0 &&
+			axios
+				.post(api + "/api/v1/supplier-meeting-avaiblity", supplierTime, {
+					headers: {
+						Authorization: "Bearer " + localStorage.getItem("token"),
+					},
+				})
+				.then((response) => {
+					toast.success("Availability added successfully");
+					console.log(response);
+				})
+				.catch((error) => {
+					toast.error("Something Went Wrong !");
+					// handle error
+				});
+	}, [click]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 100);
-  }, []);
-  const [showModal, setShowModal] = useState(false);
+	useEffect(() => {
+		setTimeout(() => {
+			window.scrollTo(0, 0);
+		}, 100);
+	}, []);
+	const [showModal, setShowModal] = useState(false);
 
-  const handleAcceptClick = () => {
-    setShowModal(true);
-  };
+	const handleAcceptClick = () => {
+		setShowModal(true);
+	};
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-  useEffect(() => {
-    if (deleteId) {
-      axios
-        .get(`${api}/api/v1/supplier-meeting-refused?meeting_id=${deleteId}`, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          window.location.reload(true);
-        })
-        .catch((error) => {
-          console.log(error); // Handle any errors
-        });
-    }
-  }, [deleteId]);
-  const getContinent = async (countryName) => {
-    const response = await axios.get(
-      `https://restcountries.com/v3/name/${countryName}`
-    );
-    const ans = response.data[0].region;
-    return ans;
-  };
+	const handleCloseModal = () => {
+		setShowModal(false);
+	};
+	useEffect(() => {
+		if (deleteId) {
+			axios
+				.get(`${api}/api/v1/supplier-meeting-refused?meeting_id=${deleteId}`, {
+					headers: {
+						Authorization: "Bearer " + localStorage.getItem("token"),
+					},
+				})
+				.then((response) => {
+					window.location.reload(true);
+				})
+				.catch((error) => {
+					console.log(error); // Handle any errors
+				});
+		}
+	}, [deleteId]);
+	const getContinent = async (countryName) => {
+		const response = await axios.get(
+			`https://restcountries.com/v3/name/${countryName}`
+		);
+		const ans = response.data[0].region;
+		return ans;
+	};
 
-  const data = meetingDetails?.map((detail) => {
-    const buyertimeDate = detail?.meetDateTime.map((meet) => {
-      return `${meet.meet_date} ${meet.meet_time}`;
-    });
+	const data = meetingDetails?.map((detail) => {
+		const buyertimeDate = detail?.meetDateTime.map((meet) => {
+			return `${meet.meet_date} ${meet.meet_time}`;
+		});
 
-    const suppliertimeDate = detail?.meetDateTime.map((meet) => {
-      return `${meet.supplier_timezone_date} ${meet.supplier_timezone_time}`;
-    });
-    const buyerslots = detail?.buyerSlot.flatMap((slot) => {
-      const slotData = JSON.parse(slot.supplier_available);
-      return slotData.map((data) => `${data.date} ${data.time}`);
-    });
+		const suppliertimeDate = detail?.meetDateTime.map((meet) => {
+			return `${meet.supplier_timezone_date} ${meet.supplier_timezone_time}`;
+		});
+		const buyerslots = detail?.buyerSlot.flatMap((slot) => {
+			const slotData = JSON.parse(slot.supplier_available);
+			return slotData.map((data) => `${data.date} ${data.time}`);
+		});
 
-    return {
-      id: detail?.id,
-      supplier_id: detail?.supplier_id,
-      status: detail?.status,
-      supplier_Time_Zone: detail?.supplier_timezone,
-      buyer_Time_Zone: detail?.buyer_timezone,
-      supplierCityName: detail?.supplierCityName?.city_name,
-      buyerCityName: detail?.buyerCityName?.city_name,
-      type: detail?.type,
-      buyerCountryCode:
-        detail?.buyerCountryCode?.countrycode !== "undefined"
-          ? detail.buyerCountryCode.countrycode
-          : "",
-      supplierCountryCode: detail?.supplierCountryCode?.countrycode,
-      buyer_id: detail?.buyer_id,
-      buyername: detail?.buyerName?.buyername,
-      countrycode:
-        detail?.supplierCountryCode?.countrycode != null
-          ? detail?.supplierCountryCode?.countrycode
-          : "",
-      buyertimeDate,
-      suppliertimeDate,
-      buyerslots,
-    };
-  });
-  console.log(data, "buyerslot");
+		return {
+			id: detail?.id,
+			supplier_id: detail?.supplier_id,
+			status: detail?.status,
+			supplier_Time_Zone: detail?.supplier_timezone,
+			buyer_Time_Zone: detail?.buyer_timezone,
+			supplierCityName: detail?.supplierCityName?.city_name,
+			buyerCityName: detail?.buyerCityName?.city_name,
+			type: detail?.type,
+			buyerCountryCode:
+				detail?.buyerCountryCode?.countrycode !== "undefined"
+					? detail.buyerCountryCode.countrycode
+					: "",
+			supplierCountryCode: detail?.supplierCountryCode?.countrycode,
+			buyer_id: detail?.buyer_id,
+			buyername: detail?.buyerName?.buyername,
+			countrycode:
+				detail?.supplierCountryCode?.countrycode != null
+					? detail?.supplierCountryCode?.countrycode
+					: "",
+			buyertimeDate,
+			suppliertimeDate,
+			buyerslots,
+		};
+	});
+	console.log(data, "buyerslot");
 
-  // accept meeting functionality
-  const clickedAccept = () => {
-    axios
-      .post(api + "/api/v1/supplier-meeting-avaiblity", meetingAccept, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        navigate("/payment", {
-          state: {
-            meeting_id: acceptId,
-            amount: subscriptions[0]?.price,
-            plan: subscriptions[0]?.days,
-            subscription_plan_id: subscriptions[0]?.id,
-          },
-        });
-      })
-      .catch((error) => {
-        // Handle error
-      });
-  };
-  // console.log(meetingAccept, "acceptmeeting");
-  // console.log(meetingDetails);
-  return (
-    <>
-      <div class={(props.sidebar ? "active " : " ") + "router-body"}>
-        <div class="breadcrumbs" data-aos="fade-down">
-          <ul>
-            <li>
-              <a href="/dashboard"> Dashboard </a>
-            </li>
-            <li>
-              <a href="#"> Supplier </a>
-            </li>
-            <li>
-              <a href="/pending-meeting/supplier">
-                <span> My Meetings</span>
-              </a>
-            </li>
-            <li>
-              <a href="/pending-meeting/supplier">
-                <span> Pending Meetings </span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="add_product_wrap row justify-content-between">
-          <div class="column">
-            <div class="search">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Type here"
-                onChange={(e) => setsearchdata(e.target.value)}
-              />
-            </div>
-            <button
-              type="submit"
-              class="btn btn-block btn-secondary"
-              onClick={(e) => setshortby(shortby == " " ? "" : " ")}
-            >
-              Search
-            </button>
-          </div>
-          <div class="column justify-end">
-            <div class="custom-select">
-              <select onChange={(e) => setshortby(e.target.value)}>
-                <option value={""}>
-                  <span>Sorted by</span>
-                </option>
-                <option value={"A-Z"}>Alphabetic</option>
-                <option value={"DESC"}>Latest buyers</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="table_form">
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"} Name
-                </th>
-                <th>Country Codes</th>
-                <th>
-                  Buyer Date / Time (
-                  {data !== undefined
-                    ? meetingDetails[0]?.buyerCountryCode.countrycode
-                    : ""}
-                  )
-                  {/* ({" "}
+	// accept meeting functionality
+	const clickedAccept = () => {
+		axios
+			.post(api + "/api/v1/supplier-meeting-avaiblity", meetingAccept, {
+				headers: {
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			})
+			.then((response) => {
+				console.log(response);
+				navigate("/payment", {
+					state: {
+						meeting_id: acceptId,
+						amount: subscriptions[0]?.price,
+						plan: subscriptions[0]?.days,
+						subscription_plan_id: subscriptions[0]?.id,
+					},
+				});
+			})
+			.catch((error) => {
+				// Handle error
+			});
+	};
+	// console.log(meetingAccept, "acceptmeeting");
+	// console.log(meetingDetails);
+	return (
+		<>
+			<div class={(props.sidebar ? "active " : " ") + "router-body"}>
+				<div class="breadcrumbs" data-aos="fade-down">
+					<ul>
+						<li>
+							<a href="/dashboard"> Dashboard </a>
+						</li>
+						<li>
+							<a href="#"> Supplier </a>
+						</li>
+						<li>
+							<a href="/pending-meeting/supplier">
+								<span> My Meetings</span>
+							</a>
+						</li>
+						<li>
+							<span style={{ cursor: "pointer", paddingLeft: "5px" }}>
+								Pending Meetings
+							</span>
+						</li>
+					</ul>
+				</div>
+				<div class="add_product_wrap row justify-content-between">
+					<div class="column">
+						<div class="search">
+							<input
+								type="text"
+								class="form-control"
+								placeholder="Type here"
+								onChange={(e) => setsearchdata(e.target.value)}
+							/>
+						</div>
+						<button
+							type="submit"
+							class="btn btn-block btn-secondary"
+							onClick={(e) => setshortby(shortby == " " ? "" : " ")}>
+							Search
+						</button>
+					</div>
+					<div class="column justify-end">
+						<div class="custom-select">
+							<select onChange={(e) => setshortby(e.target.value)}>
+								<option value={""}>
+									<span>Sorted by</span>
+								</option>
+								<option value={"A-Z"}>Alphabetic</option>
+								<option value={"DESC"}>Latest buyers</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="table_form">
+					<table>
+						<thead>
+							<tr>
+								<th>
+									{path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"} Name
+								</th>
+								<th>Country Codes</th>
+								<th>
+									Buyer Date / Time (
+									{data !== undefined
+										? meetingDetails[0]?.buyerCountryCode.countrycode
+										: ""}
+									)
+									{/* ({" "}
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
-                </th>
-                <th>Supplier Date / Time</th>
+								</th>
+								<th>Supplier Date / Time</th>
 
-                <th>
-                  {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
-                  Profile
-                </th>
-                {/* <th>Meeting Status</th> */}
-                <th>Meeting status</th>
-                <th>Edit Avaibility</th>
-              </tr>
-            </thead>
+								<th>
+									{path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
+									Profile
+								</th>
+								{/* <th>Meeting Status</th> */}
+								<th>Meeting status</th>
+								<th>Edit Avaibility</th>
+							</tr>
+						</thead>
 
-            <tbody>
-              {data.map((meeting, index) => (
-                <tr key={index}>
-                  <td>{meeting?.buyername}</td>
-                  <td>
-                    {path == "/passed-meeting/buyer"
-                      ? meeting?.supplierCountryCode
-                      : meeting?.buyerCountryCode}
-                    {/* {meeting?.buyerCountryCode} */}
-                  </td>
+						<tbody>
+							{data.map((meeting, index) => (
+								<tr key={index}>
+									<td>{meeting?.buyername}</td>
+									<td>
+										{path == "/passed-meeting/buyer"
+											? meeting?.supplierCountryCode
+											: meeting?.buyerCountryCode}
+										{/* {meeting?.buyerCountryCode} */}
+									</td>
 
-                  <td>
-                    <div>
-                      {meeting?.buyertimeDate?.map((date, index) => (
-                        <div key={index}>{date}</div>
-                      ))}
-                    </div>
-                  </td>
-                  <td>
-                    <div>
-                      {meeting?.suppliertimeDate?.map((date, index) => (
-                        <div key={index}>{date}</div>
-                      ))}
-                    </div>
-                  </td>
-                  <td class="roles">
-                    <a
-                      // href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
-                      class="btn btn-success"
-                      onClick={() => {
-                        navigate(
-                          `/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
-                          {
-                            state: {
-                              id: meeting?.id,
-                              buyer_id: meeting?.buyer_id,
-                              time: meeting?.suppliertimeDate,
-                              date: meeting?.suppliertimeDate,
-                              supplier_id: meeting?.supplier_id,
-                              meeting_id: meeting?.id,
-                              amount: subscriptions[0]?.price,
-                              plan: subscriptions[0]?.days,
-                              subscription_plan_id: subscriptions[0]?.id,
-                            },
-                          }
-                        );
-                      }}
-                    >
-                      View More
-                    </a>
-                  </td>
-                  <td>
-                    <div class="button_wrap row">
-                      {accept == true ? (
-                        <a class="btn btn-secondary">Payment Pending</a>
-                      ) : (
-                        <div>
-                          <a
-                            className="btn btn-secondary"
-                            onClick={() => {
-                              if (
-                                meeting?.status === 1 ||
-                                meeting?.status === 2
-                              ) {
-                                handleAcceptClick(meeting?.id);
-                                setacceptTime(meeting?.suppliertimeDate);
-                                setnotavailable(meeting?.buyerslots);
-                                console.log(
-                                  meeting.suppliertimeDate,
-                                  "id select"
-                                );
-                                // setacceptDates(meeting?.meetingDates);
-                                // handlebuttonacceptclick(meeting?.id , meeting?.suppliertimeDate , meeting?.buyertimeDate)
-                                setacceptId(meeting?.id);
-                              }
-                              // else if (meeting?.status === 2) {
-                              //   // Direct navigation to '/payment's
-                              //   navigate("/payment", {
-                              //     state: {
-                              //       meeting_id: meeting?.id,
-                              //       amount: subscriptions[0]?.price,
-                              //       plan: subscriptions[0]?.days,
-                              //       subscription_plan_id: subscriptions[0]?.id,
-                              //     },
-                              //   });
-                              // }
-                            }}
-                          >
-                            {(() => {
-                              switch (meeting?.status) {
-                                case 1:
-                                  return "Accept";
-                                case 2:
-                                  return "Pending Payment";
-                                case 3:
-                                  return "Meeting Refused";
-                                default:
-                                  return "";
-                              }
-                            })()}
-                          </a>
-                          <a
-                            onClick={(e) => {
-                              console.log(meeting.id);
-                              setDeleteId(meeting.id);
-                            }}
-                            className="btn btn-primary"
-                            style={{
-                              display:
-                                meeting?.status === 3 ? "none" : "inline-block",
-                            }}
-                          >
-                            Refuse
-                          </a>
-                          {showModal && (
-                            <div className="modal">
-                              <div className="modal-content">
-                                <span
-                                  className="close"
-                                  onClick={handleCloseModal}
-                                >
-                                  &times;
-                                </span>
-                                <div>
-                                  <h3>Accept Meeting</h3>
-                                  {accepttime?.map((dateTime, index) => {
-                                    const splitDateTime = dateTime.split(" ");
-                                    const date = splitDateTime
-                                      .slice(0, -1)
-                                      .join(" ");
-                                    const time = splitDateTime
-                                      .slice(-2)
-                                      .join(" ");
-                                    const isDisabled =
-                                      notavailable.includes(dateTime);
+									<td>
+										<div>
+											{meeting?.buyertimeDate?.map((date, index) => (
+												<div key={index}>{date}</div>
+											))}
+										</div>
+									</td>
+									<td>
+										<div>
+											{meeting?.suppliertimeDate?.map((date, index) => (
+												<div key={index}>{date}</div>
+											))}
+										</div>
+									</td>
+									<td class="roles">
+										<a
+											// href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
+											class="btn btn-success"
+											onClick={() => {
+												navigate(
+													`/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+													{
+														state: {
+															id: meeting?.id,
+															path: path,
+															buyer_id: meeting?.buyer_id,
+															time: meeting?.suppliertimeDate,
+															date: meeting?.suppliertimeDate,
+															supplier_id: meeting?.supplier_id,
+															meeting_id: meeting?.id,
+															amount: subscriptions[0]?.price,
+															plan: subscriptions[0]?.days,
+															subscription_plan_id: subscriptions[0]?.id,
+														},
+													}
+												);
+											}}>
+											View More
+										</a>
+									</td>
+									<td>
+										<div class="button_wrap row">
+											{accept == true ? (
+												<a class="btn btn-secondary">Payment Pending</a>
+											) : (
+												<div>
+													<a
+														className="btn btn-secondary"
+														onClick={() => {
+															if (
+																meeting?.status === 1 ||
+																meeting?.status === 2
+															) {
+																handleAcceptClick(meeting?.id);
+																setacceptTime(meeting?.suppliertimeDate);
+																setnotavailable(meeting?.buyerslots);
+																console.log(
+																	meeting.suppliertimeDate,
+																	"id select"
+																);
+																// setacceptDates(meeting?.meetingDates);
+																// handlebuttonacceptclick(meeting?.id , meeting?.suppliertimeDate , meeting?.buyertimeDate)
+																setacceptId(meeting?.id);
+															}
+															// else if (meeting?.status === 2) {
+															//   // Direct navigation to '/payment's
+															//   navigate("/payment", {
+															//     state: {
+															//       meeting_id: meeting?.id,
+															//       amount: subscriptions[0]?.price,
+															//       plan: subscriptions[0]?.days,
+															//       subscription_plan_id: subscriptions[0]?.id,
+															//     },
+															//   });
+															// }
+														}}>
+														{(() => {
+															switch (meeting?.status) {
+																case 1:
+																	return "Accept";
+																case 2:
+																	return "Pending Payment";
+																case 3:
+																	return "Meeting Refused";
+																default:
+																	return "";
+															}
+														})()}
+													</a>
+													<a
+														onClick={(e) => {
+															console.log(meeting.id);
+															setDeleteId(meeting.id);
+														}}
+														className="btn btn-primary"
+														style={{
+															display:
+																meeting?.status === 3 ? "none" : "inline-block",
+														}}>
+														Refuse
+													</a>
+													{showModal && (
+														<div className="modal">
+															<div className="modal-content">
+																<span
+																	className="close"
+																	onClick={handleCloseModal}>
+																	&times;
+																</span>
+																<div>
+																	<h3>Accept Meeting</h3>
+																	{accepttime?.map((dateTime, index) => {
+																		const splitDateTime = dateTime.split(" ");
+																		const date = splitDateTime
+																			.slice(0, -1)
+																			.join(" ");
+																		const time = splitDateTime
+																			.slice(-2)
+																			.join(" ");
+																		const isDisabled =
+																			notavailable.includes(dateTime);
 
-                                    return (
-                                      <div key={index}>
-                                        <input
-                                          type="radio"
-                                          id={`date${index}`}
-                                          name="selectedDate"
-                                          value={dateTime}
-                                          onChange={() =>
-                                            setAcceptMeeting([
-                                              {
-                                                supplier_id: acceptId,
-                                                type: 0,
-                                                availability: [
-                                                  {
-                                                    date: date.split(" ")[0],
-                                                    time: time,
-                                                  },
-                                                ],
-                                              },
-                                            ])
-                                          }
-                                          disabled={isDisabled}
-                                        />
-                                        <label htmlFor={`date${index}`}>
-                                          {dateTime}
-                                          {isDisabled && (
-                                            <span style={{ color: "red" }}>
-                                              *Slot no longer available
-                                            </span>
-                                          )}
-                                        </label>
-                                      </div>
-                                    );
-                                  })}
+																		return (
+																			<div key={index}>
+																				<input
+																					type="radio"
+																					id={`date${index}`}
+																					name="selectedDate"
+																					value={dateTime}
+																					onChange={() =>
+																						setAcceptMeeting([
+																							{
+																								supplier_id: acceptId,
+																								type: 0,
+																								availability: [
+																									{
+																										date: date.split(" ")[0],
+																										time: time,
+																									},
+																								],
+																							},
+																						])
+																					}
+																					disabled={isDisabled}
+																				/>
+																				<label htmlFor={`date${index}`}>
+																					{dateTime}
+																					{isDisabled && (
+																						<span
+																							style={{
+																								color: "red",
+																							}}>
+																							*Slot no longer available
+																						</span>
+																					)}
+																				</label>
+																			</div>
+																		);
+																	})}
 
-                                  <button
-                                    className="btn btn-secondary"
-                                    onClick={() => clickedAccept()}
-                                  >
-                                    Submit
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          )}
+																	<button
+																		className="btn btn-secondary"
+																		onClick={() => clickedAccept()}>
+																		Submit
+																	</button>
+																</div>
+															</div>
+														</div>
+													)}
 
-                          {/* {showModal && (
+													{/* {showModal && (
                             <div className="modal">
                               <div
                                 className="modal-content"
@@ -626,136 +625,128 @@ function Supplierpandingmeeting(props) {
                               </div>
                             </div>
                           )} */}
-                        </div>
-                      )}
-                    </div>
-                  </td>
+												</div>
+											)}
+										</div>
+									</td>
 
-                  <td>
-                    <a
-                      onClick={() => {
-                        if (meeting?.type !== 1 && meeting?.status !== 3) {
-                          setModalState(true);
-                          setSupplierTime([
-                            {
-                              supplier_id: meeting?.id,
-                              availability: [],
-                            },
-                          ]);
-                        }
-                      }}
-                      className={`btn ${meeting?.type === 1 ? "disabled" : ""}`}
-                      style={{
-                        cursor: meeting?.type === 1 ? "not-allowed" : "pointer",
-                      }}
-                    >
-                      <img
-                        src={editicon}
-                        title="Reschedule Meeting Time"
-                        alt=""
-                        style={{
-                          filter:
-                            meeting?.type === 1 ? "grayscale(100%)" : "none",
-                        }}
-                      />
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <Modal
-        title="Request a meeting?"
-        modalState={modalState}
-        setModalState={() => {
-          setSlots([]);
-          setModalState(false);
-        }}
-      >
-        <span
-          className="close_modal"
-          onClick={() => {
-            setSlots([]);
-            setModalState(false);
-          }}
-        >
-          <img src={deleteicon} />
-        </span>
+									<td>
+										<a
+											onClick={() => {
+												if (meeting?.type !== 1 && meeting?.status !== 3) {
+													setModalState(true);
+													setSupplierTime([
+														{
+															supplier_id: meeting?.id,
+															availability: [],
+														},
+													]);
+												}
+											}}
+											className={`btn ${meeting?.type === 1 ? "disabled" : ""}`}
+											style={{
+												cursor: meeting?.type === 1 ? "not-allowed" : "pointer",
+											}}>
+											<img
+												src={editicon}
+												title="Reschedule Meeting Time"
+												alt=""
+												style={{
+													filter:
+														meeting?.type === 1 ? "grayscale(100%)" : "none",
+												}}
+											/>
+										</a>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<Modal
+				title="Request a meeting?"
+				modalState={modalState}
+				setModalState={() => {
+					setSlots([]);
+					setModalState(false);
+				}}>
+				<span
+					className="close_modal"
+					onClick={() => {
+						setSlots([]);
+						setModalState(false);
+					}}>
+					<img src={deleteicon} />
+				</span>
 
-        <div className="modal-header">
-          <h3 style={{ color: "#fff" }}>Edit your Availability</h3>
-        </div>
-        <div className="calendar_fix calendar-wrapper">
-          <DatePicker setDate={showTimePicker} />
-          {showTP ? <Timepicker setTime={setSTime} sTime={sTime} /> : null}
-        </div>
-        <div className="selected-time">
-          {slots.map((item) => {
-            return (
-              <p>
-                {item.sDate + " - " + item.sTime}
+				<div className="modal-header">
+					<h3 style={{ color: "#fff" }}>Edit your Availability</h3>
+				</div>
+				<div className="calendar_fix calendar-wrapper">
+					<DatePicker setDate={showTimePicker} />
+					{showTP ? <Timepicker setTime={setSTime} sTime={sTime} /> : null}
+				</div>
+				<div className="selected-time">
+					{slots.map((item) => {
+						return (
+							<p>
+								{item.sDate + " - " + item.sTime}
 
-                <span
-                  style={{ marginLeft: "10px" }}
-                  onClick={() => removeSlot(item)}
-                >
-                  {/* <button className=""> */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                  >
-                    <path
-                      style={{ display: "block" }}
-                      d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 10.5858L14.8284 7.75736L16.2426 9.17157L13.4142 12L16.2426 14.8284L14.8284 16.2426L12 13.4142L9.17157 16.2426L7.75736 14.8284L10.5858 12L7.75736 9.17157L9.17157 7.75736L12 10.5858Z"
-                    ></path>
-                  </svg>{" "}
-                  {/* </button> */}
-                </span>
-              </p>
-            );
-          })}
-          {sDate !== "" ? (
-            <>
-              {sDate + " - " + sTime}
-              {sTime ? (
-                <button
-                  onClick={confirmSlots}
-                  // disabled={slots.length >= 5}
-                  className={`btn_confirm btn btn-primary ${
-                    slots.length >= 5 ? "disabled" : ""
-                  }`}
-                  style={{
-                    filter: slots.length >= 5 ? "grayscale(100%)" : "none",
-                  }}
-                >
-                  Confirm ?
-                </button>
-              ) : null}
-            </>
-          ) : null}
-        </div>
-        <button
-          className="btn btn-secondary"
-          style={{ display: "block", margin: "0 auto" }}
-          onClick={() => {
-            setclick(true);
-            setSlots([]);
-            setModalState(false);
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
-          }}
-        >
-          Request Appointment
-          {/* {sDate !== "" ? "on " + sDate + " at " + sTime : null} */}
-        </button>
-      </Modal>
-    </>
-  );
+								<span
+									style={{ marginLeft: "10px" }}
+									onClick={() => removeSlot(item)}>
+									{/* <button className=""> */}
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 24 24"
+										width="24"
+										height="24">
+										<path
+											style={{ display: "block" }}
+											d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 10.5858L14.8284 7.75736L16.2426 9.17157L13.4142 12L16.2426 14.8284L14.8284 16.2426L12 13.4142L9.17157 16.2426L7.75736 14.8284L10.5858 12L7.75736 9.17157L9.17157 7.75736L12 10.5858Z"></path>
+									</svg>{" "}
+									{/* </button> */}
+								</span>
+							</p>
+						);
+					})}
+					{sDate !== "" ? (
+						<>
+							{sDate + " - " + sTime}
+							{sTime ? (
+								<button
+									onClick={confirmSlots}
+									// disabled={slots.length >= 5}
+									className={`btn_confirm btn btn-primary ${
+										slots.length >= 5 ? "disabled" : ""
+									}`}
+									style={{
+										filter: slots.length >= 5 ? "grayscale(100%)" : "none",
+									}}>
+									Confirm ?
+								</button>
+							) : null}
+						</>
+					) : null}
+				</div>
+				<button
+					className="btn btn-secondary"
+					style={{ display: "block", margin: "0 auto" }}
+					onClick={() => {
+						setclick(true);
+						setSlots([]);
+						setModalState(false);
+						setTimeout(() => {
+							window.location.reload();
+						}, 2000);
+					}}>
+					Request Appointment
+					{/* {sDate !== "" ? "on " + sDate + " at " + sTime : null} */}
+				</button>
+			</Modal>
+		</>
+	);
 }
 
 export default Supplierpandingmeeting;
