@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { api } from "../base_url";
 import ReactPlayer from "react-player";
@@ -352,7 +351,8 @@ function Pandingmeeting() {
 						<span
 							className="close"
 							onClick={handleCloseModal}
-							style={{ right: "13px" }}>
+							style={{ right: "13px" }}
+						>
 							&times;
 						</span>
 						<div>
@@ -392,7 +392,8 @@ function Pandingmeeting() {
 				<div className="main">
 					<Left_menu sidebar={sidebar} setsidebar={setsidebar} />
 					<div
-						className={sidebar == true ? "router-body active" : "router-body "}>
+						className={sidebar == true ? "router-body active" : "router-body "}
+					>
 						<div className="breadcrumbs" data-aos="fade-down">
 							<div className="head">
 								{pathname ==
@@ -420,7 +421,9 @@ function Pandingmeeting() {
 										</li>
 
 										<li>
-											<a href="#">Supplier</a>
+											<a href={state?.path}>
+												{state?.path.endsWith("/buyer") ? "Buyer" : "Supplier"}
+											</a>
 										</li>
 										<li>
 											<a href={`/${state?.path?.split("/")[1]}/supplier`}>
@@ -486,7 +489,8 @@ function Pandingmeeting() {
 																		}
 																		style={{
 																			height: "500px",
-																		}}></iframe>
+																		}}
+																	></iframe>
 																</figure>
 															</div>
 														);
@@ -513,7 +517,8 @@ function Pandingmeeting() {
 													return (
 														<div>
 															<figure
-																className={select == index ? "active" : ""}>
+																className={select == index ? "active" : ""}
+															>
 																<img
 																	className="thumbnail"
 																	src={item.file_path}
@@ -544,7 +549,8 @@ function Pandingmeeting() {
 																	setselect(index);
 																	setmain([item]);
 																	setthumbshow(true);
-																}}>
+																}}
+															>
 																{/* <iframe src={"https://docs.google.com/gview?url=" + item.file_path + "&embedded=true"} ></iframe> */}
 																<img
 																	className="thumbnail"
@@ -578,7 +584,8 @@ function Pandingmeeting() {
 															}, 200);
 															setselect(100);
 															setlink(productData.company?.youtube_link);
-														}}>
+														}}
+													>
 														{productData.company?.youtube_link == null ? (
 															""
 														) : (
@@ -619,7 +626,8 @@ function Pandingmeeting() {
 												<a
 													href="#"
 													className="btn btn-primary"
-													onClick={() => handleRefuseMeeting()}>
+													onClick={() => handleRefuseMeeting()}
+												>
 													<span>
 														<img src={thumbsdown} alt="" />
 													</span>
@@ -635,7 +643,8 @@ function Pandingmeeting() {
 													) {
 														handleAcceptClick();
 													}
-												}}>
+												}}
+											>
 												{/* <span>
                         <img src={paymentimg} alt="" />
                       </span> */}
@@ -652,7 +661,8 @@ function Pandingmeeting() {
 																			height="24"
 																			viewBox="0 0 24 24"
 																			fill="none"
-																			xmlns="http://www.w3.org/2000/svg">
+																			xmlns="http://www.w3.org/2000/svg"
+																		>
 																			<path
 																				d="M7 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V13C2 12.4696 2.21071 11.9609 2.58579 11.5858C2.96086 11.2107 3.46957 11 4 11H7M14 9V5C14 4.20435 13.6839 3.44129 13.1213 2.87868C12.5587 2.31607 11.7956 2 11 2L7 11V22H18.28C18.7623 22.0055 19.2304 21.8364 19.5979 21.524C19.9654 21.2116 20.2077 20.7769 20.28 20.3L21.66 11.3C21.7035 11.0134 21.6842 10.7207 21.6033 10.4423C21.5225 10.1638 21.3821 9.90629 21.1919 9.68751C21.0016 9.46873 20.7661 9.29393 20.5016 9.17522C20.2371 9.0565 19.9499 8.99672 19.66 9H14Z"
 																				stroke="white"
@@ -683,7 +693,8 @@ function Pandingmeeting() {
 																			width="22"
 																			height="21"
 																			viewBox="0 0 22 21"
-																			fill="none">
+																			fill="none"
+																		>
 																			<path
 																				d="M15.9991 1.00036H18.6691C19.235 0.990352 19.785 1.1885 20.2145 1.55718C20.644 1.92586 20.9232 2.43942 20.9991 3.00036V10.0004C20.9232 10.5613 20.644 11.0749 20.2145 11.4435C19.785 11.8122 19.235 12.0104 18.6691 12.0004H15.9991M8.99905 14.0004V18.0004C8.99905 18.796 9.31512 19.5591 9.87773 20.1217C10.4403 20.6843 11.2034 21.0004 11.9991 21.0004L15.9991 12.0004V1.00036H4.71905C4.23673 0.994909 3.76868 1.16396 3.40115 1.47636C3.03362 1.78875 2.79138 2.22346 2.71905 2.70036L1.33905 11.7004C1.29555 11.987 1.31488 12.2797 1.39571 12.5581C1.47655 12.8365 1.61695 13.0941 1.8072 13.3128C1.99744 13.5316 2.23297 13.7064 2.49748 13.8251C2.76199 13.9439 3.04915 14.0036 3.33905 14.0004H8.99905Z"
 																				stroke="white"
@@ -705,7 +716,8 @@ function Pandingmeeting() {
 																			width="18"
 																			height="13"
 																			viewBox="0 0 18 13"
-																			fill="none">
+																			fill="none"
+																		>
 																			<path
 																				d="M17 1L6 12L1 7"
 																				stroke="white"
@@ -727,7 +739,8 @@ function Pandingmeeting() {
 																			width="18"
 																			height="13"
 																			viewBox="0 0 18 13"
-																			fill="none">
+																			fill="none"
+																		>
 																			<path
 																				d="M17 1L6 12L1 7"
 																				stroke="white"
@@ -764,7 +777,8 @@ function Pandingmeeting() {
 											: productData?.requeststatus == 1
 											? { display: "contents" }
 											: { display: "contents" }
-									}>
+									}
+								>
 									<div className="profile-list profile-brand">
 										<h2>Company (Questions & Answers)</h2>
 										<div className="row justify-content-between">
@@ -860,7 +874,8 @@ function Pandingmeeting() {
 			<Modal
 				title="Request a meeting?"
 				modalState={modalState}
-				setModalState={setModalState}>
+				setModalState={setModalState}
+			>
 				<div className="modal-header">
 					<h3>Add your Availability</h3>
 				</div>
@@ -882,7 +897,8 @@ function Pandingmeeting() {
 							{sTime ? (
 								<button
 									onClick={confirmSlots}
-									className="btn_confirm btn btn-primary">
+									className="btn_confirm btn btn-primary"
+								>
 									Confirm??
 								</button>
 							) : null}
@@ -897,7 +913,8 @@ function Pandingmeeting() {
 							productData.product?.id,
 							productData.product?.supplier_id
 						)
-					}>
+					}
+				>
 					Request Appointment
 					{/* {sDate !== "" ? "on " + sDate + " at " + sTime : null} */}
 				</button>

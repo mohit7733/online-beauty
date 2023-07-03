@@ -192,10 +192,10 @@ function Supplierconfirmmeeting(props) {
 				<div className="breadcrumbs" data-aos="fade-down">
 					<ul>
 						<li>
-							<a href="#"> Dashboard </a>
+							<a href="/dashboard"> Dashboard </a>
 						</li>
 						<li>
-							<a href="#"> {path.endsWith("/buyer") ? "Buyer" : "Supplier"} </a>
+							<a href="#"> {path.includes("/buyer") ? "Buyer" : "Supplier"} </a>
 						</li>
 						<li>
 							<a href="#">

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment-timezone";
 import { country } from "../../pages/dashboard/country";
@@ -134,7 +135,7 @@ function Supplierpassedmeeting(props) {
 							<a href="/dashboard"> Dashboard </a>
 						</li>
 						<li>
-							<a href="/">
+							<a href={path}>
 								{path == "/passed-meeting/buyer" ? "Buyer" : "Supplier"}
 							</a>
 						</li>

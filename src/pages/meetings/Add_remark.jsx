@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import EditRemark from "./EditRemark";
-import { Navigate, useLocation, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { api } from "../base_url";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 function Add_remark(props) {
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -71,10 +69,10 @@ function Add_remark(props) {
 				<div className="breadcrumbs" data-aos="fade-down">
 					<ul>
 						<li>
-							<a href="#">Dashboard</a>
+							<a href="/dashboard">Dashboard</a>
 						</li>
 						<li>
-							<a href="#">{state?.usertype}</a>
+							<a href={state?.path}>{state?.usertype}</a>
 						</li>
 						<li>
 							<a href={state?.path}>
