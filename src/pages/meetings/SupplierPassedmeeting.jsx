@@ -49,7 +49,7 @@ function Supplierpassedmeeting(props) {
 	}, [shortby]);
 
 	const searchfilter = () => {
-		if (path != "/confirmed-meeting/buyer") {
+		if (path != "/requested-meeting/buyer") {
 			const sortedData = [...meetingData].sort((a, b) =>
 				a.buyerName.buyername.localeCompare(b.buyerName.buyername)
 			);
@@ -163,7 +163,8 @@ function Supplierpassedmeeting(props) {
 						<button
 							type="submit"
 							class="btn btn-block btn-secondary"
-							onClick={(e) => setshortby(shortby == " " ? "" : " ")}>
+							onClick={(e) => setshortby(shortby == " " ? "" : " ")}
+						>
 							Search
 						</button>
 					</div>
@@ -308,7 +309,8 @@ function Supplierpassedmeeting(props) {
 																	},
 																}
 														  );
-												}}>
+												}}
+											>
 												View More
 											</a>
 										</td>
@@ -317,7 +319,8 @@ function Supplierpassedmeeting(props) {
 												!meeting?.remarks ? (
 													<a
 														onClick={() => handleViewRemark(meeting?.id)}
-														className="btn22 btn btn-warning">
+														className="btn22 btn btn-warning"
+													>
 														Add Remark
 													</a>
 												) : (
@@ -335,14 +338,16 @@ function Supplierpassedmeeting(props) {
 																}
 															)
 														}
-														className="btn22 btn btn-warnings">
+														className="btn22 btn btn-warnings"
+													>
 														View Remarks
 													</a>
 												)
 											) : !meetingData[index]?.buyer_remark ? (
 												<a
 													onClick={() => handleViewRemark(meeting?.id)}
-													className="btn22 btn btn-warning">
+													className="btn22 btn btn-warning"
+												>
 													Add Remark
 												</a>
 											) : (
@@ -352,7 +357,8 @@ function Supplierpassedmeeting(props) {
 															`/view-remark/${meeting?.id}/${meeting?.id}`
 														)
 													}
-													className="btn22 btn btn-warnings">
+													className="btn22 btn btn-warnings"
+												>
 													View Remarks
 												</a>
 											)}

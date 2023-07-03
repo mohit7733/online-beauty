@@ -24,7 +24,7 @@ function Supplierconfirmmeeting(props) {
 			.get(
 				api +
 					"/api/v1/" +
-					(path == "/confirmed-meeting/buyer"
+					(path == "/requested-meeting/buyer"
 						? "buyermeetingreqlist?sortBy=" +
 						  shortby +
 						  "&buyerName=" +
@@ -55,7 +55,7 @@ function Supplierconfirmmeeting(props) {
 	}, [shortby]);
 	console.log(path, "this is path");
 	const searchfilter = () => {
-		if (path != "/confirmed-meeting/buyer") {
+		if (path != "/requested-meeting/buyer") {
 			const sortedData = [...meetingData].sort((a, b) =>
 				a.buyerName.buyername.localeCompare(b.buyerName.buyername)
 			);
@@ -171,12 +171,14 @@ function Supplierconfirmmeeting(props) {
 						<div>
 							<button
 								onClick={() => setalertshow(false)}
-								className="btn btn-block btn-secondary">
+								className="btn btn-block btn-secondary"
+							>
 								Cancel
 							</button>
 							<button
 								onClick={() => handleButtonClick(acceptId)}
-								className="btn btn-block btn-primary">
+								className="btn btn-block btn-primary"
+							>
 								Done
 							</button>
 						</div>
@@ -222,7 +224,8 @@ function Supplierconfirmmeeting(props) {
 						<button
 							type="submit"
 							class="btn btn-block btn-secondary"
-							onClick={(e) => setshortby(shortby == " " ? "" : " ")}>
+							onClick={(e) => setshortby(shortby == " " ? "" : " ")}
+						>
 							Search
 						</button>
 					</div>
@@ -243,17 +246,17 @@ function Supplierconfirmmeeting(props) {
 						<thead>
 							<tr>
 								<th>
-									{path == "/confirmed-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
+									{path == "/requested-meeting/buyer" ? "Supplier" : "Buyer"}{" "}
 									Name
 								</th>
 								<th>Country Codes</th>
 								<th>
-									{path != "/confirmed-meeting/buyer"
+									{path != "/requested-meeting/buyer"
 										? " Buyer Date / Time"
 										: "Supplier Date / Time"}
 								</th>
 								<th>
-									{path == "/confirmed-meeting/buyer"
+									{path == "/requested-meeting/buyer"
 										? " Buyer Date / Time"
 										: "Supplier Date / Time"}{" "}
 									(
@@ -265,7 +268,7 @@ function Supplierconfirmmeeting(props) {
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
 								</th>
 								<th>
-									{path == "/confirmed-meeting/buyer" ? "Supplier" : ""} Profile
+									{path == "/requested-meeting/buyer" ? "Supplier" : ""} Profile
 								</th>
 								<th>Meeting Status</th>
 								{/* <th>Passed meeting</th> */}
@@ -277,18 +280,18 @@ function Supplierconfirmmeeting(props) {
 								[1, 2, 3, 4].includes(meeting?.status) ? (
 									<tr key={index}>
 										<td>
-											{path != "/confirmed-meeting/buyer"
+											{path != "/requested-meeting/buyer"
 												? meeting.buyername
 												: meetingData[index]?.supplierName?.suppliername}
 										</td>
 										<td>
 											{" "}
-											{path == "/confirmed-meeting/buyer"
+											{path == "/requested-meeting/buyer"
 												? meeting?.supplierCountryCode
 												: meeting?.buyerCountryCode}
 										</td>
 
-										{path === "/confirmed-meeting/buyer" ? (
+										{path === "/requested-meeting/buyer" ? (
 											<>
 												<td>
 													<div>
@@ -335,7 +338,7 @@ function Supplierconfirmmeeting(props) {
 												// href={`/buyer-profile/pending-meeting/${meeting?.buyer_id}`}
 												className="btn btn-success"
 												onClick={() => {
-													path == "/confirmed-meeting/buyer"
+													path == "/requested-meeting/buyer"
 														? navigate(
 																"/product-view/" +
 																	meetingData[index].product_id +
@@ -364,7 +367,8 @@ function Supplierconfirmmeeting(props) {
 																	},
 																}
 														  );
-												}}>
+												}}
+											>
 												View More
 											</a>
 										</td>
@@ -379,7 +383,8 @@ function Supplierconfirmmeeting(props) {
 															setalertshow(true);
 															setAcceptId(meeting?.id);
 														}
-													}>
+													}
+												>
 													{meeting?.status === 4
 														? "Meeting Done ?"
 														: meeting?.status === 5
