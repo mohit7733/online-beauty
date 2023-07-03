@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment-timezone";
 import { country } from "../../pages/dashboard/country";
@@ -118,7 +117,11 @@ function Supplierpassedmeeting(props) {
 	});
 
 	const handleViewRemark = (id) => {
-		navigate(`/add-remark/${id}`);
+		navigate(`/add-remark/${id}`, {
+			state: {
+				usertype: path === "/passed-meeting/buyer" ? "Buyer" : "Supplier",
+			},
+		});
 	};
 	console.log(data, "this is data");
 	return (
@@ -130,17 +133,20 @@ function Supplierpassedmeeting(props) {
 							<a href="/dashboard"> Dashboard </a>
 						</li>
 						<li>
-							<a href="/"> Supplier </a>
+							<a href="/">
+								{" "}
+								{path == "/passed-meeting/buyer" ? "Buyer" : "Supplier"}{" "}
+							</a>
 						</li>
 						<li>
-							<a href="/passed-meeting/supplier">
+							<a href="/pending-meeting/supplier">
 								<span> My Meetings</span>
 							</a>
 						</li>
 						<li>
-							<span style={{ cursor: "pointer", paddingLeft: "5px" }}>
-								Passed Meetings
-							</span>
+							<a href="#">
+								<span> Passed Meetings </span>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -318,7 +324,15 @@ function Supplierpassedmeeting(props) {
 													<a
 														onClick={() =>
 															navigate(
-																`/view-remark/${meeting?.id}/${meeting?.id}`
+																`/view-remark/${meeting?.id}/${meeting?.id}`,
+																{
+																	state: {
+																		usertype:
+																			path === "/passed-meeting/buyer"
+																				? "Buyer"
+																				: "Supplier",
+																	},
+																}
 															)
 														}
 														className="btn22 btn btn-warnings">

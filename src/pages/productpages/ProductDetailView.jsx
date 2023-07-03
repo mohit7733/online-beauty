@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { api } from "../base_url";
 import ReactPlayer from "react-player";

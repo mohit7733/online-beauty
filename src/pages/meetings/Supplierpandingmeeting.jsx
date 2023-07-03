@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";import { toast } from "react-toastify";
 import editicon from "../../assets/images/edit (1).svg";
 // modal view import
 import { useNavigate } from "react-router-dom";
@@ -80,10 +79,14 @@ function Supplierpandingmeeting(props) {
 			setSlots(mergedSlots);
 			// setSdate("");
 			setSTime("");
-			setApiDateFormat("");
+			// setApiDateFormat("");
 		}
 	};
-
+	useEffect(() => {
+		if (slots.length >= 5) {
+			setSdate("");
+		}
+	}, [slots]);
 	console.log(slots.length);
 
 	useEffect(() => {
