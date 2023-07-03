@@ -52,7 +52,7 @@ export default function Left_menu(props) {
   }, []);
   const { pathname } = useLocation();
   // const [companyData, setCompanyData] = useState({});
-  console.log(pathname , "this is pathname")
+  // console.log(pathname , "this is pathname")
   useEffect(() => {
     const fetchData = () => {
       axios

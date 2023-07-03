@@ -724,12 +724,15 @@ export const CheckoutForm2 = (props) => {
 
                 <div>
                   <h6>VAT Information:</h6>
-                  <ul>
-                    <li>For companies based in France, VAT of 20% will automatically apply.</li>
-                    <li>For companies based in the European Union, VAT of 20% will apply if you do not have a valid VAT number.</li>
-                    <li>For companies based outside the European Union, no VAT will be charged.</li>
+                  <ul style={{ listStyleType: 'disc' }}>
+                    <li style={{ marginBottom: '8px', listStyleType: 'disc' }}>For companies based in France, VAT of 20% will automatically apply.</li>
+                    <li style={{ marginBottom: '8px', listStyleType: 'disc' }}>For companies based in the European Union, VAT of 20% will apply if you do not have a valid VAT number.</li>
+                    <li style={{ marginBottom: '8px', listStyleType: 'disc' }}>For companies based outside the European Union, no VAT will be charged.</li>
                   </ul>
                 </div>
+
+
+
               </div>
               <div
                 className="form-group toggle-form-box"

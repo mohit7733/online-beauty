@@ -80,10 +80,14 @@ function Supplierpandingmeeting(props) {
       setSlots(mergedSlots);
       // setSdate("");
       setSTime("");
-      setApiDateFormat("");
+      // setApiDateFormat("");
     }
   };
-
+  useEffect(() => {
+    if (slots.length >= 5) {
+      setSdate("");
+    }
+  }, [slots]);
   console.log(slots.length);
 
   useEffect(() => {
