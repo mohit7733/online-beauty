@@ -117,6 +117,8 @@ export default function Favourite(props) {
             <input
               type="text"
               className="form-control"
+              value={searchvalue} // Set the value attribute to searchvalue
+
               placeholder="Type here"
               onChange={(e) => {
                 setsearchvalue(e.target.value);
@@ -143,29 +145,29 @@ export default function Favourite(props) {
           >
             Search
           </button>
-          <button class="btn btn-primary" onClick={() => navigate('/product-view')}>
-            clear all
-          </button>
 
           {
-            favrite?.length == 0 ?
+            favrite?.length != 0 ?
               <button
                 type="button"
                 onClick={() => {
                   favurate_data();
                   setsearchvalue("");
-                  // console.log("sdfsa clicked");
+            }}
+            style={{ marginLeft: "5px" }}
+            className="btn btn-block btn-primary"
+          >
+            Clear all
+          </button>: ""}
 
-                }}
-                style={{ marginLeft: "5px" }}
-                className="btn btn-block btn-primary"
-              >
-                All Clear
-              </button> : ""
 
-          }
+          <button class="btn btn-primary" onClick={() => navigate('/product-view')}>
+            View all product
+          </button>
         </div>
+
       </div>
+
       <ol
         className="favourite_fix sub_category list grid-view-filter"
         id="product"

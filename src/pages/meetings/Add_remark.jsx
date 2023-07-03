@@ -75,12 +75,12 @@ function Add_remark(props) {
             <li>
               <a href="#">My Meetings</a>
             </li>
-            <li>
-              <a onClick={() => props.setsection(21)}>Passed Meetings</a>
+            <li><span>
+              <a onClick={() => props.setsection(21)}>Passed Meetings</a></span>
             </li>
-            <li>
-              <a href="#">Add Remark</a>
-            </li>
+            <li><span><a href="#">Add Remark</a></span></li>
+
+
           </ul>
         </div>
         <div className="remark_wrap row justify-content-between">
