@@ -5,7 +5,11 @@ import axios from "axios";
 import { api } from "../base_url";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { useLocation } from "react-router-dom";
+
 function Add_remark(props) {
+  const location = useLocation();
+  const state = location.state;
   const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -13,7 +17,7 @@ function Add_remark(props) {
     title: "",
     description: "",
   });
-
+  console.log(state);
   const type_user = localStorage.getItem("user_type");
   console.log(type_user);
   useEffect(() => {
@@ -75,12 +79,16 @@ function Add_remark(props) {
             <li>
               <a href="#">My Meetings</a>
             </li>
-            <li><span>
-              <a onClick={() => props.setsection(21)}>Passed Meetings</a></span>
+            <li>
+              <span>
+                <a onClick={() => props.setsection(21)}>Passed Meetings</a>
+              </span>
             </li>
-            <li><span><a href="#">Add Remark</a></span></li>
-
-
+            <li>
+              <span>
+                <a href="#">Add Remark</a>
+              </span>
+            </li>
           </ul>
         </div>
         <div className="remark_wrap row justify-content-between">
