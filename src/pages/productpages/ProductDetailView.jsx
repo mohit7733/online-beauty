@@ -79,7 +79,7 @@ function ProductDetailView(props) {
         console.error(error);
       });
   }, []);
-  console.log(companydetail, compnayProfile);
+  // console.log(companydetail, compnayProfile);
   const getProductDetails = () => {
     var myHeaders = new Headers();
     myHeaders.append(
@@ -277,12 +277,15 @@ function ProductDetailView(props) {
       setSlots(mergedSlots);
       // setSdate("");
       setSTime("");
-      setApiDateFormat("");
+      // setApiDateFormat("");
     }
   };
-
-  console.log(sDate, sTime);
-
+  useEffect(() => {
+    if (slots.length >= 5) {
+      setSdate("");
+    }
+  }, [slots]);
+  // console.log(slots, "set time slots");
   useEffect(() => {
     getProductDetails();
     window.scrollTo(0, 0);

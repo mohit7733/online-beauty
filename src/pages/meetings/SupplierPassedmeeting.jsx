@@ -118,7 +118,11 @@ function Supplierpassedmeeting(props) {
   });
 
   const handleViewRemark = (id) => {
-    navigate(`/add-remark/${id}`);
+    navigate(`/add-remark/${id}`, {
+      state: {
+        usertype: path === "/passed-meeting/buyer" ? "Buyer" : "Supplier",
+      },
+    });
   };
   console.log(data, "this is data");
   return (
@@ -130,7 +134,10 @@ function Supplierpassedmeeting(props) {
               <a href="/dashboard"> Dashboard </a>
             </li>
             <li>
-              <a href="/"> Supplier </a>
+              <a href="/">
+                {" "}
+                {path == "/passed-meeting/buyer" ? "Buyer" : "Supplier"}{" "}
+              </a>
             </li>
             <li>
               <a href="/pending-meeting/supplier">
@@ -286,7 +293,7 @@ function Supplierpassedmeeting(props) {
                                 {
                                   state: {
                                     id: data.id,
-                                    path : path
+                                    path: path,
                                   },
                                 }
                               )
@@ -295,7 +302,7 @@ function Supplierpassedmeeting(props) {
                                 {
                                   state: {
                                     id: meeting?.id,
-                                    path : path , 
+                                    path: path,
                                     buyer_id: meeting?.buyer_id,
                                     time: meeting?.meetingDates,
                                     date: meeting?.meetingTime,
@@ -322,7 +329,11 @@ function Supplierpassedmeeting(props) {
                             onClick={() =>
                               navigate(
                                 `/view-remark/${meeting?.id}/${meeting?.id}`
-                              )
+                                , {
+                                  state: {
+                                    usertype: path === "/passed-meeting/buyer" ? "Buyer" : "Supplier",
+                                  },
+                                })
                             }
                             className="btn22 btn btn-warnings"
                           >

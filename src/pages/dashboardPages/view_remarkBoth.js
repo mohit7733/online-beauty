@@ -3,8 +3,12 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Left_menu2 from "./Left_menu2";
 import axios from "axios";
 import { api } from "../base_url";
+import { useLocation } from 'react-router-dom';
+
 import Left_menu from "../productpages/left_menu";
 function View_remarkBoth() {
+  const location = useLocation();
+  const state = location.state;
   const { id, usertype } = useParams();
   const [sidebar, setsidebar] = useState(true);
   const [formdata, setFormData] = useState({
@@ -17,7 +21,6 @@ function View_remarkBoth() {
   const path = window.location.pathname;
 
   const remarkid = path.substring(path.lastIndexOf("/") + 1);
-
   const handleSubmit = (e) => {
     // e.preventDefault();
     const token = "Bearer " + localStorage.getItem("token");
@@ -55,6 +58,8 @@ function View_remarkBoth() {
     handleSubmit();
   }, []);
   // console.log(formdata)
+  // console.log(state)
+  console.log(state)
   return (
     <>
       <div className="edit_remark Meeting_wrap">
@@ -67,7 +72,7 @@ function View_remarkBoth() {
                   <a href="/dashboard/user-manegment">Dashboard </a>
                 </li>
                 <li>
-                  <a href="#">{usertype == "buyer" ? "Buyer" : "Supplier"}</a>
+                  <a href="#">{state?.usertype == "Supplier" ? "Suplier" : "Buyer"}</a>
                 </li>
                 <li>
                   <a href={`/passed-meeting/${usertype}`}>

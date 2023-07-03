@@ -31,6 +31,7 @@ export default function Left_menu(props) {
     // console.log(openMeeting, props.sidebar);
   }, [openMeeting, openMeeting2]);
   // console.log(props.requeststatus, "meeting status from the props");
+
   useEffect(() => {
     const fetchData = () => {
       axios
@@ -51,7 +52,7 @@ export default function Left_menu(props) {
   }, []);
   const { pathname } = useLocation();
   // const [companyData, setCompanyData] = useState({});
-
+  // console.log(pathname , "this is pathname")
   useEffect(() => {
     const fetchData = () => {
       axios
@@ -337,7 +338,7 @@ export default function Left_menu(props) {
                       style={
                         pathname == "/buyer-favourite-product" &&
                           openMeeting != true
-                          ? { backgroundColor: "#69c6dd" }
+                          ? {}
                           : {}
                       }
                       onClick={() => {
@@ -380,7 +381,7 @@ export default function Left_menu(props) {
                           href="/confirmed-meeting/buyer"
                           style={{ cursor: "pointer" }}
                         >
-                          Confirmed Meetings
+                          Requested Meetings
                         </a>
                       </li>
                       <li className="active" style={{ cursor: "pointer" }}>
@@ -396,7 +397,7 @@ export default function Left_menu(props) {
                     }
                   >
                     <a href="/buyer-favourite-product">
-                    <img src={FavoriteImage} alt="" />Favourite List</a>
+                      <img src={FavoriteImage} alt="" />Favourite List</a>
                   </li>
                   <li className="border">
                     <a href="/contact-us">
@@ -659,7 +660,7 @@ export default function Left_menu(props) {
             Favourite List
           </a> */}
           <a className="dropdown-item" href="/confirmed-meeting/buyer">
-            Confirmed Meetings
+            Requested meetings
           </a>
           <a className="dropdown-item" href="/passed-meeting/buyer">
             Passed Meetings

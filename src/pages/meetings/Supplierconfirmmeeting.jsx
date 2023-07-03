@@ -380,16 +380,16 @@ function Supplierconfirmmeeting(props) {
                         <a
                           href="#"
                           className="btn btn-secondary"
-                          onClick={(event) =>
-                            // handleButtonClick(meeting?.id, event)
-                            {
-                              setalertshow(true);
-                              setAcceptId(meeting?.id);
-                            }
-                          }
+                          // onClick={(event) =>
+                          //   // handleButtonClick(meeting?.id, event)
+                          //   {
+                          //     setalertshow(true);
+                          //     setAcceptId(meeting?.id);
+                          //   }
+                          // }
                         >
                           {meeting?.status === 4
-                            ? "Meeting Done ?"
+                            ? "Meeting accepted"
                             : meeting?.status === 5
                             ? "Completed"
                             : meeting?.status === 1
