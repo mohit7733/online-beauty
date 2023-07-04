@@ -29,13 +29,14 @@
 
 .modal-content {
     background-color: #fff;
+    position: fixed;
     border-radius: 25px;
     color: #000;
     height: auto;
     margin: auto;
     padding: 30px;
     top: 50%;
-    position: absolute;
+    /* position: absolute; */
     transform: translateY(-50%);
     width: 55vw;
 }

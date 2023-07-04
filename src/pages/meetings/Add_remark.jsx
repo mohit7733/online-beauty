@@ -79,14 +79,14 @@ function Add_remark(props) {
             <li>
               <a href="#">My Meetings</a>
             </li>
-            <li>
+            <li >
               <span>
-                <a onClick={() => props.setsection(21)}>Passed Meetings</a>
+                <a className="rd" onClick={() => props.setsection(21)}>Passed Meetings</a>
               </span>
             </li>
             <li>
               <span>
-                <a href="#">Add Remark</a>
+                <a   className="rd" href="#">Add Remark</a>
               </span>
             </li>
           </ul>

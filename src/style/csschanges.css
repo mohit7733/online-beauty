@@ -543,7 +543,7 @@ table td {
 
 .toast_custom_div {
 
-  
+
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
@@ -815,6 +815,16 @@ li.remove_ho:hover a {
   color: #ffff;
 }
 
+.remove-primary:hover {
+  background-color: #e30613 !important;
+  color: #fff !important;
+  cursor: default !important
+}
+.remove-secondary:hover {
+  background-color: #19a0dd;
+  color: #fff;
+  cursor: default !important;
+}
 .hoverRemovebtn-primary:hover {
   background-color: white !important;
   color: #e30613;
