@@ -114,7 +114,7 @@ export default function Favourite(props) {
       <div class="row justify-content-between align-item-center">
         <h2>Favourites List</h2>
         <a onClick={() => navigate('/product-view')}
-          style={{ color: "#E30613" }}>View all product</a>
+          style={{ color: "#E30613", cursor: 'pointer' }}>View all product</a>
       </div>
 
       <div className="add_product_wrap row justify-content-between">
