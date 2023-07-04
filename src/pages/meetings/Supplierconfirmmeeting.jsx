@@ -403,16 +403,22 @@ function Supplierconfirmmeeting(props) {
                               }
                             }
                           >
-                            {meeting?.status === 4
+                            {path === "/requested-meeting/buyer"
+                              ? meeting?.buyer_status === 1
+                                ? "In progress"
+                                : meeting?.buyer_status === 2
+                                ? "Complete"
+                                : meeting?.buyer_status === 3
+                                ? "Refused"
+                                : ""
+                              : meeting?.status === 4
                               ? "Meeting accepted"
                               : meeting?.status === 5
                               ? "Completed"
                               : meeting?.status === 1
                               ? "In Progress"
                               : meeting?.status === 2
-                              ? path === "/requested-meeting/buyer"
-                                ? "complete"
-                                : "Supplier confirm Meeting. Payment Pending"
+                              ? "Supplier confirm Meeting. Payment Pending"
                               : meeting?.status === 3
                               ? "Refused"
                               : ""}

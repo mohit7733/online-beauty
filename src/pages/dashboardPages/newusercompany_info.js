@@ -123,11 +123,11 @@ function Company_informationNew(props) {
   // },[SaveAdd])
 
   const filtercode = timeZone?.filter((item) => {
-    const timeZoneSplit = item?.split('/');
-    const country = timeZoneSplit ? timeZoneSplit[timeZoneSplit.length - 1] : '';
-    console.log(timeZoneSplit, "timezone is split")
+    // const timeZoneSplit = item?.split('/');
+    // const country = timeZoneSplit ? timeZoneSplit[timeZoneSplit.length - 1] : '';
+    // console.log(timeZoneSplit, "timezone is split")
 
-    return country.toLowerCase().includes(cInfo.country.toLowerCase());
+    // return country.toLowerCase().includes(cInfo.country.toLowerCase());
   });
 
 
