@@ -759,7 +759,7 @@ function ProductDetailView(props) {
                         "supplier" ? null : (
                         <>
                           <button
-                            className="hoverRemovebtn-primary btn btn-primary"
+                            className="remove-primary btn btn-primary"
                             onClick={() => {
                               if (companydetail === false) {
                                 // toast.error(

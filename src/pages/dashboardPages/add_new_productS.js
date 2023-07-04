@@ -937,17 +937,22 @@ function Add_product(props) {
                         placeholder="Date Of Creation *"
                         className="form-control"
                         name="Creation"
-                        // value={contact?.Creation !="" ? moment(contact?.Creation).format("DD-MMM-YYYY") :""}
+                        maxLength={8}
                         onChange={(e) => {
+                          const { value } = e.target;
+                          const cleanedValue = value.replace(/\D/g, ''); // Remove non-digit characters
+                          const formattedValue = cleanedValue.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3'); // Format as MM/DD/YYYY
+                          e.target.value = formattedValue;
                           logins_field2(e);
                           setdatemess(true);
                         }}
                         style={
-                          errorfield?.Creation == ""
+                          errorfield?.Creation === ""
                             ? {}
                             : { borderBottom: "1px solid red" }
                         }
                       />
+
                       {errorme == "" ? (
                         ""
                       ) : datemess ? (

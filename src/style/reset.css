@@ -640,6 +640,9 @@ select:invalid {
   color: #E30613;
   padding-right: 5px;
 }
+.rd {
+  color: #E30613 !important;
+}
 
 .breadcrumbs li::after {
   content: '>';

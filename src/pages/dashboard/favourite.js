@@ -110,7 +110,13 @@ export default function Favourite(props) {
           </li>
         </ul>
       </div>
-      <h2>Favourites List</h2>
+
+      <div class="row justify-content-between align-item-center">
+        <h2>Favourites List</h2>
+        <a onClick={() => navigate('/product-view')}
+          style={{ color: "#E30613" }}>View all product</a>
+      </div>
+
       <div className="add_product_wrap row justify-content-between">
         <div className="column">
           <div className="search">
@@ -146,11 +152,11 @@ export default function Favourite(props) {
             Search
           </button>
 
-              <button
-                type="button"
-                onClick={() => {
-                  favurate_data();
-                  setsearchvalue("");
+          <button
+            type="button"
+            onClick={() => {
+              favurate_data();
+              setsearchvalue("");
             }}
             style={{ marginLeft: "5px" }}
             className="btn btn-block btn-primary"
@@ -159,9 +165,6 @@ export default function Favourite(props) {
           </button>
 
 
-          <button class="btn btn-primary" onClick={() => navigate('/product-view')}>
-            View all product
-          </button>
         </div>
 
       </div>

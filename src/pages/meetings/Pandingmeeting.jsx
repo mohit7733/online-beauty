@@ -616,7 +616,7 @@ function Pandingmeeting() {
 										<div className="button-wrapper m-lft">
 											
 											<a
-												className="btn btn-secondary"
+												className="remove-secondary btn btn-secondary"
 												onClick={() => {
 													if (
 														productData?.meeting_status?.status === 1 ||
