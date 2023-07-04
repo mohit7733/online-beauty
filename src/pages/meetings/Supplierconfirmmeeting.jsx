@@ -410,7 +410,9 @@ function Supplierconfirmmeeting(props) {
                               : meeting?.status === 1
                               ? "In Progress"
                               : meeting?.status === 2
-                              ? "Supplier confirm Meeting. Payment Pending"
+                              ? path === "/requested-meeting/buyer"
+                                ? "complete"
+                                : "Supplier confirm Meeting. Payment Pending"
                               : meeting?.status === 3
                               ? "Refused"
                               : ""}
