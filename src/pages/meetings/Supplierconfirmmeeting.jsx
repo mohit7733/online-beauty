@@ -54,6 +54,12 @@ function Supplierconfirmmeeting(props) {
         console.error(error);
       });
   }, [shortby]);
+  useEffect(() => {
+    if (path === "/confirmed-meeting/buyer") {
+      navigate("/requested-meeting/buyer");
+    }
+  }, [path]);
+
   console.log(path, "this is path");
   const searchfilter = () => {
     if (path != "/requested-meeting/buyer") {
