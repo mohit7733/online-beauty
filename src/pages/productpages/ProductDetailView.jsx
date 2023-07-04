@@ -339,17 +339,20 @@ function ProductDetailView(props) {
 						Messageshow
 							? "toast_custom_div open_div_fav"
 							: "toast_custom_div close_div_fav"
-					}>
+					}
+				>
 					<p>
 						<span style={{ paddingRight: "6px" }}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 24 24"
 								width="20"
-								height="20">
+								height="20"
+							>
 								<path
 									d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11.0026 16L18.0737 8.92893L16.6595 7.51472L11.0026 13.1716L8.17421 10.3431L6.75999 11.7574L11.0026 16Z"
-									fill="rgba(28,211,91,1)"></path>
+									fill="rgba(28,211,91,1)"
+								></path>
 							</svg>
 						</span>
 						{Messagetext}
@@ -359,10 +362,12 @@ function ProductDetailView(props) {
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 24 24"
 							width="18"
-							height="18">
+							height="18"
+						>
 							<path
 								d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"
-								fill="rgba(102,102,102,1)"></path>
+								fill="rgba(102,102,102,1)"
+							></path>
 						</svg>
 					</span>
 					<a href="/buyer-favourite-product" className="view_list_btn">
@@ -378,7 +383,8 @@ function ProductDetailView(props) {
 						setsidebar={setsidebar}
 					/>
 					<div
-						className={sidebar == true ? "router-body active" : "router-body "}>
+						className={sidebar == true ? "router-body active" : "router-body "}
+					>
 						<div className="breadcrumbs" data-aos="fade-down">
 							<div className="head">
 								{state?.buyer_list == true ? (
@@ -471,7 +477,8 @@ function ProductDetailView(props) {
 																		}
 																		style={{
 																			height: "500px",
-																		}}></iframe>
+																		}}
+																	></iframe>
 																</figure>
 															</div>
 														);
@@ -518,7 +525,8 @@ function ProductDetailView(props) {
 													return (
 														<div>
 															<figure
-																className={select == index ? "active" : ""}>
+																className={select == index ? "active" : ""}
+															>
 																<img
 																	className="thumbnail"
 																	src={item.file_path}
@@ -550,7 +558,8 @@ function ProductDetailView(props) {
 																	setselect(index);
 																	setmain([item]);
 																	setthumbshow(true);
-																}}>
+																}}
+															>
 																{/* <iframe src={"https://docs.google.com/gview?url=" + item.file_path + "&embedded=true"} ></iframe> */}
 																<img
 																	className="thumbnail"
@@ -586,7 +595,8 @@ function ProductDetailView(props) {
 															setselect(100);
 															setlink(productData.product?.youtube_link);
 															setthumbshow(true);
-														}}>
+														}}
+													>
 														{/* <ReactPlayer url={productData?.product.youtube_link} width={"auto"} height={"300"} /> */}
 														{productData.product?.youtube_link == null ? (
 															""
@@ -613,7 +623,8 @@ function ProductDetailView(props) {
 											onClick={() => {
 												navigate("/product-view/" + url2);
 											}}
-											className="btn_margin thiredbtn2 btn btn-secondary">
+											className="btn_margin thiredbtn2 btn btn-secondary"
+										>
 											{productData.product?.category}
 										</button>
 										{sub_categorries?.map((item) => {
@@ -638,17 +649,19 @@ function ProductDetailView(props) {
 													{productData.product?.price_policy ? (
 														<>
 															<a href="#">
-																<span>(See Price Policy)</span>
+																<span>&nbsp;(See Price Policy)</span>
 															</a>
 															<span
 																className="warniing_icon"
 																onMouseEnter={() => setshowpolicy(true)}
-																onMouseLeave={() => setshowpolicy(false)}>
+																onMouseLeave={() => setshowpolicy(false)}
+															>
 																<svg
 																	xmlns="http://www.w3.org/2000/svg"
 																	viewBox="0 0 24 24"
 																	width="24"
-																	height="24">
+																	height="24"
+																>
 																	<path fill="none" d="M0 0h24v24H0z" />
 																	<path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z" />
 																</svg>
@@ -662,7 +675,8 @@ function ProductDetailView(props) {
 																			: {
 																					display: "none",
 																			  }
-																	}>
+																	}
+																>
 																	<p>{productData.product?.price_policy}</p>
 																</div>
 															</span>
@@ -723,9 +737,10 @@ function ProductDetailView(props) {
 											<a
 												// href="#"
 												onClick={() => addtofavvrate()}
-												className="hoverRemovebtn btn btn-secondary"
+												className="btn btn-secondary"
 												onMouseEnter={() => seticonChange(true)}
-												onMouseLeave={() => seticonChange(false)}>
+												onMouseLeave={() => seticonChange(false)}
+											>
 												<span>
 													{iconChange == true ? (
 														<img src={favouriteicon2} alt="" />
@@ -743,7 +758,7 @@ function ProductDetailView(props) {
 												"supplier" ? null : (
 												<>
 													<button
-														className="hoverRemovebtn-primary btn btn-primary"
+														className="btn btn-primary"
 														onClick={() => {
 															if (companydetail === false) {
 																// toast.error(
@@ -783,7 +798,8 @@ function ProductDetailView(props) {
 															}
 														}}
 														onMouseEnter={() => seticonChange2(true)}
-														onMouseLeave={() => seticonChange2(false)}>
+														onMouseLeave={() => seticonChange2(false)}
+													>
 														{/* <span>
                               {iconChange2 ? (
                                 <img src={meetingicon2} alt="" />
@@ -831,7 +847,8 @@ function ProductDetailView(props) {
 																					width="22"
 																					height="21"
 																					viewBox="0 0 22 21"
-																					fill="none">
+																					fill="none"
+																				>
 																					<path
 																						d="M15.9991 1.00036H18.6691C19.235 0.990352 19.785 1.1885 20.2145 1.55718C20.644 1.92586 20.9232 2.43942 20.9991 3.00036V10.0004C20.9232 10.5613 20.644 11.0749 20.2145 11.4435C19.785 11.8122 19.235 12.0104 18.6691 12.0004H15.9991M8.99905 14.0004V18.0004C8.99905 18.796 9.31512 19.5591 9.87773 20.1217C10.4403 20.6843 11.2034 21.0004 11.9991 21.0004L15.9991 12.0004V1.00036H4.71905C4.23673 0.994909 3.76868 1.16396 3.40115 1.47636C3.03362 1.78875 2.79138 2.22346 2.71905 2.70036L1.33905 11.7004C1.29555 11.987 1.31488 12.2797 1.39571 12.5581C1.47655 12.8365 1.61695 13.0941 1.8072 13.3128C1.99744 13.5316 2.23297 13.7064 2.49748 13.8251C2.76199 13.9439 3.04915 14.0036 3.33905 14.0004H8.99905Z"
 																						stroke="white"
@@ -853,7 +870,8 @@ function ProductDetailView(props) {
 																					height="26"
 																					viewBox="0 0 24 26"
 																					fill="none"
-																					xmlns="http://www.w3.org/2000/svg">
+																					xmlns="http://www.w3.org/2000/svg"
+																				>
 																					<path
 																						d="M12 14.7923C12.5523 14.7923 13 14.3433 13 13.7893C13 13.2354 12.5523 12.7864 12 12.7864C11.4477 12.7864 11 13.2354 11 13.7893C11 14.3433 11.4477 14.7923 12 14.7923Z"
 																						stroke="white"
@@ -895,7 +913,8 @@ function ProductDetailView(props) {
 																					width="18"
 																					height="13"
 																					viewBox="0 0 18 13"
-																					fill="none">
+																					fill="none"
+																				>
 																					<path
 																						d="M17 1L6 12L1 7"
 																						stroke="white"
@@ -917,7 +936,8 @@ function ProductDetailView(props) {
 																					width="18"
 																					height="13"
 																					viewBox="0 0 18 13"
-																					fill="none">
+																					fill="none"
+																				>
 																					<path
 																						d="M17 1L6 12L1 7"
 																						stroke="white"
@@ -958,7 +978,8 @@ function ProductDetailView(props) {
 											: productData?.requeststatus == 1
 											? { display: "contents" }
 											: {}
-									}>
+									}
+								>
 									<div className="profile-list profile-brand">
 										<h2>Profile</h2>
 										<div className="row justify-content-between">
@@ -1023,7 +1044,8 @@ function ProductDetailView(props) {
 										{productData?.requeststatus === null ? (
 											<button
 												className="btn btn-secondary"
-												onClick={() => requestAdmin(productData?.product.id)}>
+												onClick={() => requestAdmin(productData?.product.id)}
+											>
 												Request to Admin
 											</button>
 										) : (
@@ -1032,7 +1054,8 @@ function ProductDetailView(props) {
 													cursor: "default ! important",
 												}}
 												className="hoverRemovebtn3 btn "
-												disabled={true}>
+												disabled={true}
+											>
 												Request in Process
 											</button>
 										)}
@@ -1051,18 +1074,21 @@ function ProductDetailView(props) {
 			<Modal
 				title="Request a meeting?"
 				modalState={modalState}
-				setModalState={setModalState}>
+				setModalState={setModalState}
+			>
 				<span
 					className="close_modal"
 					onClick={() => {
 						setSlots([]);
 						setModalState(false);
-					}}>
+					}}
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 24 24"
 						width="24"
-						height="24">
+						height="24"
+					>
 						<path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 10.5858L14.8284 7.75736L16.2426 9.17157L13.4142 12L16.2426 14.8284L14.8284 16.2426L12 13.4142L9.17157 16.2426L7.75736 14.8284L10.5858 12L7.75736 9.17157L9.17157 7.75736L12 10.5858Z"></path>
 					</svg>{" "}
 				</span>
@@ -1080,13 +1106,15 @@ function ProductDetailView(props) {
 								{item.sDate + " - " + item.sTime}
 								<span
 									style={{ marginLeft: "10px" }}
-									onClick={() => removeSlot(item)}>
+									onClick={() => removeSlot(item)}
+								>
 									{/* <button className=""> */}
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 24 24"
 										width="24"
-										height="24">
+										height="24"
+									>
 										<path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 10.5858L14.8284 7.75736L16.2426 9.17157L13.4142 12L16.2426 14.8284L14.8284 16.2426L12 13.4142L9.17157 16.2426L7.75736 14.8284L10.5858 12L7.75736 9.17157L9.17157 7.75736L12 10.5858Z"></path>
 									</svg>{" "}
 									{/* </button> */}
@@ -1104,7 +1132,8 @@ function ProductDetailView(props) {
 									className="btn_confirm btn btn-primary"
 									style={{
 										filter: slots.length >= 5 ? "grayscale(100%)" : "none",
-									}}>
+									}}
+								>
 									Confirm ?
 								</button>
 							) : null}
@@ -1116,7 +1145,8 @@ function ProductDetailView(props) {
 						display: "flex",
 						justifyContent: "space-between",
 						alignItems: "center",
-					}}>
+					}}
+				>
 					<div>
 						{dateError && <span className="errorMessage">{dateError}</span>}
 					</div>
@@ -1128,7 +1158,8 @@ function ProductDetailView(props) {
 								productData.product?.id,
 								productData.product?.supplier_id
 							)
-						}>
+						}
+					>
 						Request Appointment
 						{/* {sDate !== "" ? "on " + sDate + " at " + sTime : null} */}
 					</button>

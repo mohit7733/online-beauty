@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import moment from "moment-timezone";
-import { country } from "../../pages/dashboard/country";
 import { api } from "../base_url";
+
 function Supplierpassedmeeting(props) {
+	const { usertype } = useParams();
 	const [accept, setaccept] = useState(false);
 	const [meetingData, setMeetingData] = useState([]);
 	const [meetingData2, setmeetingData2] = useState([]);
@@ -118,9 +117,8 @@ function Supplierpassedmeeting(props) {
 	});
 
 	const handleViewRemark = (id) => {
-		navigate(`/add-remark/${id}`, {
+		navigate(`/add-remark/${id}/${usertype}`, {
 			state: {
-				usertype: path === "/passed-meeting/buyer" ? "Buyer" : "Supplier",
 				path: path,
 			},
 		});
@@ -332,14 +330,10 @@ function Supplierpassedmeeting(props) {
 													<a
 														onClick={() =>
 															navigate(
-																`/view-remark/${meeting?.id}/${meeting?.id}`,
+																`/view-remark/${meeting?.id}/${usertype}`,
 																{
 																	state: {
 																		path: path,
-																		usertype:
-																			path === "/passed-meeting/buyer"
-																				? "Buyer"
-																				: "Supplier",
 																	},
 																}
 															)

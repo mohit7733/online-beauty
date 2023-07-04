@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from "react";import { useLocation, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";import { useParams } from "react-router-dom";
 import axios from "axios";
 import { api } from "../base_url";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 function Add_remark(props) {
-	const { id } = useParams();
+	const { id, usertype } = useParams();
 	const navigate = useNavigate();
-	const { state } = useLocation();
 	const [formData, setFormData] = useState({
 		id,
 		title: "",
 		description: "",
 	});
 
-	const type_user = localStorage.getItem("user_type");
-	console.log(type_user);
 	useEffect(() => {
-		const path = window.location.pathname;
-		const id = path.substring(path.lastIndexOf("/") + 1);
+		// const path = window.location.pathname;
+		// const id = path.substring(path.lastIndexOf("/") + 1);
 		setFormData((prevFormData) => ({ ...prevFormData, id }));
 	}, []);
 
@@ -34,7 +32,7 @@ function Add_remark(props) {
 		const apiUrl =
 			api +
 			"/api/v1/" +
-			(type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
+			(usertype == "buyer" ? "buyer-add-remark" : "supplier-add-remark");
 
 		const requestData = new FormData();
 		requestData.append("id", formData.id);
@@ -52,9 +50,7 @@ function Add_remark(props) {
 				toast.success("Remark Added Successfully");
 				console.log(response.data);
 				setTimeout(() => {
-					navigate(
-						"/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier")
-					);
+					navigate("/passed-meeting/" + usertype);
 				}, 3000);
 			})
 			.catch((error) => {
@@ -72,15 +68,20 @@ function Add_remark(props) {
 							<a href="/dashboard">Dashboard</a>
 						</li>
 						<li>
-							<a href={state?.path}>{state?.usertype}</a>
+							<a
+								href={`/passed-meeting/${usertype}`}
+								style={{ textTransform: "capitalize" }}
+							>
+								{usertype}
+							</a>
 						</li>
 						<li>
-							<a href={state?.path}>
+							<a href={`/passed-meeting/${usertype}`}>
 								<span>My Meetings</span>
 							</a>
 						</li>
 						<li>
-							<a href={state.path}>
+							<a href={`/passed-meeting/${usertype}`}>
 								<span>Passed Meetings</span>
 							</a>
 						</li>
@@ -129,10 +130,9 @@ function Add_remark(props) {
 
 						<a
 							id="cancel"
-							href=""
 							className="btn btn-primary"
 							onClick={() => {
-								navigate("/passed-meeting/supplier");
+								navigate(`/passed-meeting/${usertype}`);
 							}}
 						>
 							Cancel

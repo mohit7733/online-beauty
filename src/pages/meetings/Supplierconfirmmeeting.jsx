@@ -166,7 +166,7 @@ function Supplierconfirmmeeting(props) {
 							alt="warning"
 						/>
 						<br />
-						<p> Is the meeting done?</p>
+						<p> Is meeting done?</p>
 
 						<div>
 							<button
@@ -386,7 +386,7 @@ function Supplierconfirmmeeting(props) {
 													}
 												>
 													{meeting?.status === 4
-														? "Meeting Done ?"
+														? "Meeting Done"
 														: meeting?.status === 5
 														? "Completed"
 														: meeting?.status === 1

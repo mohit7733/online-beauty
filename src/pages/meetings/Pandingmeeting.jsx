@@ -620,7 +620,10 @@ function Pandingmeeting() {
 									<h2>Company Profile</h2>
 									<p>{productData?.company?.company_dec}</p>
 									{hideButtons !== true ? (
-										<div className="button-wrapper m-lft">
+										<div
+											className="button-wrapper m-lft"
+											style={{ marginTop: "55px" }}
+										>
 											{(productData?.meeting_status?.status === 1 ||
 												productData?.meeting_status?.status === 2) && (
 												<a
@@ -635,7 +638,7 @@ function Pandingmeeting() {
 												</a>
 											)}
 											<a
-												className="btn btn-secondary"
+												className="btn btn-secondary noHover"
 												onClick={() => {
 													if (
 														productData?.meeting_status?.status === 1 ||
