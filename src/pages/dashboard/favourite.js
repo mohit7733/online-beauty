@@ -160,32 +160,12 @@ export default function Favourite(props) {
             style={{ marginLeft: "5px" }}
             className="btn btn-block btn-primary"
           >
-            Clear all
+            Clear All
           </button>
 
-					{favrite?.length != 0 ? (
-						<button
-							type="button"
-							onClick={() => {
-								favurate_data();
-								setsearchvalue("");
-							}}
-							style={{ marginLeft: "5px" }}
-							className="btn btn-block btn-primary"
-						>
-							Clear All
-						</button>
-					) : (
-						""
-					)}
 
-					<button
-						class="btn btn-primary"
-						onClick={() => navigate("/product-view")}
-						style={{ marginLeft: "5px" }}
-					>
-						View all product
-					</button>
+
+					
 				</div>
 			</div>
 
