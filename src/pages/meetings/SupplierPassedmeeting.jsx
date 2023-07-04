@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import moment from "moment-timezone";
+import { country } from "../../pages/dashboard/country";
 import { api } from "../base_url";
-
 function Supplierpassedmeeting(props) {
-	const { usertype } = useParams();
 	const [accept, setaccept] = useState(false);
 	const [meetingData, setMeetingData] = useState([]);
 	const [meetingData2, setmeetingData2] = useState([]);
@@ -118,8 +117,9 @@ function Supplierpassedmeeting(props) {
 	});
 
 	const handleViewRemark = (id) => {
-		navigate(`/add-remark/${id}/${usertype}`, {
+		navigate(`/add-remark/${id}`, {
 			state: {
+				usertype: path === "/passed-meeting/buyer" ? "Buyer" : "Supplier",
 				path: path,
 			},
 		});
@@ -134,7 +134,7 @@ function Supplierpassedmeeting(props) {
 							<a href="/dashboard"> Dashboard </a>
 						</li>
 						<li>
-							<a href={path}>
+							<a href="/">
 								{path == "/passed-meeting/buyer" ? "Buyer" : "Supplier"}
 							</a>
 						</li>
@@ -331,10 +331,14 @@ function Supplierpassedmeeting(props) {
 													<a
 														onClick={() =>
 															navigate(
-																`/view-remark/${meeting?.id}/${usertype}`,
+																`/view-remark/${meeting?.id}/${meeting?.id}`,
 																{
 																	state: {
 																		path: path,
+																		usertype:
+																			path === "/passed-meeting/buyer"
+																				? "Buyer"
+																				: "Supplier",
 																	},
 																}
 															)
@@ -354,7 +358,9 @@ function Supplierpassedmeeting(props) {
 											) : (
 												<a
 													onClick={() =>
-														navigate(`/view-remark/${meeting?.id}/${usertype}`)
+														navigate(
+															`/view-remark/${meeting?.id}/${meeting?.id}`
+														)
 													}
 													className="btn22 btn btn-warnings"
 												>

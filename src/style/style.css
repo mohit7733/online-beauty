@@ -16,10 +16,6 @@
   border-color: #D9D9D9;
 }
 
-.noHover:hover {
-  background-color: #19A0DD !important;
-}
-
 .payment_form_wrap .row .column {
   width: 49% !important;
 }
