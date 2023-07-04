@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { api } from "../base_url";
 
@@ -353,9 +354,7 @@ function Supplierpassedmeeting(props) {
 											) : (
 												<a
 													onClick={() =>
-														navigate(
-															`/view-remark/${meeting?.id}/${meeting?.id}`
-														)
+														navigate(`/view-remark/${meeting?.id}/${usertype}`)
 													}
 													className="btn22 btn btn-warnings"
 												>

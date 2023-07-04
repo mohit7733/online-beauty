@@ -163,6 +163,7 @@ export default function Favourite(props) {
 					<button
 						class="btn btn-primary"
 						onClick={() => navigate("/product-view")}
+						style={{ marginLeft: "5px" }}
 					>
 						View all product
 					</button>
