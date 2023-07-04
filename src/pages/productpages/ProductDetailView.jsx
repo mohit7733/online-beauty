@@ -281,7 +281,7 @@ function ProductDetailView(props) {
       setSlots(mergedSlots);
       // setSdate("");
       setSTime("");
-      setApiDateFormat("");
+      // setApiDateFormat("");
     }
   };
 

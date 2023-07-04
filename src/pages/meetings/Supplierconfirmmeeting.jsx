@@ -54,6 +54,12 @@ function Supplierconfirmmeeting(props) {
         console.error(error);
       });
   }, [shortby]);
+  useEffect(() => {
+    if (path === "/confirmed-meeting/buyer") {
+      navigate("/requested-meeting/buyer");
+    }
+  }, [path]);
+
   console.log(path, "this is path");
   const searchfilter = () => {
     if (path != "/requested-meeting/buyer") {
@@ -410,7 +416,7 @@ function Supplierconfirmmeeting(props) {
                                 ? "Complete"
                                 : meeting?.buyer_status === 3
                                 ? "Refused"
-                                : ""
+                                : "Meeting accepted"
                               : meeting?.status === 4
                               ? "Meeting accepted"
                               : meeting?.status === 5

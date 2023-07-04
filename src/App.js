@@ -152,7 +152,7 @@ function App() {
 						element={<Private_route element={<Pandingmeeting />} />}
 					/>
 					<Route
-						path="/buyer-profile/pending-meeting/:id"
+						path="/buyer-profile/:meetingType/:id"
 						element={<Pandingmeeting />}
 					/>
 					<Route path="/panding-accept" element={<AcceptMeeting />} />
