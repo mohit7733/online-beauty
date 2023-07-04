@@ -410,7 +410,7 @@ function Supplierconfirmmeeting(props) {
                                 ? "Complete"
                                 : meeting?.buyer_status === 3
                                 ? "Refused"
-                                : ""
+                                : "Meeting accepted"
                               : meeting?.status === 4
                               ? "Meeting accepted"
                               : meeting?.status === 5
