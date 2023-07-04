@@ -301,7 +301,7 @@ function Supplierpassedmeeting(props) {
 																}
 														  )
 														: navigate(
-																`/buyer-profile/pending-meeting/${meeting?.buyer_id}`,
+																`/buyer-profile/passed-meeting/${meeting?.buyer_id}`,
 																{
 																	state: {
 																		id: meeting?.id,

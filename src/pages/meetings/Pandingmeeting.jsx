@@ -609,7 +609,7 @@ function Pandingmeeting() {
 									<div className="button">
 										{buyersector?.map((item) => {
 											return (
-												<button className=" btn_margin thiredbtn thiredbtn2 btn btn-secondar">
+												<button className=" btn_margin thiredbtn thiredbtn2 btn btn-secondary">
 													{item}
 												</button>
 											);
