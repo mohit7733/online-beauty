@@ -257,7 +257,10 @@ function App() {
 					<Route
 						path="/add-remark/:id/:usertype"
 						element={<Add_remarkBoth />}
-					/>					{/* <Route path='/forgot-password' element={<Forgot_password />} /> */}
+
+					/>			
+		{/* <Route path='/forgot-password' element={<Forgot_password />} /> */}
+
 					<Route
 						path="/view-remark/:id/:usertype"
 						element={<View_remarkBoth />}

@@ -655,7 +655,7 @@ function ProductDetailView(props) {
                           {productData.product?.price_policy ? (
                             <>
                               <a href="#">
-                                <span>(See Price Policy)</span>
+                                <span>&nbsp;(See Price Policy)</span>
                               </a>
                               <span
                                 className="warniing_icon"
