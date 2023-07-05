@@ -19,12 +19,12 @@ function Add_remark(props) {
 		setFormData((prevFormData) => ({ ...prevFormData, id }));
 	}, []);
 
-	const handleInputChange = (e) => {
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[e.target.name]: e.target.value,
-		}));
-	};
+  const handleInputChange = (e) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -34,10 +34,10 @@ function Add_remark(props) {
 			"/api/v1/" +
 			(usertype == "buyer" ? "buyer-add-remark" : "supplier-add-remark");
 
-		const requestData = new FormData();
-		requestData.append("id", formData.id);
-		requestData.append("title", formData.title);
-		requestData.append("description", formData.description);
+    const requestData = new FormData();
+    requestData.append("id", formData.id);
+    requestData.append("title", formData.title);
+    requestData.append("description", formData.description);
 
 		axios
 			.post(apiUrl, requestData, {

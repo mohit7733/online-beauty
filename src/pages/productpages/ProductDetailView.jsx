@@ -285,6 +285,11 @@ function ProductDetailView(props) {
     }
   };
 
+    useEffect(() =>{
+      if(slots.length >= 5) {
+        setSdate("")
+      }
+    } , [slots])
   console.log(sDate, sTime);
 
   useEffect(() => {
@@ -646,7 +651,7 @@ function ProductDetailView(props) {
                     {productData.product?.price_range ? (
                       <li className="before_meeting_li">
                         <h5>
-                          Price Range: : {productData.product?.price_range}
+                          Price Range: : {productData.product?.price_range}{" "}
                           {productData.product?.price_policy ? (
                             <>
                               <a href="#">

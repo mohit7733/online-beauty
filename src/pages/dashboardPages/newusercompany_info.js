@@ -59,6 +59,8 @@ function Company_informationNew(props) {
   const [successMsg, setSuccessMsg] = useState("");
   const [sidebar, setsidebar] = useState(false);
   const [styleapply, setstyle] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
   const [finalCheckTimeZone, setFinalCheckTimeZone] = useState();
   const check_data = [
     { name: "company_name" },
@@ -541,37 +543,45 @@ function Company_informationNew(props) {
                   <div className="left">
                     <label>
                       TimeZone <span style={{ color: "red" }}>*</span>
+
+
                     </label>
                   </div>
                   <div className="right">
                     <div className="form-group">
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                        placeholder="Search timezone..."
+                      />
                       <select
-                        className={
-                          editcompany ? "form-control" : "form-control disabled"
-                        }
+                        className={editcompany ? 'form-control' : 'form-control disabled'}
                         name="country"
                         value={cInfo?.timezone}
                         disabled={!editcompany}
                         onChange={onch}
                         required
                         style={
-                          selectedTimeZone === "" &&
-                            finalCheckTimeZone === false
-                            ? { borderBottom: "1px solid red" }
+                          selectedTimeZone === '' && finalCheckTimeZone === false
+                            ? { borderBottom: '1px solid red' }
                             : {}
                         }
                       >
-                        <option value="" disabled selected>
-                          Select timezone *
-                        </option>
-                        {timeZone.map((zone, index) => (
-                          <option key={index} value={zone}>
-                            {zone}
-                          </option>
-                        ))}
+
+                        {timeZone
+                          .filter(zone => zone.toLowerCase().includes(searchTerm.toLowerCase()))
+                          .map((zone, index) => (
+                            <option key={index} value={zone}>
+                              {zone}
+                            </option>
+                          ))}
                       </select>
                     </div>
                   </div>
+
+
+
                 </div>
 
                 <div className="form-row align-items-start">
