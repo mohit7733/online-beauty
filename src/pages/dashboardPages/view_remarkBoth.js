@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { api } from "../base_url";
-import { useLocation } from "react-router-dom";
 
 import Left_menu from "../productpages/left_menu";
 function View_remarkBoth() {
-	const location = useLocation();
-	const state = location.state;
 	const { id, usertype } = useParams();
 	const [sidebar, setsidebar] = useState(true);
 	const [formdata, setFormData] = useState({
@@ -62,9 +59,7 @@ function View_remarkBoth() {
 	useEffect(() => {
 		handleSubmit();
 	}, []);
-	// console.log(formdata)
-	// console.log(state)
-	console.log(state);
+
 	return (
 		<>
 			<div className="edit_remark Meeting_wrap">
@@ -77,17 +72,17 @@ function View_remarkBoth() {
 									<a href="/dashboard/user-manegment">Dashboard </a>
 								</li>
 								<li>
-									<a href="#">
-										{state?.usertype == "Supplier" ? "Suplier" : "Buyer"}
+									<a href={`/passed-meeting/${usertype}`}>
+										{usertype == "supplier" ? "Suplier" : "Buyer"}
 									</a>
 								</li>
 								<li>
-									<a href={state?.path}>
+									<a href={`/passed-meeting/${usertype}`}>
 										<span> My Meetings </span>
 									</a>
 								</li>
 								<li>
-									<a href={`/passed-meeting/${state?.usertype?.toLowerCase()}`}>
+									<a href={`/passed-meeting/${usertype}`}>
 										<span> Passed Meetings </span>
 									</a>
 								</li>
@@ -103,13 +98,15 @@ function View_remarkBoth() {
 								<h2>View Remark</h2>
 							</div>
 							<div className="column">
-								<p
+								<a
 									id="edit"
-									onClick={() => navigate("/edit-remark/2/" + usertype)}
+									onClick={() =>
+										navigate("/edit-remark/" + id + "/" + usertype)
+									}
 									style={{ cursor: "pointer" }}
 								>
 									Edit Remark <img src="images/edit (1).svg" alt="" />
-								</p>
+								</a>
 							</div>
 						</div>
 						<form action="">
@@ -134,7 +131,7 @@ function View_remarkBoth() {
 								<a
 									id="back"
 									className="btn btn-secondary"
-									onClick={() => navigate(state?.path)}
+									onClick={() => navigate(`/passed-meeting/${usertype}`)}
 								>
 									Back
 								</a>
