@@ -70,8 +70,11 @@ function Billing() {
               <thead>
                 <tr>
                   <th>S.No.</th>
-                  <th>Package</th>
-                  <th>Price</th>
+                  <th>Payment Date</th>
+                  <th>Invoice Number</th>
+
+                  {/* <th>Package</th> */}
+                  <th>Package Price</th>
                   <th>Package Details</th>
                   <th>Product Name</th>
                   <th>Invoice</th>
@@ -84,15 +87,16 @@ function Billing() {
                   <>
                     {billingdata?.map((item, index) => {
                       console.log(JSON.parse(item?.billing_details));
-                      console.log(item , "this is item")
+                      console.log(item, "this is item")
                       return (
                         <tr key={index}>
                           <td>
                             <span>{index + 1}.</span>
                           </td>
-                          <td>{item?.title}</td>
+                          <td>{item?.date}</td>
+                          <td>{item?.invoice_number}</td>
                           <td>€{item?.amount}</td>
-                          <td>{item?.subtitle}</td>
+                          <td>{item?.title}</td>
                           <td>{item.productName?.product_name ?? ""}</td>
                           <td>
                             <img

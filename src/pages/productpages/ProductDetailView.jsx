@@ -285,6 +285,11 @@ function ProductDetailView(props) {
     }
   };
 
+    useEffect(() =>{
+      if(slots.length >= 5) {
+        setSdate("")
+      }
+    } , [slots])
   console.log(sDate, sTime);
 
   useEffect(() => {
