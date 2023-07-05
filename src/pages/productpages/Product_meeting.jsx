@@ -289,7 +289,7 @@ function Productbuyer2() {
                               <h5>
                                 Price Range: : € 10.000{" "}
                                 <a href="">
-                                  <span>(See Price Policy)</span>
+                                  <span>&nbsp;(See Price Policy)</span>
                                 </a>
                               </h5>
                             </li>

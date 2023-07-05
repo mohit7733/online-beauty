@@ -126,7 +126,7 @@ function BuyerMeeting() {
                     </li>
                     <li>
                       <h5>
-                        Price Range: : € 10.000 <span>(See Price Policy)</span>
+                        Price Range: : € 10.000 <span>&nbsp;(See Price Policy)</span>
                       </h5>
                     </li>
                     <li>

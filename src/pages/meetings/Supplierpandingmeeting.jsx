@@ -300,7 +300,7 @@ function Supplierpandingmeeting(props) {
 							<a href="/dashboard"> Dashboard </a>
 						</li>
 						<li>
-							<a href="#"> Supplier </a>
+							<a href="/pending-meeting/supplier"> Supplier </a>
 						</li>
 						<li>
 							<a href="/pending-meeting/supplier">
