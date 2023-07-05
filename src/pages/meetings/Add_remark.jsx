@@ -6,7 +6,7 @@ import { api } from "../base_url";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 // import { useLocation } from "react-router-dom";
-
+// Add remark
 function Add_remark(props) {
   const location = useLocation();
 	const { id } = useParams();
