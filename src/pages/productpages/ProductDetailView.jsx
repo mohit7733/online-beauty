@@ -281,7 +281,7 @@ function ProductDetailView(props) {
       setSlots(mergedSlots);
       // setSdate("");
       setSTime("");
-      setApiDateFormat("");
+      // setApiDateFormat("");
     }
   };
 
@@ -650,7 +650,7 @@ function ProductDetailView(props) {
                           {productData.product?.price_policy ? (
                             <>
                               <a href="#">
-                                <span>&nbsp;(See Price Policy)</span>
+                                <span>(See Price Policy)</span>
                               </a>
                               <span
                                 className="warniing_icon"

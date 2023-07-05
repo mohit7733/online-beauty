@@ -6651,6 +6651,7 @@ iframe {
 .dropdown2 {
   -webkit-transform: translateY(-6.5px);
   transform: translateY(-3px);
+  transform: translateY(-6.5px);
 }
 
 .about .inner .inner-text ul li,
@@ -7121,12 +7122,15 @@ table thead tr td input {
   display: flex;
   padding: 40px 0 55px;
 }
+
 .favorite_wrapper .main .add_product_wrap .column {
   width: 100% !important;
 }
+
 .favorite_wrapper .main .add_product_wrap .column .btn-primary {
   margin-left: 20px;
 }
+
 .product_showcase .main .column .row.align-item-center img {
   padding-right: 10px;
   margin: 0 0 0 3px;
@@ -7576,15 +7580,16 @@ table tr td .fa-pen-to-square {
   margin: 0px -18px;
 }
 
-.client-section .grid-col h5,  .buyers_wrapper .grid-col h5{
-  text-align: center;
- font-size: 22px;
- font-weight: 600;
-padding: 32px 30px;
-}
-
 .client-section .grid-5 .grid-col {
   padding: 0px 16px;
+}
+
+.client-section .grid-col h5,
+.buyers_wrapper .grid-col h5 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  padding: 32px 30px;
 }
 
 .video-section .column .img h6:hover {
@@ -8632,6 +8637,7 @@ footer span {
   padding: 10px 0 40px;
   justify-content: center;
 }
+
 center p {
   padding-top: 50px;
 }
@@ -8788,9 +8794,11 @@ a.error_icon i {
   transition: all 0.5s ease-in-out;
   padding: 36px 0;
 }
+
 .buyers_wrapper .grid-col h5 {
   text-align: center;
 }
+
 .buyers_wrapper .pagination {
   padding: 0 0 56px;
 }
@@ -10044,6 +10052,7 @@ iframe {
 .product_supplier .col_text .button-wrapper {
   display: flex;
 }
+
 .button-wrapper.m-lft {
   justify-content: flex-start;
   margin-top: 50px;
