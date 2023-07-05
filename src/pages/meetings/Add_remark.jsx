@@ -81,16 +81,17 @@ function Add_remark(props) {
             </li>
             <li>
               <span>
-              <a
-  className="rd"
-  href={`/passed-meeting/${type_user === 'Both' ? 'supplier' : type_user}`}
-  onClick={() => {
-    props.setsection(21);
-  }}
->
-  Passed Meetings
-</a>
-
+                <a
+                  className="rd"
+                  href={`/passed-meeting/${
+                    type_user === "Both" ? "supplier" : type_user
+                  }`}
+                  onClick={() => {
+                    props.setsection(21);
+                  }}
+                >
+                  Passed Meetings
+                </a>
               </span>
             </li>
             <li>
