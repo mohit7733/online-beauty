@@ -765,6 +765,23 @@ export const CheckoutForm2 = (props) => {
                   disabled={true}
                 />
               </div>
+              <div>
+                <label style={{ fontSize: '1.2em', marginBottom: '10px' }}>
+                  <input
+                    type="checkbox"
+                    required
+                    style={{ transform: 'scale(1.5)' }}
+                  />
+                  {" "}I agree to general <span style={{ color: 'red' }}>terms and conditions</span>
+                </label>
+              </div>
+              <br></br>
+
+
+
+
+
+
 
               <div className="button row justify-content-center">
                 <button

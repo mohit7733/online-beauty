@@ -9,64 +9,64 @@ import { toast, ToastContainer } from "react-toastify";
 
 function Add_remark(props) {
   const location = useLocation();
-	const { id } = useParams();
-	const navigate = useNavigate();
-	const { state } = useLocation();
-	const [formData, setFormData] = useState({
-		id,
-		title: "",
-		description: "",
-	});
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const [formData, setFormData] = useState({
+    id,
+    title: "",
+    description: "",
+  });
   console.log(state);
-	const type_user = localStorage.getItem("user_type");
-	console.log(type_user);
-	useEffect(() => {
-		const path = window.location.pathname;
-		const id = path.substring(path.lastIndexOf("/") + 1);
-		setFormData((prevFormData) => ({ ...prevFormData, id }));
-	}, []);
+  const type_user = localStorage.getItem("user_type");
+  console.log(type_user);
+  useEffect(() => {
+    const path = window.location.pathname;
+    const id = path.substring(path.lastIndexOf("/") + 1);
+    setFormData((prevFormData) => ({ ...prevFormData, id }));
+  }, []);
 
-	const handleInputChange = (e) => {
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[e.target.name]: e.target.value,
-		}));
-	};
+  const handleInputChange = (e) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		const token = "Bearer " + localStorage.getItem("token");
-		const apiUrl =
-			api +
-			"/api/v1/" +
-			(type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const token = "Bearer " + localStorage.getItem("token");
+    const apiUrl =
+      api +
+      "/api/v1/" +
+      (type_user == "Buyer" ? "buyer-add-remark" : "supplier-add-remark");
 
-		const requestData = new FormData();
-		requestData.append("id", formData.id);
-		requestData.append("title", formData.title);
-		requestData.append("description", formData.description);
+    const requestData = new FormData();
+    requestData.append("id", formData.id);
+    requestData.append("title", formData.title);
+    requestData.append("description", formData.description);
 
-		axios
-			.post(apiUrl, requestData, {
-				headers: {
-					Authorization: token,
-					"Content-Type": "multipart/form-data",
-				},
-			})
-			.then((response) => {
-				toast.success("Remark Added Successfully");
-				console.log(response.data);
-				setTimeout(() => {
-					navigate(
-						"/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier")
-					);
-				}, 3000);
-			})
-			.catch((error) => {
-				toast.error("Something Went Wrong !");
-				console.error(error);
-			});
-	};
+    axios
+      .post(apiUrl, requestData, {
+        headers: {
+          Authorization: token,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        toast.success("Remark Added Successfully");
+        console.log(response.data);
+        setTimeout(() => {
+          navigate(
+            "/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier")
+          );
+        }, 3000);
+      })
+      .catch((error) => {
+        toast.error("Something Went Wrong !");
+        console.error(error);
+      });
+  };
 
   return (
     <>
@@ -79,14 +79,25 @@ function Add_remark(props) {
             <li>
               <a href="#">My Meetings</a>
             </li>
-            <li >
+            <li>
               <span>
-                <a className="rd" onClick={() => props.setsection(21)}>Passed Meetings</a>
+              <a
+  className="rd"
+  href={`/passed-meeting/${type_user === 'Both' ? 'supplier' : type_user}`}
+  onClick={() => {
+    props.setsection(21);
+  }}
+>
+  Passed Meetings
+</a>
+
               </span>
             </li>
             <li>
               <span>
-                <a   className="rd" href="#">Add Remark</a>
+                <a className="rd" href="#">
+                  Add Remark
+                </a>
               </span>
             </li>
           </ul>

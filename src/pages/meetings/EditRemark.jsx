@@ -79,7 +79,7 @@ function EditRemark(props) {
         toast.success("Remark Edited Successfully");
         console.log(response.data);
         setTimeout(() => {
-          naviagate(
+          navigate(
             "/passed-meeting/" + (type_user == "Buyer" ? "buyer" : "supplier")
           );
         }, 3000);
@@ -111,7 +111,12 @@ function EditRemark(props) {
               </a>
             </li>
             <li>
-              <a onClick={() => props.setsection(21)}>
+              <a
+                onClick={() => props.setsection(21)}
+                href={`/passed-meeting/${
+                  type_user === "Both" ? "supplier" : type_user
+                }`}
+              >
                 <span> Passed Meetings </span>
               </a>
             </li>
@@ -154,7 +159,7 @@ function EditRemark(props) {
               href=""
               className="btn btn-primary"
               onClick={() => {
-                navigate('/passed-meeting/supplier')
+                navigate("/passed-meeting/supplier");
               }}
             >
               Cancel
