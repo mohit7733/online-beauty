@@ -42,7 +42,34 @@ function ProductDetailView(props) {
   const [compnayProfile, setCompanyProfile] = useState(true);
   const [dateError, setDateError] = useState("");
   // check company detail
+  let token = localStorage.getItem("token");
+  const path = window.location.pathname;
+  useEffect(() => {
+    if (token === null && path.includes("/product-view")) {
+      console.log('worked')
+      const newPath = path.replace("/product-view", "/product-details");
+      navigate(newPath);
+    }
+    if (
+      token !== null &&
+      path.includes("/product-details") &&
+      localStorage.getItem("user_type") !== "Supplier"
+    ) {
+      const newPath = path.replace("/product-details", "/product-view");
+      navigate(newPath);
+    }
+    if (
+      token !== null &&
+      localStorage.getItem("user_id") == productData?.supplier_id
+    ) {
+      const newPath = path.replace("/product-details", "/product-view");
+      navigate(newPath);
+    }
+  }, [token]);
 
+  // useEffect(() => {
+   
+  // }, [token, productData]);
   useEffect(() => {
     axios
       .get(`${api}/api/company-detail`, {
@@ -285,14 +312,15 @@ function ProductDetailView(props) {
     }
   };
 
-    useEffect(() =>{
-      if(slots.length >= 5) {
-        setSdate("")
-      }
-    } , [slots])
+  useEffect(() => {
+    if (slots.length >= 5) {
+      setSdate("");
+    }
+  }, [slots]);
   console.log(sDate, sTime);
 
   useEffect(() => {
+    token && 
     getProductDetails();
     window.scrollTo(0, 0);
   }, []);
@@ -864,7 +892,7 @@ function ProductDetailView(props) {
                                           />
                                         </svg>
                                       </span>
-                                      Meeting declined 
+                                      Meeting declined
                                     </>
                                   );
                                 case 1:
