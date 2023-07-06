@@ -101,7 +101,7 @@ function Company_informationNew(props) {
     contact1_image: "",
     brand_logo: "",
   });
-
+  console.log(valuetimezonecheck , "this is value timezone check")
   useEffect(() => {
     const utcDetails = timeZoneCity.map((city) => city.utc).flat();
     setTimeZone(utcDetails);
@@ -137,7 +137,7 @@ function Company_informationNew(props) {
   useEffect(() => {
     setcounrtcode(filtercode[0]?.code);
   }, [cInfo.country]);
-
+  console.log(cInfo , "c info")
   function addCompanyInfo(event) {
     var formvalues = new FormData();
     // console.log("clicked");
@@ -554,35 +554,39 @@ function Company_informationNew(props) {
                         type="text"
                         onClick={() => setshowtimezonemodal(true)}
                         className="form-control"
+                        value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder="Search timezone..."
                       />
-                      {showtimezonemodal === true ? <div className="custom_dropdown_inner">
-                        {timeZone
-                          .filter((zone) => zone.toLowerCase().includes(searchTerm.toLowerCase()))
-                          .map((zone, index) => (
-                            <p
-                              key={index}
-                              onClick={() => {
-                                console.log(zone)
-                                setshowtimezonemodal(false)
-                                setvaluetimezonecheck(zone)
-                              }}
+                      {showtimezonemodal === true ? (
+                        <div className="custom_dropdown_inner">
+                          {timeZone
+                            .filter((zone) => zone.toLowerCase().includes(searchTerm.toLowerCase()))
+                            .map((zone, index) => (
+                              <p
+                                key={index}
+                                onClick={() => {
+                                  console.log(zone);
+                                  setshowtimezonemodal(false);
+                                  setvaluetimezonecheck(zone)
+                                  setSearchTerm(zone);
+                                }}
                                 style={{ cursor: "pointer" }}
-
-                            >
-                              {zone}
-                            </p>
-                          ))}
-                      </div> : ""}
-
+                              >
+                                {zone}
+                              </p>
+                            ))}
+                        </div>
+                      ) : null}
+                    </div>
                     </div>
                   </div>
 
 
 
 
-                </div>
+
+                {/* </div> */}
 
                 <div className="form-row align-items-start">
                   <div className="left">
@@ -766,7 +770,7 @@ function Company_informationNew(props) {
                             : "form-control disabled"
                         }
                         placeholder="Country Code"
-                        disabled={true}
+                        // disabled={true}
                       />
                     </div>
 
@@ -1361,7 +1365,7 @@ function Company_informationNew(props) {
                           cInfo?.country != "" &&
                           cInfo?.state != "" &&
                           cInfo?.website != "" &&
-                          selectedTimeZone !== "" &&
+                          valuetimezonecheck != "" &&
                           cInfo?.contact1_image?.name != ""
                         ) {
                           addCompanyInfo();
