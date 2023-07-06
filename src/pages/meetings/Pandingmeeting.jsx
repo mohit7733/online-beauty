@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { api } from "../base_url";
 import ReactPlayer from "react-player";
@@ -351,8 +352,7 @@ function Pandingmeeting() {
 						<span
 							className="close"
 							onClick={handleCloseModal}
-							style={{ right: "13px" }}
-						>
+							style={{ right: "13px" }}>
 							&times;
 						</span>
 						<div>
@@ -392,8 +392,7 @@ function Pandingmeeting() {
 				<div className="main">
 					<Left_menu sidebar={sidebar} setsidebar={setsidebar} />
 					<div
-						className={sidebar == true ? "router-body active" : "router-body "}
-					>
+						className={sidebar == true ? "router-body active" : "router-body "}>
 						<div className="breadcrumbs" data-aos="fade-down">
 							<div className="head">
 								{pathname ==
@@ -421,9 +420,7 @@ function Pandingmeeting() {
 										</li>
 
 										<li>
-											<a href={state?.path}>
-												{state?.path.endsWith("/buyer") ? "Buyer" : "Supplier"}
-											</a>
+											<a href="#">Supplier</a>
 										</li>
 										<li>
 											<a href={`/${state?.path?.split("/")[1]}/supplier`}>
@@ -616,9 +613,9 @@ function Pandingmeeting() {
 									<h2>Company Profile</h2>
 									<p>{productData?.company?.company_dec}</p>
 									{hideButtons !== true ? (
-										<div className="button-wrapper m-lft" style={{ marginTop: "55px" }}>
+										<div className="button-wrapper m-lft">
 											
-												<a
+											<a
 												className="remove-secondary btn btn-secondary"
 												onClick={() => {
 													if (

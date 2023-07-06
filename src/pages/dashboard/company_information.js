@@ -25,6 +25,9 @@ function Company_information(props) {
   const [selectedTimeZone, setSeclectedTimeZone] = useState();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
+  const [valuetimezonecheck, setvaluetimezonecheck] = useState("")
+  const [showtimezonemodal, setshowtimezonemodal] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const utcDetails = timeZoneCity.map((city) => city.utc).flat();
@@ -118,7 +121,7 @@ function Company_information(props) {
     formvalues.append("contact1_code", contact_code1);
     formvalues.append("contact2_code", contact_code2);
     formvalues.append("copy_billing_address", SaveAdd);
-    formvalues.append("timezone", selectedTimeZone);
+    formvalues.append("timezone", valuetimezonecheck);
     // if()
 
     formvalues.append(
@@ -330,7 +333,7 @@ function Company_information(props) {
                   </div>
                 </div>
 
-                
+
                 <div class="form-row align-items-center">
                   <div class="left">
                     <label>Brand Logo</label>
@@ -389,25 +392,35 @@ function Company_information(props) {
                   </div>
 
                   <div className="right">
-                    <div className="form-group">
-                      <select
-                        className={
-                          editcompany ? "form-control" : "form-control disabled"
-                        }
-                        name="country"
-                        value={selectedTimeZone}
-                        disabled={!editcompany}
-                        onChange={onchfunction}
-                      >
-                        <option value="" disabled>
-                          Select timezone
-                        </option>
-                        {timeZone.map((zone, index) => (
-                          <option key={index} value={zone}>
-                            {zone}
-                          </option>
-                        ))}
-                      </select>
+                    <div className="custom_dropdown form-group">
+                      <input
+                        type="text"
+                        onClick={() => setshowtimezonemodal(true)}
+                        className="form-control"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search timezone..."
+                      />
+                      {showtimezonemodal === true ? (
+                        <div className="custom_dropdown_inner">
+                          {timeZone
+                            .filter((zone) => zone.toLowerCase().includes(searchTerm.toLowerCase()))
+                            .map((zone, index) => (
+                              <p
+                                key={index}
+                                onClick={() => {
+                                  console.log(zone);
+                                  setshowtimezonemodal(false);
+                                  setvaluetimezonecheck(zone)
+                                  setSearchTerm(zone);
+                                }}
+                                style={{ cursor: "pointer" }}
+                              >
+                                {zone}
+                              </p>
+                            ))}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </div>
@@ -649,11 +662,11 @@ function Company_information(props) {
                             setsearchcode(e.target.value);
                           }}
                           placeholder="Country Code *"
-                          // style={
-                          //   errorfield.contact1_code == ""
-                          //     ? {}
-                          //     : { borderBottom: "1px solid red" }
-                          // }
+                        // style={
+                        //   errorfield.contact1_code == ""
+                        //     ? {}
+                        //     : { borderBottom: "1px solid red" }
+                        // }
                         />
                         <input
                           type="text"
