@@ -630,7 +630,7 @@ export default function Left_menu(props) {
 						: { display: "none" }
 				}
 				className={
-					localStorage.getItem("user_type").toLowerCase() == "buyer"
+					localStorage.getItem("user_type")?.toLowerCase() == "buyer"
 						? "bg-light supplier-meetings dropdown-container"
 						: "bg-light buyer-meetings dropdown-container"
 				}

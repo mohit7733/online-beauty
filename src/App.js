@@ -133,9 +133,7 @@ function App() {
 					/>
 					<Route
 						path="/product-view/:id/:name"
-						element={
-							<Private_route element={<ProductDetailView pageType="new" />} />
-						}
+						element={<ProductDetailView pageType="new" />}
 					/>
 					<Route
 						path="/buyer-favourite-product/favourite-list/:id"

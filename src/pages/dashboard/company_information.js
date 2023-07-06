@@ -393,14 +393,23 @@ function Company_information(props) {
 
                   <div className="right">
                     <div className="custom_dropdown form-group">
-                      <input
-                        type="text"
-                        onClick={() => setshowtimezonemodal(true)}
-                        className="form-control"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Search timezone..."
-                      />
+                      {editcompany ? (
+                        <input
+                          type="text"
+                          onClick={() => setshowtimezonemodal(true)}
+                          className="form-control"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          placeholder="Search timezone..."
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={selectedTimeZone}
+                          disabled
+                        />
+                      )}
                       {showtimezonemodal === true ? (
                         <div className="custom_dropdown_inner">
                           {timeZone
@@ -411,7 +420,7 @@ function Company_information(props) {
                                 onClick={() => {
                                   console.log(zone);
                                   setshowtimezonemodal(false);
-                                  setvaluetimezonecheck(zone)
+                                  setvaluetimezonecheck(zone);
                                   setSearchTerm(zone);
                                 }}
                                 style={{ cursor: "pointer" }}
@@ -423,6 +432,7 @@ function Company_information(props) {
                       ) : null}
                     </div>
                   </div>
+
                 </div>
 
 

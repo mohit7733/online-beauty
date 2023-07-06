@@ -10739,8 +10739,7 @@ iframe {
 }
 
 .product_prfile .panel textarea.form-control {
-  min-height: 260px;
-  padding: 14px 0 0 24px;
+  padding: 14px 10px 24px;
   resize: none;
 }
 
