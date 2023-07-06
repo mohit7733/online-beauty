@@ -655,7 +655,7 @@ function ProductDetailView(props) {
                           {productData.product?.price_policy ? (
                             <>
                               <a href="#">
-                                <span>&nbsp;(See Price Policy)</span>
+                                <span>(See Price Policy)</span>
                               </a>
                               <span
                                 className="warniing_icon"
@@ -864,7 +864,7 @@ function ProductDetailView(props) {
                                           />
                                         </svg>
                                       </span>
-                                      Meeting declined !
+                                      Meeting declined 
                                     </>
                                   );
                                 case 1:

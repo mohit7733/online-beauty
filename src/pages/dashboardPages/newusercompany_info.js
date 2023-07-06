@@ -81,7 +81,8 @@ function Company_informationNew(props) {
     // { name: "Guarantee" },
     // { name: "Creation" },
   ];
-
+  const [valuetimezonecheck, setvaluetimezonecheck] = useState("")
+  const [showtimezonemodal, setshowtimezonemodal] = useState(false)
   const [errorfield, seterrorfield] = useState({
     company_name: "",
     contact1_code: "",
@@ -153,7 +154,7 @@ function Company_informationNew(props) {
     formvalues.append("country_code", counrtcode);
     formvalues.append("contact1_code", contact_code1);
     formvalues.append("contact2_code", contact_code2);
-    formvalues.append("timezone", selectedTimeZone);
+    formvalues.append("timezone", valuetimezonecheck);
     var myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
@@ -548,37 +549,36 @@ function Company_informationNew(props) {
                     </label>
                   </div>
                   <div className="right">
-                    <div className="form-group">
+                    <div className="custom_dropdown form-group">
                       <input
                         type="text"
-                        value={searchTerm}
-                        onChange={e => setSearchTerm(e.target.value)}
+                        onClick={() => setshowtimezonemodal(true)}
+                        className="form-control"
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder="Search timezone..."
                       />
-                      <select
-                        className={editcompany ? 'form-control' : 'form-control disabled'}
-                        name="country"
-                        value={cInfo?.timezone}
-                        disabled={!editcompany}
-                        onChange={onch}
-                        required
-                        style={
-                          selectedTimeZone === '' && finalCheckTimeZone === false
-                            ? { borderBottom: '1px solid red' }
-                            : {}
-                        }
-                      >
-
+                      {showtimezonemodal === true ? <div className="custom_dropdown_inner">
                         {timeZone
-                          .filter(zone => zone.toLowerCase().includes(searchTerm.toLowerCase()))
+                          .filter((zone) => zone.toLowerCase().includes(searchTerm.toLowerCase()))
                           .map((zone, index) => (
-                            <option key={index} value={zone}>
+                            <p
+                              key={index}
+                              onClick={() => {
+                                console.log(zone)
+                                setshowtimezonemodal(false)
+                                setvaluetimezonecheck(zone)
+                              }}
+                                style={{ cursor: "pointer" }}
+
+                            >
                               {zone}
-                            </option>
+                            </p>
                           ))}
-                      </select>
+                      </div> : ""}
+
                     </div>
                   </div>
+
 
 
 
@@ -1384,8 +1384,8 @@ function Company_informationNew(props) {
               </form>
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   );
 }

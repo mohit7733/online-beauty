@@ -254,13 +254,8 @@ function App() {
 						element={<Private_route element={<Company_info_edit />} />}
 					/>
 
-					<Route
-						path="/add-remark/:id/:usertype"
-						element={<Add_remarkBoth />}
-
-					/>			
-		{/* <Route path='/forgot-password' element={<Forgot_password />} /> */}
-
+					<Route path="/add-remark/:usertype" element={<Add_remarkBoth />} />
+					{/* <Route path='/forgot-password' element={<Forgot_password />} /> */}
 					<Route
 						path="/view-remark/:id/:usertype"
 						element={<View_remarkBoth />}

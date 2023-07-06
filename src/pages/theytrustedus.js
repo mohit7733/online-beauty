@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { api } from './base_url';
+import '../../src/style/reset.css'
 
 function Theytrustedus() {
     const [theytrusted, settheytrusted] = useState()
@@ -45,7 +46,7 @@ function Theytrustedus() {
                         <div className="col_left aos-init aos-animate"  >
                             <div className="buyers">
                                 <h1 >{theytrusted?.theytrustedus.title}</h1>
-                                <p>{theytrusted?.theytrustedus.description}</p>
+                                <p className='font-fm'>{theytrusted?.theytrustedus.description}</p>
                             </div>
                         </div>
                         {

@@ -267,98 +267,99 @@ function Supplierpandingmeeting(props) {
   });
   console.log(data, "buyerslot");
 
-	// accept meeting functionality
-	const clickedAccept = () => {
-		axios
-			.post(api + "/api/v1/supplier-meeting-avaiblity", meetingAccept, {
-				headers: {
-					Authorization: "Bearer " + localStorage.getItem("token"),
-				},
-			})
-			.then((response) => {
-				console.log(response);
-				navigate("/payment", {
-					state: {
-						meeting_id: acceptId,
-						amount: subscriptions[0]?.price,
-						plan: subscriptions[0]?.days,
-						subscription_plan_id: subscriptions[0]?.id,
-					},
-				});
-			})
-			.catch((error) => {
-				// Handle error
-			});
-	};
-	// console.log(meetingAccept, "acceptmeeting");
-	// console.log(meetingDetails);
-	return (
-		<>
-			<div class={(props.sidebar ? "active " : " ") + "router-body"}>
-				<div class="breadcrumbs" data-aos="fade-down">
-					<ul>
-						<li>
-							<a href="/dashboard"> Dashboard </a>
-						</li>
-						<li>
-							<a href="/pending-meeting/supplier"> Supplier </a>
-						</li>
-						<li>
-							<a href="/pending-meeting/supplier">
-								<span> My Meetings</span>
-							</a>
-						</li>
-						<li>
-							<span style={{ cursor: "pointer", paddingLeft: "5px" }}>
-								Pending Meetings
-							</span>
-						</li>
-					</ul>
-				</div>
-				<div class="add_product_wrap row justify-content-between">
-					<div class="column">
-						<div class="search">
-							<input
-								type="text"
-								class="form-control"
-								placeholder="Type here"
-								onChange={(e) => setsearchdata(e.target.value)}
-							/>
-						</div>
-						<button
-							type="submit"
-							class="btn btn-block btn-secondary"
-							onClick={(e) => setshortby(shortby == " " ? "" : " ")}>
-							Search
-						</button>
-					</div>
-					<div class="column justify-end">
-						<div class="custom-select">
-							<select onChange={(e) => setshortby(e.target.value)}>
-								<option value={""}>
-									<span>Sorted by</span>
-								</option>
-								<option value={"A-Z"}>Alphabetic</option>
-								<option value={"DESC"}>Latest buyers</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="table_form">
-					<table>
-						<thead>
-							<tr>
-								<th>
-									{path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"} Name
-								</th>
-								<th>Country Codes</th>
-								<th>
-									Buyer Date / Time (
-									{data !== undefined
-										? meetingDetails[0]?.buyerCountryCode.countrycode
-										: ""}
-									)
-									{/* ({" "}
+  // accept meeting functionality
+  const clickedAccept = () => {
+    axios
+      .post(api + "/api/v1/supplier-meeting-avaiblity", meetingAccept, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        navigate("/payment", {
+          state: {
+            meeting_id: acceptId,
+            amount: subscriptions[0]?.price,
+            plan: subscriptions[0]?.days,
+            subscription_plan_id: subscriptions[0]?.id,
+          },
+        });
+      })
+      .catch((error) => {
+        // Handle error
+      });
+  };
+  // console.log(meetingAccept, "acceptmeeting");
+  // console.log(meetingDetails);
+  return (
+    <>
+      <div class={(props.sidebar ? "active " : " ") + "router-body"}>
+        <div class="breadcrumbs" data-aos="fade-down">
+          <ul>
+            <li>
+              <a href="/dashboard"> Dashboard </a>
+            </li>
+            <li>
+              <a href="#"> Supplier </a>
+            </li>
+            <li>
+              <a href="/pending-meeting/supplier">
+                <span> My Meetings</span>
+              </a>
+            </li>
+            <li>
+              <span style={{ cursor: "pointer", paddingLeft: "5px" }}>
+                Pending Meetings
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="add_product_wrap row justify-content-between">
+          <div class="column">
+            <div class="search">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Type here"
+                onChange={(e) => setsearchdata(e.target.value)}
+              />
+            </div>
+            <button
+              type="submit"
+              class="btn btn-block btn-secondary"
+              onClick={(e) => setshortby(shortby == " " ? "" : " ")}
+            >
+              Search
+            </button>
+          </div>
+          <div class="column justify-end">
+            <div class="custom-select">
+              <select onChange={(e) => setshortby(e.target.value)}>
+                <option value={""}>
+                  <span>Sorted by</span>
+                </option>
+                <option value={"A-Z"}>Alphabetic</option>
+                <option value={"DESC"}>Latest buyers</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="table_form">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  {path == "/passed-meeting/buyer" ? "Supplier" : "Buyer"} Name
+                </th>
+                <th>Country Codes</th>
+                <th>
+                  Buyer Date / Time (
+                  {data !== undefined
+                    ? meetingDetails[0]?.buyerCountryCode.countrycode
+                    : ""}
+                  )
+                  {/* ({" "}
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>
                 <th>Supplier Date / Time</th>
@@ -434,7 +435,7 @@ function Supplierpandingmeeting(props) {
                           <a
                             className={`btn ${
                               meeting?.status === 3
-                                ? "btn-primary"
+                                ? "btn-primary remove-primary"
                                 : "btn-secondary"
                             }`}
                             onClick={() => {

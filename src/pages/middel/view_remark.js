@@ -32,7 +32,10 @@ function View_remark(props) {
                         </textarea>
                     </div>
                     <div class="btn_wrapper row">
-                        <a id="back" href="" class="btn btn-secondary">Back</a>
+                        <a onClick={() => {
+                            navigate(`/passed-meeting/${type_user === "Both" ? "supplier" : type_user.toLowerCase()
+                                }`);
+                        }} id="back" href="" class="btn btn-secondary">Back</a>
                         <a id="resubmit" type="submit" href="" class="btn btn-secondary"
                             style={{ display: "none" }}
                         >Resubmit</a>
