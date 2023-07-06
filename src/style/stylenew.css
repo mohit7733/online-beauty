@@ -454,11 +454,14 @@ table thead tr th:last-child {
   padding: 10px;
   border: 1px solid #d9d9d9;
 }
-.edit_remark textarea, .view_remark textarea {
+
+.edit_remark textarea,
+.view_remark textarea {
   border: 1px solid #d9d9d9;
-  font-family: Poppins,sans-serif;
+  font-family: Poppins, sans-serif;
   font-size: 16px;
-} 
+}
+
 .router-body .remark_wrap {
   padding: 30px 0 50px;
 }
@@ -6655,7 +6658,7 @@ iframe {
 .dropdown2 {
   -webkit-transform: translateY(-6.5px);
   transform: translateY(-3px);
-  transform: translateY(-6.5px);
+  transform: translateY(-3px);
 }
 
 .about .inner .inner-text ul li,
@@ -6865,9 +6868,11 @@ table thead tr th:last-child {
 .company_wrapper .form-section .right .form-group {
   margin-bottom: 0px;
 }
-.company_wrapper .form-section .right .custom_dropdown  {
+
+.company_wrapper .form-section .right .custom_dropdown {
   position: relative;
 }
+
 .company_wrapper .form-section .right .custom_dropdown_inner {
   background: #fff;
   border: 1px solid #e4e4e4;
@@ -6879,8 +6884,8 @@ table thead tr th:last-child {
   margin-top: 3px;
   position: absolute;
   width: 100%;
-  z-index: 999!important;
-  }
+  z-index: 999 !important;
+}
 
 .company_wrapper .form-section .right.pd-bt .form-group {
   padding-bottom: 32px;
@@ -7604,12 +7609,12 @@ table tr td .fa-pen-to-square {
   padding: 0px 16px;
 }
 
-.client-section .grid-col h5,
-.buyers_wrapper .grid-col h5 {
-  text-align: center;
-  font-size: 22px;
+.buyers_wrapper .grid-col h5,
+.client-section .grid-col h5 {
+  font-size: 20px;
   font-weight: 600;
-  padding: 32px 30px;
+  padding: 8px;
+  text-align: center;
 }
 
 .video-section .column .img h6:hover {
@@ -7617,15 +7622,15 @@ table tr td .fa-pen-to-square {
 }
 
 .client-section .column {
-  height: 130px;
-  border: solid 1px #d9d9d9;
+  align-items: center;
+  border: 1px solid #d9d9d9;
   border-radius: 10px;
   display: flex;
+  height: 130px;
   justify-content: center;
-  align-items: center;
-  margin: 20px 0px;
-  transition: all 0.5s ease-in-out;
+  margin: 16px 0;
   overflow: hidden;
+  transition: all .5s ease-in-out;
 }
 
 .client-section .column:hover {
@@ -8804,15 +8809,15 @@ a.error_icon i {
 }
 
 .buyers_wrapper .column {
-  height: 130px;
-  border: solid 1px #d9d9d9;
+  align-items: center;
+  border: 1px solid #d9d9d9;
   border-radius: 10px;
   display: flex;
+  height: 130px;
   justify-content: center;
-  align-items: center;
-  margin: 20px 0px;
-  transition: all 0.5s ease-in-out;
+  margin: 16px 0;
   padding: 36px 0;
+  transition: all .5s ease-in-out;
 }
 
 .buyers_wrapper .grid-col h5 {
