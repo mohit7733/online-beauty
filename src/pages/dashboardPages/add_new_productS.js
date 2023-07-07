@@ -64,6 +64,7 @@ function Add_product(props) {
   const [anserstyle, setanserstyle] = useState(false);
   const [companydetail, setCompanydetail] = useState(true);
   const [compnayProfile, setCompanyProfile] = useState(true);
+  const [dateOfCreation , setDateOfCreation] = useState("") ;
   // check company detail
 
   useEffect(() => {
@@ -148,9 +149,9 @@ function Add_product(props) {
       case "Guarantee":
         errorfield.Guarantee = e.target.value == "" ? "required" : "";
         break;
-      case "Creation":
-        errorfield.Creation = e.target.value == "" ? "required" : "";
-        break;
+      // case "Creation":
+      //   errorfield.Creation = e.target.value == "" ? "required" : "";
+      //   break;
       case "yt_link":
         errorfield.yt_linkvalid = e.target.value == "" ? "required" : "";
         break;
@@ -200,9 +201,9 @@ function Add_product(props) {
     return "Valid date";
   }
 
-  if (contact.Creation != "") {
-    var errorme = valDate(contact.Creation) == "Valid date" ? "" : "error";
-  }
+  // if (contact.Creation != "") {
+  //   var errorme = valDate(contact.Creation) == "Valid date" ? "" : "error";
+  // }
 
   function matchYoutubeUrl(url) {
     var p =
@@ -255,9 +256,9 @@ function Add_product(props) {
       case "Guarantee":
         errorfield.Guarantee = contact.Guarantee == "" ? "required" : "";
         break;
-      case "Creation":
-        errorfield.Creation = contact.Creation == "" ? "required" : "";
-        break;
+      // case "Creation":
+      //   errorfield.Creation = contact.Creation == "" ? "required" : "";
+      //   break;
       default:
         break;
     }
@@ -341,7 +342,7 @@ function Add_product(props) {
     formdata.append("price_policy", contact.Policy);
     formdata.append("min_quantity", contact.Quantity);
     formdata.append("guarantee", Guarntee);
-    formdata.append("date_of_creation", contact.Creation);
+    formdata.append("date_of_creation", dateOfCreation);
     formdata.append("youtube_link", contact.yt_link);
     formdata.append("category_id", Category_Id);
     contact.product_file?.map((data) => {
@@ -933,27 +934,30 @@ function Add_product(props) {
                     </div>
                     <div className="form-group full">
                       <input
-                        type="text"
+                        type="date"
                         placeholder="Date Of Creation *"
                         className="form-control"
                         name="Creation"
                         maxLength={8}
                         onChange={(e) => {
                           const { value } = e.target;
-                          const cleanedValue = value.replace(/\D/g, ''); // Remove non-digit characters
-                          const formattedValue = cleanedValue.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3'); // Format as MM/DD/YYYY
+                          console.log(value, "value")
+                          console.log(dateOfCreation , anserstyle)
+                          setDateOfCreation(moment(value).format('DD-MM-YYYY'));
+                          // const cleanedValue = value.replace(/\D/g, ''); // Remove non-digit characters
+                          // const formattedValue = cleanedValue.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3'); // Format as MM/DD/YYYY
                           e.target.value = formattedValue;
                           logins_field2(e);
                           setdatemess(true);
                         }}
                         style={
-                          errorfield?.Creation === ""
-                            ? {}
-                            : { borderBottom: "1px solid red" }
+                          dateOfCreation == "" && anserstyle == true
+                            ? { borderBottom: "1px solid red" }
+                            : {}
                         }
                       />
 
-                      {errorme == "" ? (
+                      {/* {errorme == "" ? (
                         ""
                       ) : datemess ? (
                         <p className="errordate">
@@ -962,7 +966,7 @@ function Add_product(props) {
                         </p>
                       ) : (
                         ""
-                      )}
+                      )} */}
                     </div>
                     <textarea
                       maxLength="250"
@@ -1278,7 +1282,8 @@ function Add_product(props) {
                       contact.product_file != "" &&
                       contact.Quantity != "" &&
                       multis_category?.length != 0 &&
-                      contact.Creation != ""
+                      dateOfCreation != ""
+                      // contact.Creation != ""
                     ) {
                       add_product();
                     } else {

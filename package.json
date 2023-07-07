@@ -13,6 +13,7 @@
     "countries-and-timezones": "^3.4.1",
     "country-code-lookup": "^0.0.23",
     "country-timezone": "^1.0.8",
+    "font-awesome": "^4.7.0",
     "lodash": "^4.17.21",
     "luxon": "^3.3.0",
     "moment": "^2.29.4",
