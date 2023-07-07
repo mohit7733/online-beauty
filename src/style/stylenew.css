@@ -6654,8 +6654,8 @@ iframe {
 
 .dropdown2 {
   -webkit-transform: translateY(-6.5px);
-  transform: translateY(-3px);
-  transform: translateY(-6.5px);
+  -webkit-transform: translateY(-3px);
+  transform: translateY(-6px);
 }
 
 .about .inner .inner-text ul li,
@@ -7604,12 +7604,11 @@ table tr td .fa-pen-to-square {
   padding: 0px 16px;
 }
 
-.client-section .grid-col h5,
-.buyers_wrapper .grid-col h5 {
-  text-align: center;
-  font-size: 22px;
+.buyers_wrapper .grid-col h5, .client-section .grid-col h5 {
+  font-size: 20px;
   font-weight: 600;
-  padding: 32px 30px;
+  padding: 8px;
+  text-align: center;
 }
 
 .video-section .column .img h6:hover {
@@ -7617,15 +7616,15 @@ table tr td .fa-pen-to-square {
 }
 
 .client-section .column {
-  height: 130px;
-  border: solid 1px #d9d9d9;
+  align-items: center;
+  border: 1px solid #d9d9d9;
   border-radius: 10px;
   display: flex;
+  height: 130px;
   justify-content: center;
-  align-items: center;
-  margin: 20px 0px;
-  transition: all 0.5s ease-in-out;
+  margin: 16px 0;
   overflow: hidden;
+  transition: all .5s ease-in-out;
 }
 
 .client-section .column:hover {
@@ -8804,15 +8803,15 @@ a.error_icon i {
 }
 
 .buyers_wrapper .column {
-  height: 130px;
-  border: solid 1px #d9d9d9;
+  align-items: center;
+  border: 1px solid #d9d9d9;
   border-radius: 10px;
   display: flex;
+  height: 130px;
   justify-content: center;
-  align-items: center;
-  margin: 20px 0px;
-  transition: all 0.5s ease-in-out;
+  margin: 16px 0;
   padding: 36px 0;
+  transition: all .5s ease-in-out;
 }
 
 .buyers_wrapper .grid-col h5 {
@@ -13056,3 +13055,23 @@ footer .f-logos {
 .about .inner .inner-text ul li {
   font-size: 16px;
 }
+
+
+
+@media (min-width: 1025px) and (max-width: 1080px) {
+	
+  .header .logo {
+      margin-right: 10px;
+  }
+  
+  .header .nav li {
+      display: inline-block;
+      padding: 0 10px;
+      position: relative;
+  }
+  
+  .header .nav li a {
+     font-size : 15px !important;
+  
+  }
+    }
