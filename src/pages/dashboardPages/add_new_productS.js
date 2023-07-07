@@ -1076,7 +1076,7 @@ function Add_product(props) {
                                             ? quest?.type.toLowerCase()
                                             : "radio"
                                         }
-                                        id="Lorem Ipsum A"
+                                        id={`op${index2}`}
                                         name={`question${quest.id}`} // Assign a unique name for each group of radio buttons
                                         value={option}
                                         onClick={(e) => {
@@ -1093,7 +1093,7 @@ function Add_product(props) {
                                         }}
                                       />
                                       <label
-                                        htmlFor="Lorem Ipsum A"
+                                        htmlFor={`op${index2}`}
                                         style={
                                           emptyans_id?.filter((item) => {
                                             return item === quest?.id;
