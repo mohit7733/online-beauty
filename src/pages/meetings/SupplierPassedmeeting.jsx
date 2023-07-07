@@ -370,7 +370,7 @@ function Supplierpassedmeeting(props) {
 										</td>
 										<td>
 											<div className="button_wrap row">
-												<a href="" className="btn btn-secondary remove-secondary">
+												<a href="" className="btn btn-secondary">
 													{meeting?.status === 4
 														? "Supplier confirm Meeting"
 														: meeting?.status === 5
