@@ -59,7 +59,7 @@ function Header() {
                   <li>
                     <Link to="/buyers-at-a-glance">Buyers at a glance</Link>
                   </li>
-                  <li> 
+                  <li>
                     <Link to="/product-view">Showcased Products</Link>
                   </li>
                   <li
@@ -111,12 +111,18 @@ function Header() {
                     className="btn btn-primary row"
                     onClick={() => setshow(!show)}
                   >
-                    {" "}
                     <figure style={{ lineHeight: 0 }}>
                       <img className="user_oc" src={profile_img} alt="sdfsa" />
                     </figure>
-                    {localStorage.getItem("username")}
+                    {localStorage.getItem("username").length > 5 ? (
+                      <>
+                        {localStorage.getItem("username").slice(0, 5)}...
+                      </>
+                    ) : (
+                      localStorage.getItem("username")
+                    )}
                   </a>
+
                   <div
                     id="toggle"
                     className={showtoggle == true ? "on" : ""}
