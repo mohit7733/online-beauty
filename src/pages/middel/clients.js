@@ -32,8 +32,8 @@ function Clients() {
             data-aos="fade-up"
           >
             <h2>Buyers Who Trusted Us</h2>
-            <a href="/they-trusted-us" className="btn-link">
-              View All Buyers
+            <a href="/buyers-at-a-glance" className="btn-link">
+              View All Buyer
             </a>
           </div>
           <div className="row grid-5">
