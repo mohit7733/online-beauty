@@ -19,7 +19,7 @@ import {
   vat_rate_api,
 } from "../pages/base_url";
 import Left_menu from "../pages/productpages/left_menu";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export const CheckoutForm2 = (props) => {
   const stripe = useStripe();
@@ -772,17 +772,10 @@ export const CheckoutForm2 = (props) => {
                     required
                     style={{ transform: 'scale(1.5)' }}
                   />
-                  {" "}I agree to general <span style={{ color: 'red' }}>terms and conditions</span>
+                  {" "}I agree to general <Link to="/privacy-terms" onClick={(e) => window.scrollTo(0, 0)} style={{ color: 'red' }}>terms and conditions</Link>
                 </label>
               </div>
               <br></br>
-
-
-
-
-
-
-
               <div className="button row justify-content-center">
                 <button
                   className="btn btn-secondary pay-butto"

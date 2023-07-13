@@ -234,15 +234,15 @@ function Productresearchsection(props) {
           )
         );
       }
-      setnonmedId(
-        nonmedId?.filter(
-          (item) => item == id
-        ).length == 0
-          ? nonmedId
-          : nonmedId?.filter(
-            (item) => item != id
-          )
-      );
+      // setnonmedId(
+      //   nonmedId?.filter(
+      //     (item) => item == id
+      //   ).length == 0
+      //     ? nonmedId
+      //     : nonmedId?.filter(
+      //       (item) => item != id
+      //     )
+      // );
     }
   };
 
@@ -499,8 +499,8 @@ function Productresearchsection(props) {
               Mandetroy_quest.push(item);
             }
           }
-          if (item?.mandatory == 0) {
-            if (result.data.filter((data) => data?.mandatory == 0).length > nonmedId.length) {
+          if (item?.mandatory != 0) {
+            if (result.data.filter((data) => data?.mandatory != 0).length > nonmedId.length) {
               nonmedId.push(item?.id);
             }
           }
