@@ -400,7 +400,7 @@ function Company_information(props) {
                           className="form-control"
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
-                          placeholder="Search timezone..."
+                          placeholder="Search Cities..."
                         />
                       ) : (
                         <input

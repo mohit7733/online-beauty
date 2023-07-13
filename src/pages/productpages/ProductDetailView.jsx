@@ -288,7 +288,7 @@ function ProductDetailView(props) {
 
     if (isAlreadySelected) {
       setDateError("The date and time have already been selected");
-      setSdate("");
+      // setSdate("");
       setSTime("");
       setApiDateFormat("");
       setTimeout(() => setDateError(""), 2000);

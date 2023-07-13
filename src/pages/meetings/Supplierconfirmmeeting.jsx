@@ -267,11 +267,11 @@ function Supplierconfirmmeeting(props) {
                   {path == "/requested-meeting/buyer"
                     ? " Buyer Date / Time"
                     : "Supplier Date / Time"}{" "}
-                  (
+                  {/* (
                   {data !== undefined
                     ? meetingData[0]?.buyerCountryCode.countrycode
                     : ""}
-                  )
+                  ) */}
                   {/* ({" "}
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>
@@ -415,7 +415,7 @@ function Supplierconfirmmeeting(props) {
                           >
                             {path === "/requested-meeting/buyer"
                               ? meeting?.buyer_status === 1
-                                ? "In progress"
+                                ? "Pending Meeting"
                                 : meeting?.buyer_status === 2
                                 ? "Complete"
                                 : meeting?.buyer_status === 3

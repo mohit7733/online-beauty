@@ -556,7 +556,7 @@ function Company_informationNew(props) {
                         className="form-control"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Search timezone..."
+                        placeholder="Search Cites..."
                       />
                       {showtimezonemodal === true ? (
                         <div className="custom_dropdown_inner">

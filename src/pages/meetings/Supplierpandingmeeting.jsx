@@ -354,11 +354,12 @@ function Supplierpandingmeeting(props) {
                 </th>
                 <th>Country Codes</th>
                 <th>
-                  Buyer Date / Time (
+                  Buyer Date / Time
+                   {/* (
                   {data !== undefined
                     ? meetingDetails[0]?.buyerCountryCode.countrycode
                     : ""}
-                  )
+                  ) */}
                   {/* ({" "}
                   {meetingData[0]?.supplierCountryCode?.countrycode}) */}
                 </th>

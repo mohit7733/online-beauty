@@ -651,7 +651,7 @@ function Pandingmeeting() {
 																			/>
 																		</svg>
 																	</span>
-																	Accept Meeting
+																	I accept a meeting
 																</>
 															);
 														case 2:

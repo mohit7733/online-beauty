@@ -121,6 +121,7 @@ function Edit_productS(props) {
     Creation: "",
   });
   const [optionsedit, setoptions2] = useState([]);
+  const [dateOfCreation , setDateOfCreation] = useState("") ;
 
   const [subcategory, setsubcategory] = useState([]);
   const logins_field2 = (e) => {
@@ -435,7 +436,7 @@ function Edit_productS(props) {
         ? JSON.stringify(s_category_idarray2)
         : JSON.stringify(s_category_idarray)
     );
-    formdata.append("date_of_creation", contact.Creation);
+    formdata.append("date_of_creation", dateOfCreation);
     formdata.append("id", editData.id);
     if (contact.yt_link != null) {
       formdata.append("youtube_link", contact.yt_link);
@@ -858,7 +859,7 @@ function Edit_productS(props) {
                         }
                       />
                     </div>
-                    <div className="form-group full">
+                    {/* <div className="form-group full">
                       <input
                         type="text"
                         placeholder="Date Of Creation *"
@@ -872,7 +873,45 @@ function Edit_productS(props) {
                             : { borderBottom: "1px solid red" }
                         }
                       />
+                    </div> */}
+
+
+<div className="form-group full">
+                      <input
+                        type="date"
+                        placeholder="Date Of Creation *"
+                        className="form-control"
+                        name="Creation"
+                        maxLength={8}
+                        onChange={(e) => {
+                          const { value } = e.target;
+                          console.log(value, "value")
+                          // console.log(dateOfCreation , anserstyle)
+                          setDateOfCreation(moment(value).format('DD-MM-YYYY'));
+                          // const cleanedValue = value.replace(/\D/g, ''); // Remove non-digit characters
+                          // const formattedValue = cleanedValue.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3'); // Format as MM/DD/YYYY
+                          e.target.value = formattedValue;
+                          logins_field2(e);
+                          setdatemess(true);
+                        }}
+                       
+                      />
+
+                      {/* {errorme == "" ? (
+                        ""
+                      ) : datemess ? (
+                        <p className="errordate">
+                          {" "}
+                          Please enter the date in the format "dd/mm/yy"
+                        </p>
+                      ) : (
+                        ""
+                      )} */}
                     </div>
+
+
+
+
                     <textarea
                       maxlength="250"
                       className="form-control"

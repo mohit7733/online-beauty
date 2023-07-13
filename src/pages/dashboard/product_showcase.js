@@ -355,11 +355,12 @@ function Product_showcase(props) {
                 ) {
                   var sub_cat = JSON.parse(data?.sub_cat);
                 }
+                const serialNumber = (currentPage - 1) * itemsPerPage + index + 1;
 
                 return (
-                  <tr key={index}>
+                  <tr key={serialNumber}>
                     <td>
-                      <span>{index + 1}.</span>
+                      <span>{serialNumber}.</span>
                     </td>
                     <td>{data.product_name}</td>
                     <td>{data.product_short_name}</td>
