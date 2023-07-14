@@ -418,43 +418,38 @@ function Supplierpassedmeeting(props) {
           </table>
         </div>
         <div className="pagination">
-            {currentItems?.length === 0 ? (
-              `You don't have any products yet.`
-            ) : (
-              <ul>
-                {currentPage !== 1 && (
-                  <li onClick={handlePrevBtn}>
-                    <a>Previous </a>
-                  </li>
-                )}
-                {pages?.map((page, index) => {
-
-                  if (index > currentPage - 3 && index < currentPage + 3) {
-                    return (
-                      <li
-                        key={index}
-                        onClick={() => setCurrentPage(page)}
-                        className={currentPage === page ? "active" : ""}
-                      >
-                        <a
-                          style={{ cursor: "pointer" }}
-                        >
-                          {page}
-                        </a>
-                      </li>
-                    );
-                  }
-                })}
-                {currentPage !== totalPages && (
-                  <li className="selected" onClick={handleNextBtn}>
-                    <a >
-                      Next <img src="images/arrow-right.png" title="" alt="" />
-                    </a>
-                  </li>
-                )}
-              </ul>
-            )}
-          </div>
+          {currentItems?.length === 0 ? (
+            `You don't have any products yet.`
+          ) : (
+            <ul>
+              {currentPage !== 1 && (
+                <li onClick={handlePrevBtn}>
+                  <a>Previous </a>
+                </li>
+              )}
+              {pages?.map((page, index) => {
+                if (index > currentPage - 3 && index < currentPage + 3) {
+                  return (
+                    <li
+                      key={index}
+                      onClick={() => setCurrentPage(page)}
+                      className={currentPage === page ? "active" : ""}
+                    >
+                      <a style={{ cursor: "pointer" }}>{page}</a>
+                    </li>
+                  );
+                }
+              })}
+              {currentPage !== totalPages && (
+                <li className="selected" onClick={handleNextBtn}>
+                  <a>
+                    Next <img src="images/arrow-right.png" title="" alt="" />
+                  </a>
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
       </div>
     </>
   );

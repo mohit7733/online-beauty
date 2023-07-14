@@ -30,7 +30,10 @@ function Company_information(props) {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    const utcDetails = timeZoneCity.map((city) => city.utc).flat();
+    const utcDetails = timeZoneCity
+      .map((city) => city.utc)
+      .flat()
+      .filter((zone, index, self) => self.indexOf(zone) === index);
     setTimeZone(utcDetails);
   }, []);
 
@@ -413,7 +416,7 @@ function Company_information(props) {
                       {showtimezonemodal === true ? (
                         <div className="custom_dropdown_inner">
                           {timeZone
-                            .filter((zone) => zone.toLowerCase().includes(searchTerm.toLowerCase()))
+                            .filter((zone) => zone.includes("/") && !zone.startsWith("Etc/") && zone.toLowerCase().includes(searchTerm.toLowerCase()))
                             .map((zone, index) => (
                               <p
                                 key={index}

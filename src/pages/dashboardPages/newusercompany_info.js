@@ -101,11 +101,15 @@ function Company_informationNew(props) {
     contact1_image: "",
     brand_logo: "",
   });
-  console.log(valuetimezonecheck , "this is value timezone check")
+  console.log(valuetimezonecheck, "this is value timezone check")
   useEffect(() => {
-    const utcDetails = timeZoneCity.map((city) => city.utc).flat();
+    const utcDetails = timeZoneCity
+      .map((city) => city.utc)
+      .flat()
+      .filter((zone, index, self) => self.indexOf(zone) === index);
     setTimeZone(utcDetails);
   }, []);
+  
 
   // console.log(timeZone, "timeZone");
 
@@ -137,7 +141,7 @@ function Company_informationNew(props) {
   useEffect(() => {
     setcounrtcode(filtercode[0]?.code);
   }, [cInfo.country]);
-  console.log(cInfo , "c info")
+  console.log(cInfo, "c info")
   function addCompanyInfo(event) {
     var formvalues = new FormData();
     // console.log("clicked");
@@ -561,7 +565,7 @@ function Company_informationNew(props) {
                       {showtimezonemodal === true ? (
                         <div className="custom_dropdown_inner">
                           {timeZone
-                            .filter((zone) => zone.toLowerCase().includes(searchTerm.toLowerCase()))
+                            .filter((zone) => zone.includes("/") && !zone.startsWith("Etc/") && zone.toLowerCase().includes(searchTerm.toLowerCase()))
                             .map((zone, index) => (
                               <p
                                 key={index}
@@ -578,9 +582,11 @@ function Company_informationNew(props) {
                             ))}
                         </div>
                       ) : null}
-                    </div>
+
+
                     </div>
                   </div>
+                </div>
 
 
 
@@ -770,7 +776,7 @@ function Company_informationNew(props) {
                             : "form-control disabled"
                         }
                         placeholder="Country Code"
-                        // disabled={true}
+                      // disabled={true}
                       />
                     </div>
 
