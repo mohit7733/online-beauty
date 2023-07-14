@@ -242,16 +242,18 @@ function Invoicepage() {
                   </tr>
                 </tbody>
               </table>
-              <p style={{ fontSize: '14px', lineHeight: '1.4em', color: '#ddd' }}>
-                SARL au Capital de 10.000 € • Siège Social : HEALTH AND BEAUTY FRANCE, 5 rue Geoffroy Marie, 75009 Paris, France • Email :{' '}                 RCS Paris • Siren 812 800 563 • N° TVA Intracommunautaire : FR 84 812 800 563 • Code NAF : 8230Z • IBAN FR76 3006 6109 1200 0201 1100 144 • BIC CMCIFRPP
-
-                <a style={{ fontSize: '14px', lineHeight: '1.4em', color: '#ddd' }} href="mailto:info@health-and-beauty.fr">
+              <p style={{ fontSize: 14, lineHeight: "1.4em", color: "#a7a7a7" }}>
+                SARL au Capital de 10.000 € • Siège Social: HEALTH AND BEAUTY FRANCE, 5 rue Geoffroy Marie, 75009 Paris, France • Email:{" "}
+                
+                RCS Paris • Siren 812 800 563 • N° TVA Intracommunautaire: FR 84 812 800 563 • Code NAF: 8230Z • IBAN FR76 3006 6109 1200 0201 1100 144 • BIC CMCIFRPP
+                <a
+                  style={{ fontSize: 14, lineHeight: "1.4em", color: "#a7a7a7" }}
+                  href="mailto:info@health-and-beauty.fr"
+                >
                   info@health-and-beauty.fr
                 </a>
-
               </p>
-              {/* <p style={{ fontSize: '14px', lineHeight: '1.4em', color: '#ddd' }}>
-              </p> */}
+
 
             </td>
           </tr>

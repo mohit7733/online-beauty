@@ -22,7 +22,7 @@ table {
 }
 
 .table_1 td {
-    height: 40px;
+    height: 15px;
 }
 
 .table_1 p {
@@ -61,15 +61,15 @@ p.m_rt {
 }
 
 .ht {
-    height: 25px;
+    height: 15px;
 }
 
 .ht_40 {
-    height: 40px;
+    height: 15px;
 }
 
 .ht_60 {
-    height: 60px;
+    height: 15px;
 }
 
 .table_3 td {
@@ -110,7 +110,7 @@ p.m_rt {
 }
 
 table.table_4 td:first-of-type {
-    height: 40px;
+    height: 15px;
 }
 
 table.table_4 .tr_1 th {

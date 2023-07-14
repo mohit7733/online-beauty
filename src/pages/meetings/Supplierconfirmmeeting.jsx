@@ -18,6 +18,8 @@ function Supplierconfirmmeeting(props) {
   const [acceptId, setAcceptId] = useState();
   const [shortby, setshortby] = useState("");
   const [searchdata, setsearchdata] = useState("");
+
+
   const navigate = useNavigate();
   useEffect(() => {
     setmeetingData([]);
@@ -162,6 +164,23 @@ function Supplierconfirmmeeting(props) {
     };
   });
   console.log(data);
+
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(meetingData?.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = meetingData?.slice(indexOfFirstItem, indexOfLastItem);
+  const handlePrevBtn = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextBtn = () => {
+    setCurrentPage(currentPage + 1);
+  };
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
   // console.log(data[0]?.countrycode, "this is data");
   return (
     <>
@@ -444,6 +463,44 @@ function Supplierconfirmmeeting(props) {
             </tbody>
           </table>
         </div>
+        <div className="pagination">
+            {currentItems?.length === 0 ? (
+              `You don't have any products yet.`
+            ) : (
+              <ul>
+                {currentPage !== 1 && (
+                  <li onClick={handlePrevBtn}>
+                    <a>Previous </a>
+                  </li>
+                )}
+                {pages?.map((page, index) => {
+
+                  if (index > currentPage - 3 && index < currentPage + 3) {
+                    return (
+                      <li
+                        key={index}
+                        onClick={() => setCurrentPage(page)}
+                        className={currentPage === page ? "active" : ""}
+                      >
+                        <a
+                          style={{ cursor: "pointer" }}
+                        >
+                          {page}
+                        </a>
+                      </li>
+                    );
+                  }
+                })}
+                {currentPage !== totalPages && (
+                  <li className="selected" onClick={handleNextBtn}>
+                    <a >
+                      Next <img src="images/arrow-right.png" title="" alt="" />
+                    </a>
+                  </li>
+                )}
+              </ul>
+            )}
+          </div>
       </div>
     </>
   );
