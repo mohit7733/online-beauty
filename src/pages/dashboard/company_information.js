@@ -103,6 +103,7 @@ function Company_information(props) {
       });
   }
 
+  
   const filtercode = country?.data?.filter((item) => {
     return item.country == cInfo.country;
   });

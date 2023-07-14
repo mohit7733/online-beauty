@@ -61,7 +61,6 @@ function Product_showcase(props) {
         console.error(error);
       });
   }, []);
-
   const [companyinfo, setcompanyinfo] = useState([]);
   const handleNextbtn = () => {
     setcurrentPage(currentPage + 1);
@@ -86,7 +85,8 @@ function Product_showcase(props) {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = theytrusted?.slice(indexOfFirstItem, indexOfLastItem);
-  // console.log(currentPage ,pages ,currentItems);
+  const totalPages = Math.ceil(theytrusted.length / itemsPerPage);
+
 
   const checkSubscription = () => {
     return new Promise((resolve, reject) => {
@@ -186,6 +186,7 @@ function Product_showcase(props) {
         console.log("error", error);
       });
   };
+  console.log(totalPages ,currentPage)
 
   useEffect(() => {
     setTimeout(() => {
@@ -238,10 +239,10 @@ function Product_showcase(props) {
                 {user_type == "both"
                   ? "Supplier"
                   : user_type == "buyer"
-                  ? "Buyer"
-                  : user_type == "supplier"
-                  ? "Supplier"
-                  : ""}
+                    ? "Buyer"
+                    : user_type == "supplier"
+                      ? "Supplier"
+                      : ""}
               </a>
             </li>
             <li>
@@ -390,11 +391,11 @@ function Product_showcase(props) {
                         src={deleteicon}
                         style={{ opacity: "0.6" }}
                         alt=""
-                        // onClick={(e) => {
-                        //   setdeleteid(data.id);
-                        //   setalertshow(true);
-                        // }}
-                        // onClick={(e) => deletedata(data.id)}
+                      // onClick={(e) => {
+                      //   setdeleteid(data.id);
+                      //   setalertshow(true);
+                      // }}
+                      // onClick={(e) => deletedata(data.id)}
                       />
                     </td>
                   </tr>
@@ -411,7 +412,7 @@ function Product_showcase(props) {
             <ul>
               {currentPage != 1 ? (
                 <li onClick={handlePrevbtn}>
-                  <a href="#">Previous</a>
+                  <a >Previous</a>
                 </li>
               ) : (
                 ""
@@ -430,15 +431,14 @@ function Product_showcase(props) {
                   );
                 }
               })}
-              {currentItems?.length > 5 ? (
+              {currentPage !== totalPages && (
                 <li className="selected" onClick={handleNextbtn}>
-                  <a href="#">
+                  <a>
                     Next <img src="images/arrow-right.png" title="" alt="" />
                   </a>
                 </li>
-              ) : (
-                ""
               )}
+
             </ul>
           )}
         </div>

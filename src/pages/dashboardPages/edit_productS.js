@@ -121,7 +121,7 @@ function Edit_productS(props) {
     Creation: "",
   });
   const [optionsedit, setoptions2] = useState([]);
-  const [dateOfCreation , setDateOfCreation] = useState("") ;
+  const [dateOfCreation, setDateOfCreation] = useState("");
 
   const [subcategory, setsubcategory] = useState([]);
   const logins_field2 = (e) => {
@@ -876,7 +876,7 @@ function Edit_productS(props) {
                     </div> */}
 
 
-<div className="form-group full">
+                    <div className="form-group full">
                       <input
                         type="date"
                         placeholder="Date Of Creation *"
@@ -894,7 +894,7 @@ function Edit_productS(props) {
                           logins_field2(e);
                           setdatemess(true);
                         }}
-                       
+
                       />
 
                       {/* {errorme == "" ? (
