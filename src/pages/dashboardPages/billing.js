@@ -9,7 +9,10 @@ import { useNavigate } from "react-router-dom";
 function Billing() {
   const [sidebar, setsidebar] = useState(true);
   const [billingdata, setbillingdata] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
   const navigate = useNavigate();
+
   useEffect(() => {
     let config = {
       method: "get",
@@ -31,7 +34,21 @@ function Billing() {
         toast.error(error?.message);
       });
   }, []);
-  console.log(billingdata, "this is billing data");
+
+  const totalPages = Math.ceil(billingdata.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = billingdata.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePrevBtn = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextBtn = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <div className="product_showcase Billing_wrapper Meeting_wrap profile_popup">
@@ -72,8 +89,6 @@ function Billing() {
                   <th>S.No.</th>
                   <th>Payment Date</th>
                   <th>Invoice Number</th>
-
-                  {/* <th>Package</th> */}
                   <th>Package Price</th>
                   <th>Package Details</th>
                   <th>Product Name</th>
@@ -81,17 +96,17 @@ function Billing() {
                 </tr>
               </thead>
               <tbody>
-                {billingdata?.length == 0 ? (
+                {currentItems?.length == 0 ? (
                   ""
                 ) : (
                   <>
-                    {billingdata?.map((item, index) => {
-                      console.log(JSON.parse(item?.billing_details));
-                      console.log(item, "this is item")
+                    {currentItems?.map((item, index) => {
+                      const serialNumber = (currentPage - 1) * itemsPerPage + index + 1;
+
                       return (
                         <tr key={index}>
                           <td>
-                            <span>{index + 1}.</span>
+                            <span>{serialNumber}.</span>
                           </td>
                           <td>{item?.date}</td>
                           <td>{item?.invoice_number}</td>
@@ -114,6 +129,46 @@ function Billing() {
               </tbody>
             </table>
           </div>
+          <div className="pagination">
+            {currentItems?.length === 0 ? (
+              `You don't have any products yet.`
+            ) : (
+              <ul>
+                {currentPage !== 1 && (
+                  <li onClick={handlePrevBtn}>
+                    <a>Previous </a>
+                  </li>
+                )}
+                {pages?.map((page, index) => {
+
+                  if (index > currentPage - 3 && index < currentPage + 3) {
+                    return (
+                      <li
+                        key={index}
+                        onClick={() => setCurrentPage(page)}
+                        className={currentPage === page ? "active" : ""}
+                      >
+                        <a
+                          style={{ cursor: "pointer" }}
+                        >
+                          {page}
+                        </a>
+                      </li>
+                    );
+                  }
+                })}
+                {currentPage !== totalPages && (
+                  <li className="selected" onClick={handleNextBtn}>
+                    <a >
+                      Next <img src="images/arrow-right.png" title="" alt="" />
+                    </a>
+                  </li>
+                )}
+              </ul>
+            )}
+          </div>
+
+
         </div>
       </div>
     </div>

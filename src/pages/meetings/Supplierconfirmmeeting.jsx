@@ -285,7 +285,7 @@ function Supplierconfirmmeeting(props) {
             </thead>
             <tbody>
               {data?.map((meeting, index) =>
-                [1, 2, 3, 4].includes(meeting?.status) ? (
+                [0 ,1, 2, 3, 4].includes(meeting?.status) ? (
                   <tr key={index}>
                     <td>
                       {path != "/requested-meeting/buyer"

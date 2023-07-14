@@ -7010,6 +7010,15 @@ table thead tr th:last-child {
   padding-top: 30px;
 }
 
+.favorite-wrap a {
+  color: rgb(227, 6, 19);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  padding-top: 20px;
+}
+
 .favorite_wrapper .form-wrap {
   width: 340px;
 }

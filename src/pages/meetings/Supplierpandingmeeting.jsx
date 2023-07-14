@@ -441,7 +441,7 @@ function Supplierpandingmeeting(props) {
                             }`}
                             onClick={() => {
                               if (
-                                meeting?.status === 1 ||
+                                meeting?.status === 3 ||
                                 meeting?.status === 2
                               ) {
                                 handleAcceptClick(meeting?.id);
