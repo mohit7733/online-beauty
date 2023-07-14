@@ -290,6 +290,24 @@ function Supplierpandingmeeting(props) {
         // Handle error
       });
   };
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  const totalPages = Math.ceil(meetingDetails.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = meetingDetails.slice(indexOfFirstItem, indexOfLastItem);
+  
+  const handlePrevBtn = () => {
+    setCurrentPage(currentPage - 1);
+  };
+  
+  const handleNextBtn = () => {
+    setCurrentPage(currentPage + 1);
+  };
+  
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  
   // console.log(meetingAccept, "acceptmeeting");
   // console.log(meetingDetails);
   return (
@@ -565,78 +583,7 @@ function Supplierpandingmeeting(props) {
                             </div>
                           )}
 
-                          {/* {showModal && (
-                            <div className="modal">
-                              <div
-                                className="modal-content"
-                                style={{ position: "fixed" }}
-                              >
-                                <span
-                                  className="close"
-                                  onClick={handleCloseModal}
-                                  style={{ right: "13px" }}
-                                >
-                                  &times;
-                                </span>
-                                <div>
-                                  <h3>Accept Meeting</h3>
-                                  <ul>
-                                    {acceptdate?.map((date, index) => {
-                                      console.log(date);
-                                      const time = accepttime[index];
-                                      const isDisabled = data.some((detail) =>
-                                        detail.buyerSlot.some(
-                                          (slot) =>
-                                            slot.date === date &&
-                                            slot.time === time
-                                        )
-                                      );
-
-                                      return (
-                                        <div key={index}>
-                                          <input
-                                            type="radio"
-                                            id={`date${index}`}
-                                            name="selectedDate"
-                                            value={date}
-                                            onChange={() =>
-                                              setAcceptMeeting([
-                                                {
-                                                  supplier_id: acceptId,
-                                                  type: 0,
-                                                  availability: [
-                                                    {
-                                                      date: date,
-                                                      time: time,
-                                                    },
-                                                  ],
-                                                },
-                                              ])
-                                            }
-                                            disabled={isDisabled}
-                                          />
-                                          <label htmlFor={`date${index}`}>
-                                            {date} - {time}
-                                            {isDisabled && (
-                                              <span style={{ color: "red" }}>
-                                                *Slot no longer available
-                                              </span>
-                                            )}
-                                          </label>
-                                        </div>
-                                      );
-                                    })}
-                                  </ul>
-                                  <button
-                                    className="btn btn-secondary"
-                                    onClick={() => clickedAccept()}
-                                  >
-                                    Submit
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          )} */}
+                        
                         </div>
                       )}
                     </div>
@@ -676,6 +623,45 @@ function Supplierpandingmeeting(props) {
             </tbody>
           </table>
         </div>
+
+
+
+        <div className="pagination">
+          {currentItems?.length === 0 ? (
+            `You don't have any products yet.`
+          ) : (
+            <ul>
+              {currentPage !== 1 && (
+                <li onClick={handlePrevBtn}>
+                  <a>Previous </a>
+                </li>
+              )}
+              {pages?.map((page, index) => {
+                if (index > currentPage - 3 && index < currentPage + 3) {
+                  return (
+                    <li
+                      key={index}
+                      onClick={() => setCurrentPage(page)}
+                      className={currentPage === page ? "active" : ""}
+                    >
+                      <a style={{ cursor: "pointer" }}>{page}</a>
+                    </li>
+                  );
+                }
+              })}
+              {currentPage !== totalPages && (
+                <li className="selected" onClick={handleNextBtn}>
+                  <a>
+                    Next <img src="images/arrow-right.png" title="" alt="" />
+                  </a>
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
+
+
+
       </div>
       <Modal
         title="Request a meeting?"
